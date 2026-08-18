@@ -46,7 +46,7 @@ export function Home() {
             alt="George Ciesinski"
           />
           <div>
-            <h2 className="about__title" id="about-heading">
+            <h2 className="section__title about__title" id="about-heading">
               About
             </h2>
             <p>
@@ -54,12 +54,7 @@ export function Home() {
               programming. I am most experienced in Javascript and Python, but I
               also have experience with C#, HTML/CSS, SASS and SQL.
             </p>
-            <a
-              className="btn btn--primary"
-              href="/files/GeorgeCiesinskiResume.pdf"
-            >
-              Resume
-            </a>
+            <GitHubContributions />
           </div>
         </div>
       </section>
@@ -69,7 +64,7 @@ export function Home() {
         id="projects"
         aria-labelledby="projects-heading"
       >
-        <h2 className="projects__title" id="projects-heading">
+        <h2 className="section__title projects__title" id="projects-heading">
           Projects
         </h2>
         <div className="grid">
@@ -84,28 +79,22 @@ export function Home() {
         id="experience"
         aria-labelledby="experience-heading"
       >
-        <h2 className="experience__title" id="experience-heading">
+        <h2
+          className="section__title experience__title"
+          id="experience-heading"
+        >
           Experience
         </h2>
         <ExperienceSection />
       </section>
 
-      <section className="github" id="github" aria-labelledby="github-heading">
-        <div className="github__inner">
-          <h2 className="github__title" id="github-heading">
-            Github Contributions
-          </h2>
-          <GitHubContributions />
-        </div>
-      </section>
-
       <section
-        className="contact"
+        className="contact-me"
         id="contact"
         aria-labelledby="contact-heading"
       >
-        <div className="contact__inner">
-          <h2 className="contact__title" id="contact-heading">
+        <div className="contact">
+          <h2 className="section__title contact__title" id="contact-heading">
             Contact Me
           </h2>
           <ContactForm />

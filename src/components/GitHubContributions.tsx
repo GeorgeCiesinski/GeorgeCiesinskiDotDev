@@ -1,8 +1,8 @@
 /**
- * GitHub contribution calendar.
+ * GitHub contribution calendar for the About section.
  *
  * Uses `react-github-calendar` (client-side fetch) and follows the site theme.
- * Block size grows with the container.
+ * Block size grows with the container so the chart fills the About width on desktop.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -79,6 +79,7 @@ export function GitHubContributions() {
 
   return (
     <div className="github-contributions">
+      <h3 className="github-contributions__title">GitHub Activity</h3>
       <div className="github-contributions__scroll" ref={scrollRef}>
         <GitHubCalendar
           username={GITHUB_USERNAME}

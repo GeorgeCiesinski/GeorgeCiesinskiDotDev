@@ -6,9 +6,17 @@
   color: var(--color-text);
 }
 
+.github-contributions__title,
 .github-contributions__scroll {
   display: flex;
   justify-content: center;
+}
+
+.github-contributions__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primary);
 }
 
 .github-contributions__scroll {
