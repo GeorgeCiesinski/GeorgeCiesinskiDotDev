@@ -30,11 +30,11 @@ export function ProjectDetail() {
         <ProjectCarousel slides={project.slides} title={project.title} />
 
         <div>
-          <h1 className="project-detail__name">{project.title}</h1>
+          <h1 className="project__name">{project.title}</h1>
 
           <p>{project.description}</p>
 
-          <h2 className="project-detail__daterange">
+          <h2 className="project__daterange">
             {project.datestart} — {project.dateend}
           </h2>
 
