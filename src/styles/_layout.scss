@@ -50,7 +50,7 @@ section {
 
 .about__container {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: start;
 
   @include breakpoint(md) {
@@ -67,6 +67,7 @@ section {
 .about__title,
 .projects__title,
 .experience__title,
+.github__title,
 .contact__title {
   color: var(--color-primary);
 }
@@ -111,12 +112,18 @@ section {
   margin-top: 1.5rem;
 }
 
-.contact__inner {
-  max-width: 28rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
+.experience__title,
+.github__title,
 .contact__title {
   margin-bottom: 1.5rem;
+}
+
+.github__inner,
+.contact__inner {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.contact__inner {
+  max-width: 28rem;
 }

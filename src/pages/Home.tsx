@@ -54,7 +54,12 @@ export function Home() {
               programming. I am most experienced in Javascript and Python, but I
               also have experience with C#, HTML/CSS, SASS and SQL.
             </p>
-            <GitHubContributions />
+            <a
+              className="btn btn--primary"
+              href="/files/GeorgeCiesinskiResume.pdf"
+            >
+              Resume
+            </a>
           </div>
         </div>
       </section>
@@ -83,6 +88,19 @@ export function Home() {
           Experience
         </h2>
         <ExperienceSection />
+      </section>
+
+      <section
+        className="github"
+        id="github"
+        aria-labelledby="github-heading"
+      >
+        <div className="github__inner">
+          <h2 className="github__title" id="github-heading">
+            Github Contributions
+          </h2>
+          <GitHubContributions />
+        </div>
       </section>
 
       <section
