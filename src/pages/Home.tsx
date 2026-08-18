@@ -90,11 +90,7 @@ export function Home() {
         <ExperienceSection />
       </section>
 
-      <section
-        className="github"
-        id="github"
-        aria-labelledby="github-heading"
-      >
+      <section className="github" id="github" aria-labelledby="github-heading">
         <div className="github__inner">
           <h2 className="github__title" id="github-heading">
             Github Contributions
