@@ -50,16 +50,20 @@ export function Home() {
               About
             </h2>
             <p>
-              I am an avid programmer who enjoys learning new things about
-              programming. I am most experienced in Javascript and Python, but I
-              also have experience with C#, HTML/CSS, SASS and SQL.
+              Hi — I’m a software developer with experience building and
+              maintaining enterprise web apps in higher education. I use React,
+              TypeScript, and Node, but I also have experience with Python and
+              C#.
             </p>
-            <a
-              className="btn btn--primary"
-              href="/files/GeorgeCiesinskiResume.pdf"
-            >
-              Resume
-            </a>
+            <p>Check out my resume and my personal projects below!</p>
+            <div className="resume-link">
+              <a
+                className="btn btn--primary"
+                href="/files/GeorgeCiesinskiResume.pdf"
+              >
+                Resume
+              </a>
+            </div>
           </div>
         </div>
       </section>
