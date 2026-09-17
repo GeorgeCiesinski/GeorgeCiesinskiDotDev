@@ -50,7 +50,7 @@ export function Home() {
               About
             </h2>
             <p>
-              Hi there, I am a Full Stack Developer with experience building and maintaining enterprise web applications. I use React, TypeScript, and Node, but I also have experience with Python and C#. 
+            Hi — I’m a software developer with experience building and maintaining enterprise web apps in higher education. I use React, TypeScript, and Node, but I also have experience with Python and C#. 
             </p>
             <p>
               Check out my resume and my personal projects below!
