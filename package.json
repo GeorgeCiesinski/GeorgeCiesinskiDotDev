@@ -19,6 +19,7 @@
     "validate": "npm run check && npm test"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-github-calendar": "^5.0.8",
