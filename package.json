@@ -19,13 +19,13 @@
     "validate": "npm run check && npm test"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-github-calendar": "^5.0.8",
     "react-router-dom": "^7.18.1",
     "resend": "^6.18.1",
-    "sass": "^1.101.7"
+    "sass": "^1.101.7",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

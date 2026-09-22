@@ -4,7 +4,6 @@
  * When the URL hash is a known section (`#about`, `#projects`, '#experience`, #contact`),
  * scrolls that section into view after mount (e.g. arriving from another route).
  */
-
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ContactForm } from "../components/ContactForm";
