@@ -1,0 +1,133 @@
+// Long-form Markdown body for blog posts.
+
+.blog-prose {
+  max-width: 70ch;
+  color: var(--color-text);
+  line-height: 1.7;
+
+  > *:first-child {
+    margin-top: 0
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  table,
+  pre {
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: var(--color-secondary);
+  }
+
+  ul,
+  ol {
+    padding-left: 1.35rem;
+  }
+
+  blockquote {
+    margin-left: 0;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid var(--color-primary);
+    background: var(--color-surface-muted);
+    color: var(--color-text-secondary);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background: var(--color-surface-muted);
+  }
+
+  // Inline code
+  :not(pre) > code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    padding: 0.15em 0.35em;
+    border-radius: 0.25rem;
+    background: var(--color-surface-muted);
+  }
+
+  // Fenced blocks (rehype-highlight -> pre > code.hljs)
+  pre {
+    overflow-x: auto;
+    padding: 1rem 1.1rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-muted);
+  }
+
+  pre code.hljs {
+    display: block;
+    background: transparent;
+    padding: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  // Token colors - light defaults
+  .hljs-comment,
+  .hljs-quote {
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-build_in {
+    color: var(--color-primary);
+  }
+
+  .hljs-string
+  .hljs-attr {
+    color: var(--color-secondary);
+  }
+
+  .hljs-number,
+  .hljs-literal {
+    color: var(--color-primary);
+  }
+  
+  .hljs-title,
+  .hljs-section {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  :root[data-theme="dark"] .blog-prose {
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-built_in {
+      color: var(--color-secondary);
+    }
+  }
+}

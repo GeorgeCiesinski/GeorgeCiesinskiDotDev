@@ -19,10 +19,14 @@
     "validate": "npm run check && npm test"
   },
   "dependencies": {
+    "highlight.js": "^11.12.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-github-calendar": "^5.0.8",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.18.1",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
     "resend": "^6.18.1",
     "sass": "^1.101.7",
     "yaml": "^2.9.1"
