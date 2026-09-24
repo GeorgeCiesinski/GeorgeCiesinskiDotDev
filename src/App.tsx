@@ -8,9 +8,15 @@ import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { ProjectDetail } from "./pages/ProjectDetail";
 import { Success } from "./pages/Success";
+import { BlogIndex } from "./pages/BlogIndex";
+import { BlogPost } from "./pages/BlogPost";
 
 /**
- * SPA routes under Layout: `/`, `/projects/:slug`, `/success`;
+ * SPA routes under Layout: 
+ * `/`, 
+ * `/projects/:slug`, 
+ * `/blog/:slug`,
+ * `/success`;
  * unknown paths redirect home.
  */
 export default function App() {
@@ -21,6 +27,8 @@ export default function App() {
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="projects/:slug" element={<ProjectDetail />} />
+            <Route path="blog" element={<BlogIndex />} />
+            <Route path="blog/:slug" element={<BlogPost /> } />
             <Route path="success" element={<Success />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
