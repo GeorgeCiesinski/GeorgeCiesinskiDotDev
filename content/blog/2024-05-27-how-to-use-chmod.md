@@ -6,11 +6,11 @@ tags: ["terminal", "chmod"]
 draft: false
 ---
 
-The `chmod` command is used frequently to change the permissions of directories and files in the Linux and Mac operating systems. 
+The `chmod` command is used frequently to change the permissions of directories and files in the Linux and Mac operating systems.
 
 ## Viewing and Understanding Permissions
 
-To view the permissions of a directory or file, run the command `ls -l`. Alternatively, `ls -lh` also includes human-readable file sizes in Mebibytes (as opposed to Megabytes). 
+To view the permissions of a directory or file, run the command `ls -l`. Alternatively, `ls -lh` also includes human-readable file sizes in Mebibytes (as opposed to Megabytes).
 
 ```bash
 % ls -l default
@@ -21,9 +21,9 @@ drwxrwxr-x@ 10 ciesinsg  staff    320 24 Jul 15:56 files
 -r--r--r--@  1 ciesinsg  staff  35997 13 Jul 09:09 settings.php
 ```
 
-Each line shows the permissions for a file or a directory. The items that start with an `-` are files, while the lines that start with `d` are directories. 
+Each line shows the permissions for a file or a directory. The items that start with an `-` are files, while the lines that start with `d` are directories.
 
-The next 9 characters are split into groups of three permissions, representing the `user`, `group`, and `other users` permissions in that order. The permissions are defined in a `read`, `write`, and `execute` order, where a dash means that permission is not granted to that user. 
+The next 9 characters are split into groups of three permissions, representing the `user`, `group`, and `other users` permissions in that order. The permissions are defined in a `read`, `write`, and `execute` order, where a dash means that permission is not granted to that user.
 
 ```bash
 #Directory Permission Example
@@ -48,7 +48,7 @@ x: execute
 
 ## Changing Permissions
 
-The chmod command can be used either in symbolic mode or numeric mode. 
+The chmod command can be used either in symbolic mode or numeric mode.
 
 ### Symbolic Mode
 
@@ -67,7 +67,7 @@ o: `other` users
 a: `all` of the above users
 ```
 
-The actions available are: 
+The actions available are:
 
 ```bash
 +: Add permission
@@ -135,7 +135,7 @@ You can also chain permissions for different users with a comma:
 chmod 644 new_file.txt
 ```
 
-The possible numerical combinations are: 
+The possible numerical combinations are:
 
 ```bash
 7: All permissions
@@ -149,7 +149,7 @@ The possible numerical combinations are:
 
 ## Changing Permissions Recursively
 
-In some cases, all the contents of the directory must be changed, including subdirectories. To do this, you can cd into the top directory and run: 
+In some cases, all the contents of the directory must be changed, including subdirectories. To do this, you can cd into the top directory and run:
 
 ```bash
 chmod 775 -R *

@@ -10,11 +10,11 @@ In my previous blog, I talked about how to back up Drupal source code using a Ta
 
 ## Tar
 
-The Tar command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. Tar is generally used to archive whole directories and can filter through gzip. 
+The Tar command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. Tar is generally used to archive whole directories and can filter through gzip.
 
 ## Gzip
 
-The Gzip command is a file compression and decompression utility that is used to reduce the size of files while keeping the original file mode, ownership, and timestamp. Gzip is used to compress individual files. 
+The Gzip command is a file compression and decompression utility that is used to reduce the size of files while keeping the original file mode, ownership, and timestamp. Gzip is used to compress individual files.
 
 ## Anatomy of Tar Commands
 

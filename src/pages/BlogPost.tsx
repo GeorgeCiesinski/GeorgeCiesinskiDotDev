@@ -5,23 +5,32 @@
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MarkdownContent } from "../components/MarkdownContent";
+import { Seo } from "../components/Seo";
 import { getPostBySlug } from "../data/posts";
 
 /** Resolves `:slug`; redirects to `/blog` when missing. */
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
-  const post = slug? getPostBySlug(slug) : undefined;
+  const post = slug ? getPostBySlug(slug) : undefined;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
   if (!post) {
-    return <Navigate to="/blog" replace/>;
+    return <Navigate to="/blog" replace />;
   }
 
   return (
     <div className="container blog-post">
+      <Seo
+        title={post.title}
+        description={post.description}
+        path={`/blog/${post.slug}`}
+        type="article"
+        image={post.cover}
+      />
+
       <Link className="back-link" to="/blog">
         ← Back to blog
       </Link>
@@ -33,9 +42,13 @@ export function BlogPost() {
         </time>
         <div className="blog__tags">
           {post.tags.map((tag) => (
-            <span key={tag} className="badge badge--secondary">
+            <Link
+              key={tag}
+              className="badge badge--secondary blog__tag-badge"
+              to={`/blog?tag=${encodeURIComponent(tag)}`}
+            >
               {tag}
-            </span>
+            </Link>
           ))}
         </div>
       </header>

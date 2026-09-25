@@ -65,7 +65,7 @@ function parseFrontmatter(raw: string): { data: unknown; content: string } {
   /**
    * Slices body after \n + --- (4 characters), then removes one newline from the start
    * Matches either Mac/Linux (\n) or optionally Windows (\r\n)
-   */ 
+   */
   const body = trimmed.slice(end + 4).replace(/^\r?\n/, "");
 
   try {

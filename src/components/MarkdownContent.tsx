@@ -8,7 +8,7 @@ import rehypeHighlight from "rehype-highlight";
 import type { Components } from "react-markdown";
 
 type MarkdownContentProps = {
-  content: string;  /** Markdown body only (no frontmatter). */
+  content: string; /** Markdown body only (no frontmatter). */
 };
 
 const components: Components = {
@@ -17,9 +17,7 @@ const components: Components = {
     return (
       <a
         href={href}
-        {...(external
-          ? { target: "_blank", rel: "noopener noreferrer" }
-          : {})}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         {...props}
       >
         {children}
@@ -30,7 +28,6 @@ const components: Components = {
     <img src={src} alt={alt ?? ""} loading="lazy" {...props} />
   ),
 };
-
 
 /**
  * @param content - Post Markdown body from the loader.
@@ -48,4 +45,3 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
     </div>
   );
 }
-

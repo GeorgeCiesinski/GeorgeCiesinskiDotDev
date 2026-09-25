@@ -3,6 +3,7 @@
  */
 
 import { Link, useSearchParams } from "react-router-dom";
+import { Seo } from "../components/Seo";
 import { getAllPosts, getAllTags, getPostsByTag } from "../data/posts";
 
 /** Lists all published posts. */
@@ -11,11 +12,13 @@ export function BlogIndex() {
   const activeTag = searchParams.get("tag");
   const allTags = getAllTags();
 
-  const posts = 
+  const blogDescription = "Notes on software development and projects.";
+
+  const posts =
     activeTag && allTags.includes(activeTag)
       ? getPostsByTag(activeTag)
       : getAllPosts();
-  
+
   /** Sets or clears the tag query param. */
   const selectTag = (tag: string | null) => {
     if (tag === null) {
@@ -27,14 +30,20 @@ export function BlogIndex() {
 
   return (
     <div className="container blog">
+      <Seo title="Blog" description={blogDescription} path="/blog" />
+
       <h1 className="blog__title">Blog</h1>
-      <p className="blog__intro">Notes on software development and projects.</p>
+      <p className="blog__intro">{blogDescription}</p>
 
       {allTags.length > 0 ? (
-        <div className="blog__tag-filter" role="group" aria-label="Filter by tag">
+        <div
+          className="blog__tag-filter"
+          role="group"
+          aria-label="Filter by tag"
+        >
           <button
             type="button"
-            className={`blog__tag-filter-btn${!activeTag ? " blog__tag-filter-btn--active": ""}`}
+            className={`blog__tag-filter-btn${!activeTag ? " blog__tag-filter-btn--active" : ""}`}
             onClick={() => selectTag(null)}
           >
             All
@@ -43,7 +52,7 @@ export function BlogIndex() {
             <button
               key={tag}
               type="button"
-              className={`blog__tag-filter-btn${activeTag === tag ? " blog__tag-filter-btn--active": ""}`}
+              className={`blog__tag-filter-btn${activeTag === tag ? " blog__tag-filter-btn--active" : ""}`}
               onClick={() => selectTag(tag)}
               aria-pressed={activeTag === tag}
             >
@@ -67,7 +76,7 @@ export function BlogIndex() {
       ) : null}
 
       {posts.length === 0 ? (
-        <p>No posts{activeTag? ` tagged "${activeTag}"` : " yet"}.</p>
+        <p>No posts{activeTag ? ` tagged "${activeTag}"` : " yet"}.</p>
       ) : (
         <ul className="blog__list">
           {posts.map((post) => (
@@ -81,10 +90,10 @@ export function BlogIndex() {
               <p className="blog__item-description">{post.description}</p>
               <div className="blog__tags">
                 {post.tags.map((tag) => (
-                  <button 
+                  <button
                     key={tag}
                     type="button"
-                    className="badge badge--secondary"
+                    className="badge badge--secondary blog__tag-badge"
                     onClick={() => selectTag(tag)}
                   >
                     {tag}
