@@ -147,3 +147,63 @@ export function getAllTags(): string[] {
 export function getPostsByTag(tag: string): Post[] {
   return getAllPosts().filter((p) => p.tags.includes(tag));
 }
+
+/**
+ * Whether a post matches a case-insensitive substring query.
+ *
+ * @param post - Post to test.
+ * @param rawQuery - User search string (empty = match all).
+ * @returns True if query is empty or appears in title, tags, description, or body.
+ */
+export function postMatchesQuery(post: Post, rawQuery: string): boolean {
+  const query = rawQuery.trim().toLowerCase();
+
+  // All posts match if query is empty
+  if (!query) return true;
+
+  // Remove fences and strip light markdown from content
+  const body = post.content
+  .replace(/```[\s\S]*?```/g, " ")
+  .replace(/[`#*_\[\]()]/g, " ");
+  
+  // Return true if any of title, description, tags or body match search query
+  if (post.title.toLowerCase().includes(query)) return true;
+  if (post.description.toLowerCase().includes(query)) return true;
+  if (post.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+  if (body.toLowerCase().includes(query)) return true;
+
+  return false;
+}
+
+/**
+ * Searches posts array by query and returns a filtered array of matching posts.
+ * 
+ * @param posts - Array of Posts to search
+ * @param rawQuery - Query string to search for
+ * @returns Array of matching posts
+ */
+export function searchPosts(posts: Post[], rawQuery: string): Post[]  {
+  return posts.filter((p) => postMatchesQuery(p, rawQuery));
+}
+
+export const POSTS_PER_PAGE = 10;
+
+/**
+ * Slices a post list into a page window.
+ *
+ * @param posts - Filtered posts (tag + search already applied).
+ * @param page - 1-based page from the URL (invalid values are clamped).
+ * @returns Safe page index, total page count, and the slice for that page.
+ */
+export function paginatePosts(posts: Post[], page: number) {
+  const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+  // Clamp page to ensure it is a valid page number
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const start = (safePage - 1) * POSTS_PER_PAGE;
+
+  return {
+    page: safePage,
+    totalPages,
+    items: posts.slice(start, start + POSTS_PER_PAGE),
+  };
+}
