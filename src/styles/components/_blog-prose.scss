@@ -103,11 +103,12 @@
 
   .hljs-keyword,
   .hljs-selector-tag,
-  .hljs-build_in {
+  .hljs-built_in {
     color: var(--color-primary);
   }
 
-  .hljs-string .hljs-attr {
+  .hljs-string,
+  .hljs-attr {
     color: var(--color-secondary);
   }
 
@@ -121,12 +122,12 @@
     color: var(--color-text);
     font-weight: 600;
   }
+}
 
-  :root[data-theme="dark"] .blog-prose {
-    .hljs-keyword,
-    .hljs-selector-tag,
-    .hljs-built_in {
-      color: var(--color-secondary);
-    }
+:root[data-theme="dark"] .blog-prose {
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-built_in {
+    color: var(--color-secondary);
   }
 }
