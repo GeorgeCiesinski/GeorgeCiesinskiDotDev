@@ -87,8 +87,12 @@ function buildHeadTags({ title, description, path: pagePath, type, image }) {
     `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
   ];
   if (imageUrl) {
-    lines.push(`<meta property="og:image" content="${escapeHtml(imageUrl)}" />`);
-    lines.push(`<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`);
+    lines.push(
+      `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`,
+    );
+    lines.push(
+      `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
+    );
   }
   return lines.join("\n    ");
 }
@@ -101,10 +105,7 @@ function injectMeta(html, headInner) {
     return "";
   });
   // Remove default description to prevent duplicate
-  out = out.replace(
-    /<meta\s+name=["']description["'][^>]*>\s*/i,
-    "",
-  );
+  out = out.replace(/<meta\s+name=["']description["'][^>]*>\s*/i, "");
   // Insert after <head>
   out = out.replace(/<head[^>]*>/i, (open) => `${open}\n    ${headInner}\n`);
   return out;
@@ -137,7 +138,7 @@ function main() {
   for (const post of posts) {
     writeShell(path.join("blog", post.slug), {
       title: post.title,
-      description: post.description, 
+      description: post.description,
       path: `/blog/${post.slug}`,
       type: "article",
       image: post.cover,

@@ -1,7 +1,6 @@
 /**
  * Blog index: published posts newest-first, optional ?tag= filter.
  */
-
 import { Link, useSearchParams } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { getAllPosts, getAllTags, getPostsByTag } from "../data/posts";

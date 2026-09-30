@@ -6,7 +6,7 @@
  */
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Seo } from "../components/Seo"
+import { Seo } from "../components/Seo";
 import { ContactForm } from "../components/ContactForm";
 import { GitHubContributions } from "../components/GitHubContributions";
 import { ProjectCard } from "../components/ProjectCard";

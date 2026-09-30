@@ -163,13 +163,13 @@ export function postMatchesQuery(post: Post, rawQuery: string): boolean {
 
   // Remove fences and strip light markdown from content
   const body = post.content
-  .replace(/```[\s\S]*?```/g, " ")
-  .replace(/[`#*_\[\]()]/g, " ");
-  
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/[`#*_[\]()]/g, " ");
+
   // Return true if any of title, description, tags or body match search query
   if (post.title.toLowerCase().includes(query)) return true;
   if (post.description.toLowerCase().includes(query)) return true;
-  if (post.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+  if (post.tags.some((tag) => tag.toLowerCase().includes(query))) return true;
   if (body.toLowerCase().includes(query)) return true;
 
   return false;
@@ -177,12 +177,12 @@ export function postMatchesQuery(post: Post, rawQuery: string): boolean {
 
 /**
  * Searches posts array by query and returns a filtered array of matching posts.
- * 
+ *
  * @param posts - Array of Posts to search
  * @param rawQuery - Query string to search for
  * @returns Array of matching posts
  */
-export function searchPosts(posts: Post[], rawQuery: string): Post[]  {
+export function searchPosts(posts: Post[], rawQuery: string): Post[] {
   return posts.filter((p) => postMatchesQuery(p, rawQuery));
 }
 
