@@ -23,6 +23,7 @@ export function Navbar() {
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const { pathname } = useLocation();
   const isHome = pathname === "/";
+  const isBlog = pathname === "/blog" || pathname.startsWith("/blog/");
 
   /** Closes the mobile nav menu. */
   const close = () => setOpen(false);
@@ -147,6 +148,15 @@ export function Navbar() {
             >
               Experience
             </a>
+          </li>
+          <li>
+            <Link
+              className={`navbar__link${isBlog ? " navbar__link--active" : ""}`}
+              to="/blog"
+              onClick={close}
+            >
+              Blog
+            </Link>
           </li>
           <li>
             <a

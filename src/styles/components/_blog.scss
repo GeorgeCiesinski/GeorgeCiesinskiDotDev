@@ -1,0 +1,173 @@
+// Blog index and post chrome (prose body is in _blog-prose.scss).
+
+.blog {
+  padding-block: 2rem 3rem;
+}
+
+.blog__title {
+  margin-bottom: 0.5rem;
+}
+
+.blog__intro {
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+}
+
+.blog__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.blog__item-link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover .blog__item-title {
+    color: var(--color-secondary);
+  }
+}
+
+.blog__item-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  transition: color 0.15s ease;
+}
+
+.blog__item-date,
+.blog-post__date {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.blog__item-description {
+  margin: 0 0 0.65rem;
+  color: var(--color-text-secondary);
+}
+
+.blog__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.blog-post {
+  padding-block: 2rem 3rem;
+}
+
+.blog-post__header {
+  margin-bottom: 1.75rem;
+}
+
+.blog-post__title {
+  margin-bottom: 0.5rem;
+}
+
+.blog__tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.blog__tag-filter-btn {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-secondary);
+  }
+
+  &--active {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    color: var(--color-text-inverse);
+  }
+}
+
+// Tag chips reuse `.badge`; reset button chrome so they match post Link badges.
+button.blog__tag-badge {
+  font: inherit;
+}
+
+.blog__clear-link {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-secondary);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+
+// Search field on /blog
+.blog__search {
+  display: block;
+  margin-bottom: 1.25rem;
+
+  input {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.35rem;
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+    font: inherit;
+
+    &:focus {
+      outline: 2px solid var(--color-secondary);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Prev / Next + page label
+.blog__pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+
+  button {
+    appearance: none;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+    padding: 0.4rem 0.85rem;
+    border-radius: 0.35rem;
+    font: inherit;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Screen-reader-only label text
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

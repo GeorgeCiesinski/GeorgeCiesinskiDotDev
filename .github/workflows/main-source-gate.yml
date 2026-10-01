@@ -1,0 +1,24 @@
+# Enforces branch flow: PRs into main may only come from develop.
+# Make the job below a required status check on main's branch protection
+# so merges from feature/bugfix branches stay blocked.
+name: Main Source Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  enforce:
+    name: Main PRs must come from develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [ "$HEAD_REF" != "develop" ]; then
+            echo "::error::PRs to main must come from 'develop' (got '$HEAD_REF'). Merge into develop first, then open develop → main."
+            exit 1
+          fi
+          echo "OK: PR comes from develop."

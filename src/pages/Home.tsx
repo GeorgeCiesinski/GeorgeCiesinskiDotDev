@@ -4,9 +4,9 @@
  * When the URL hash is a known section (`#about`, `#projects`, '#experience`, #contact`),
  * scrolls that section into view after mount (e.g. arriving from another route).
  */
-
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Seo } from "../components/Seo";
 import { ContactForm } from "../components/ContactForm";
 import { GitHubContributions } from "../components/GitHubContributions";
 import { ProjectCard } from "../components/ProjectCard";
@@ -38,6 +38,12 @@ export function Home() {
 
   return (
     <div className="container">
+      <Seo
+        title="George Ciesinski — Portfolio"
+        description="Portfolio of George Ciesinski — software developer specializing in JavaScript, Python, and full-stack web development."
+        path="/"
+      />
+
       <section className="about" id="about" aria-labelledby="about-heading">
         <div className="about__container">
           <img
