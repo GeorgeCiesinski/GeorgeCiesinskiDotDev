@@ -122,6 +122,26 @@
     color: var(--color-text);
     font-weight: 600;
   }
+
+  // Positioning shell for the Copy button; visual chrome stays on `pre`.
+  .blog-prose__pre-wrap {
+    position: relative;
+
+    .blog-prose__copy {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      z-index: 1;
+      appearance: none;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      padding: 0.25rem 0.55rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+  }
 }
 
 :root[data-theme="dark"] .blog-prose {

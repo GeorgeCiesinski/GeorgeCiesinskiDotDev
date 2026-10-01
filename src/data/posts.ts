@@ -1,6 +1,7 @@
 /**
  * Blog catalog: load Markdown from `content/blog` via Vite `import.meta.glob`,
- * parse YAML frontmatter with the `yaml` package, and expose list/lookup helpers.
+ * parse YAML frontmatter with the `yaml` package, and expose list/lookup/
+ * search/pagination helpers.
  */
 
 import { parse as parseYaml } from "yaml";
@@ -176,16 +177,17 @@ export function postMatchesQuery(post: Post, rawQuery: string): boolean {
 }
 
 /**
- * Searches posts array by query and returns a filtered array of matching posts.
+ * Filters posts by {@link postMatchesQuery}.
  *
- * @param posts - Array of Posts to search
- * @param rawQuery - Query string to search for
- * @returns Array of matching posts
+ * @param posts - Candidate posts (already tag-filtered or all).
+ * @param rawQuery - User search string (empty = return all of `posts`).
+ * @returns Matching posts in the same order as `posts`.
  */
 export function searchPosts(posts: Post[], rawQuery: string): Post[] {
   return posts.filter((p) => postMatchesQuery(p, rawQuery));
 }
 
+/** Page size for the blog index list. */
 export const POSTS_PER_PAGE = 10;
 
 /**
