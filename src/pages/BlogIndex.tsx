@@ -159,16 +159,20 @@ export function BlogIndex() {
               </time>
               <p className="blog__item-description">{item.description}</p>
               <div className="blog__tags">
-                {item.tags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    className="badge badge--secondary blog__tag-badge"
-                    onClick={() => selectTag(tag)}
-                  >
-                    {tag}
-                  </button>
-                ))}
+                {item.tags.map((tag) => {
+                  const tagParams = new URLSearchParams();
+                  tagParams.set("tag", tag);
+                  if (activeQuery) tagParams.set("q", activeQuery);
+                  return (
+                    <Link
+                      key={tag}
+                      className="badge badge--secondary blog__tag-badge"
+                      to={`/blog?${tagParams.toString()}`}
+                    >
+                      {tag}
+                    </Link>
+                  );
+                })}
               </div>
             </li>
           ))}

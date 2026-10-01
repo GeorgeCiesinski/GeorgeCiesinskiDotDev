@@ -97,9 +97,8 @@
   }
 }
 
+// Tag chips reuse `.badge`; reset button chrome so they match post Link badges.
 button.blog__tag-badge {
-  cursor: pointer;
-  border: none;
   font: inherit;
 }
 
