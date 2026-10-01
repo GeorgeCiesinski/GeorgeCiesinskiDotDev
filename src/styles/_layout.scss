@@ -64,6 +64,12 @@ section {
   object-fit: cover;
 }
 
+.resume-link {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
 .about__title,
 .projects__title,
 .experience__title,
