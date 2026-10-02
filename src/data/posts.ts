@@ -1,13 +1,13 @@
 /**
- * Blog catalog: load Markdown from `content/blog` via Vite `import.meta.glob`,
- * parse YAML frontmatter with the `yaml` package, and expose list/lookup/
- * search/pagination helpers.
+ * Blog catalog: load Markdown from `content/blog/<YYYY>/` via Vite
+ * `import.meta.glob`, parse YAML frontmatter with the `yaml` package, and
+ * expose list/lookup/search/pagination helpers.
  */
 
 import { parse as parseYaml } from "yaml";
 import type { Post, PostFrontmatter } from "../types/post";
 
-const rawPosts = import.meta.glob("../../content/blog/*.md", {
+const rawPosts = import.meta.glob("../../content/blog/**/*.md", {
   query: "?raw",
   import: "default",
   eager: true,
@@ -15,8 +15,9 @@ const rawPosts = import.meta.glob("../../content/blog/*.md", {
 
 /**
  * Derives the URL slug from a Vite glob path (filename without `.md`).
+ * Year folders are ignored so URLs stay `/blog/:slug`.
  *
- * @param path - Glob key, e.g. `../../content/blog/hello-world.md`.
+ * @param path - Glob key, e.g. `../../content/blog/2026/hello-world.md`.
  * @returns Slug segment for `/blog/:slug`.
  */
 function slugFromPath(path: string): string {
