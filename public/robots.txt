@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://georgeciesinski.dev/sitemap.xml
