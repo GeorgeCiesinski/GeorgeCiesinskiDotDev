@@ -19,8 +19,7 @@ const PARALLAX_FACTOR = 0.3;
 const MAX_DPR = 2;
 
 /** Monospace stack matching blog prose code. */
-const FONT_FAMILY =
-  "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+const FONT_FAMILY = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 /** Font size in CSS pixels. */
 const FONT_SIZE_PX = 11;
@@ -114,8 +113,7 @@ export function CodeBackground() {
       let firstLineY = -(scrollOffset % lineHeightPx);
       if (firstLineY > 0) firstLineY -= lineHeightPx;
 
-      let lineIndex =
-        Math.floor(scrollOffset / lineHeightPx) % lines.length;
+      let lineIndex = Math.floor(scrollOffset / lineHeightPx) % lines.length;
       if (lineIndex < 0) lineIndex += lines.length;
 
       for (let y = firstLineY; y < height; y += lineHeightPx) {
