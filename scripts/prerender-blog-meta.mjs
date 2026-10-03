@@ -1,70 +1,46 @@
 /**
- * After vite build: write dist/blog/**\/index.html shells with route-specific meta.
+ * After `vite build`: writes per-route `index.html` shells under `dist/blog/`
+ * with title/description/OG meta for crawlers.
+ *
+ * Loads published posts from `blog-fs.mjs` (including year subfolders).
+ * Run automatically at the end of `npm run build`.
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse as parseYaml } from "yaml";
+import { loadPublishedPosts, escapeEntities } from "./blog-fs.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const distDir = path.join(root, "dist");
-const contentDir = path.join(root, "content", "blog");
 const SITE_URL = "https://georgeciesinski.dev";
 const SITE_NAME = "George Ciesinski";
 
-function parseFrontmatter(raw) {
-  const trimmed = raw.trimStart();
-  const end = trimmed.indexOf("\n---", 3);
-  if (!trimmed.startsWith("---") || end === -1) {
-    return { data: {}, content: raw };
-  }
-  const yamlBlock = trimmed.slice(3, end).trim();
-  const body = trimmed.slice(end + 4).replace(/^\r?\n/, "");
-  try {
-    return { data: parseYaml(yamlBlock) ?? {}, content: body };
-  } catch {
-    return { data: {}, content: raw };
-  }
-}
-
-function loadPosts() {
-  if (!fs.existsSync(contentDir)) return [];
-  return fs
-    .readdirSync(contentDir)
-    .filter((f) => f.endsWith(".md"))
-    .map((file) => {
-      const raw = fs.readFileSync(path.join(contentDir, file), "utf8");
-      const { data } = parseFrontmatter(raw);
-      const slug = file.replace(/\.md$/, "");
-      return { slug, ...data };
-    })
-    .filter(
-      (p) =>
-        typeof p.title === "string" &&
-        typeof p.description === "string" &&
-        typeof p.date === "string" &&
-        Array.isArray(p.tags) &&
-        !p.draft,
-    )
-    .sort((a, b) => b.date.localeCompare(a.date));
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
+/**
+ * Resolves a site-relative path or absolute URL to an absolute URL.
+ *
+ * @param {string | undefined} maybePath - Path like `/img/...` or a full URL.
+ * @returns {string | undefined}
+ */
 function absoluteUrl(maybePath) {
   if (!maybePath) return undefined;
   if (maybePath.startsWith("http")) return maybePath;
   return `${SITE_URL}${maybePath.startsWith("/") ? "" : "/"}${maybePath}`;
 }
 
+/**
+ * Builds the inner `<head>` meta block for one route (title, description, OG, Twitter).
+ *
+ * @param {{
+ *   title: string,
+ *   description: string,
+ *   path: string,
+ *   type: string,
+ *   image?: string,
+ * }} meta - Route SEO fields (`path` is the site path, e.g. `/blog/slug`).
+ * @returns {string} HTML fragment to inject after `<head>`.
+ */
 function buildHeadTags({ title, description, path: pagePath, type, image }) {
   const fullTitle = title.includes(SITE_NAME)
     ? title
@@ -74,43 +50,61 @@ function buildHeadTags({ title, description, path: pagePath, type, image }) {
   const twitterCard = imageUrl ? "summary_large_image" : "summary";
 
   const lines = [
-    `<title>${escapeHtml(fullTitle)}</title>`,
-    `<meta name="description" content="${escapeHtml(description)}" />`,
-    `<link rel="canonical" href="${escapeHtml(url)}" />`,
-    `<meta property="og:title" content="${escapeHtml(fullTitle)}" />`,
-    `<meta property="og:description" content="${escapeHtml(description)}" />`,
-    `<meta property="og:url" content="${escapeHtml(url)}" />`,
-    `<meta property="og:type" content="${escapeHtml(type)}" />`,
-    `<meta property="og:site_name" content="${escapeHtml(SITE_NAME)}" />`,
+    `<title>${escapeEntities(fullTitle)}</title>`,
+    `<meta name="description" content="${escapeEntities(description)}" />`,
+    `<link rel="canonical" href="${escapeEntities(url)}" />`,
+    `<meta property="og:title" content="${escapeEntities(fullTitle)}" />`,
+    `<meta property="og:description" content="${escapeEntities(description)}" />`,
+    `<meta property="og:url" content="${escapeEntities(url)}" />`,
+    `<meta property="og:type" content="${escapeEntities(type)}" />`,
+    `<meta property="og:site_name" content="${escapeEntities(SITE_NAME)}" />`,
     `<meta name="twitter:card" content="${twitterCard}" />`,
-    `<meta name="twitter:title" content="${escapeHtml(fullTitle)}" />`,
-    `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
+    `<meta name="twitter:title" content="${escapeEntities(fullTitle)}" />`,
+    `<meta name="twitter:description" content="${escapeEntities(description)}" />`,
   ];
   if (imageUrl) {
     lines.push(
-      `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`,
+      `<meta property="og:image" content="${escapeEntities(imageUrl)}" />`,
     );
     lines.push(
-      `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
+      `<meta name="twitter:image" content="${escapeEntities(imageUrl)}" />`,
     );
   }
   return lines.join("\n    ");
 }
 
+/**
+ * Replaces the default title/description in a Vite `index.html` shell with
+ * route-specific meta from {@link buildHeadTags}.
+ *
+ * @param {string} html - Template HTML (usually `dist/index.html`).
+ * @param {string} headInner - Meta markup to insert after `<head>`.
+ * @returns {string}
+ */
 function injectMeta(html, headInner) {
   let out = html;
-  // Replace existing title
+  // Strip existing title; replacement is included in headInner.
   out = out.replace(/<title>[^<]*<\/title>/i, () => {
-    // title is included in headInner; strip old and inject block once
     return "";
   });
-  // Remove default description to prevent duplicate
+  // Remove default description to prevent duplicate.
   out = out.replace(/<meta\s+name=["']description["'][^>]*>\s*/i, "");
-  // Insert after <head>
   out = out.replace(/<head[^>]*>/i, (open) => `${open}\n    ${headInner}\n`);
   return out;
 }
 
+/**
+ * Writes `dist/<relDir>/index.html` with injected meta for one route.
+ *
+ * @param {string} relDir - Path under `dist/` (e.g. `blog` or `blog/my-slug`).
+ * @param {{
+ *   title: string,
+ *   description: string,
+ *   path: string,
+ *   type: string,
+ *   image?: string,
+ * }} meta - SEO fields passed to {@link buildHeadTags}.
+ */
 function writeShell(relDir, meta) {
   const dir = path.join(distDir, relDir);
   fs.mkdirSync(dir, { recursive: true });
@@ -120,13 +114,17 @@ function writeShell(relDir, meta) {
   console.log(`Write ${path.join(relDir, "index.html")}`);
 }
 
+/**
+ * Prerenders blog index + each published post shell under `dist/blog/`.
+ * Requires `dist/index.html` from a prior Vite build.
+ */
 function main() {
   if (!fs.existsSync(path.join(distDir, "index.html"))) {
     console.error("dist/index.html missing - run vite build first");
     process.exit(1);
   }
 
-  const posts = loadPosts();
+  const posts = loadPublishedPosts();
 
   writeShell("blog", {
     title: "Blog",

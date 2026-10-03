@@ -32,12 +32,13 @@ Local contact submissions need `npm run vercel` (plain `npm run dev` does not se
 
 ### Additional Scripts
 
-| Script               | Purpose                                 |
-| -------------------- | --------------------------------------- |
-| `npm run check`      | Format, lint, and typecheck             |
-| `npm run validate`   | `check` plus tests                      |
-| `npm run format:fix` | Formats files with prettier             |
-| `npm run lint:fix`   | Fixes and flags lint errors with ESLint |
+| Script               | Purpose                                              |
+| -------------------- | ---------------------------------------------------- |
+| `npm run check`      | Format, lint, and typecheck                          |
+| `npm run validate`   | `check` plus tests                                   |
+| `npm run format:fix` | Formats files with prettier                          |
+| `npm run lint:fix`   | Fixes and flags lint errors with ESLint              |
+| `npm run sitemap`    | Regenerates `public/sitemap.xml` from posts/projects |
 
 ## Build
 
@@ -45,6 +46,8 @@ Local contact submissions need `npm run vercel` (plain `npm run dev` does not se
 npm run build
 npm run preview
 ```
+
+`npm run build` regenerates the sitemap, runs Vite, then prerenders blog `index.html` shells with route-specific meta (`scripts/generate-sitemap.mjs`, `scripts/prerender-blog-meta.mjs`). Static SEO files live in `public/` (`robots.txt`, `sitemap.xml`).
 
 ## Technology
 
