@@ -1,7 +1,7 @@
 /**
  * Site header navigation with responsive mobile menu and home-section scroll-spy.
  *
- * Hash links (`/#about`, `/#projects`, `/#contact`) scroll to home sections from
+ * Hash links (`/#about`, `/#projects`, `/#experience`, `/#contact`) scroll to home sections from
  * any route. On `/`, the active link tracks scroll position under the sticky nav.
  */
 
@@ -15,6 +15,8 @@ type SectionId = (typeof SECTION_IDS)[number];
 
 /**
  * Sticky site header with mobile collapse, section hash links, and active-link scroll-spy.
+ * 
+ * Brand link scrolls to top on click.
  *
  * @returns The site header element.
  */
@@ -98,7 +100,10 @@ export function Navbar() {
   return (
     <header className="navbar">
       <div className="container navbar__inner">
-        <Link className="navbar__brand" to="/" onClick={close}>
+        <Link className="navbar__brand" to="/" onClick={() => {
+          close();
+          window.scrollTo(0, 0);
+        }}>
           <img src="/img/logo.svg" alt="" />
           <div className="navbar__brand-text">
             <span className="navbar__title"> George Ciesinski</span>
