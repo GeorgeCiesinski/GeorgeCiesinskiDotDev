@@ -48,7 +48,7 @@
 // Non-interactive chips (e.g. project tech spans)
 span.badge--primary {
   background: var(--color-primary);
-  color: var(--color-text);
+  color: var(--color-on-primary);
 }
 
 span.badge--secondary {
@@ -78,7 +78,7 @@ button.badge--secondary {
 a.badge--primary,
 button.badge--primary {
   background: var(--color-primary);
-  color: var(--color-text);
+  color: var(--color-on-primary);
 
   &:hover,
   &:focus-visible {

@@ -10,7 +10,7 @@
   color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
 
   :root[data-theme="dark"] & {
-    color: color-mix(in srgb, var(--color-text-secondary) 5%, transparent);
+    color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
   }
 }
 

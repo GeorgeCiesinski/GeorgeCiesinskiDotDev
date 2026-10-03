@@ -2,7 +2,6 @@
  * Single blog post from `/blog/:slug`.
  */
 
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MarkdownContent } from "../components/MarkdownContent";
 import { Seo } from "../components/Seo";
@@ -12,10 +11,6 @@ import { getPostBySlug } from "../data/posts";
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getPostBySlug(slug) : undefined;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
 
   if (!post) {
     return <Navigate to="/blog" replace />;

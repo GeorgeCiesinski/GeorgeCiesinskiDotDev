@@ -20,8 +20,10 @@ export function ThemeMenu() {
       <button
         type="button"
         className={`theme-menu-toggle theme-menu-toggle--${resolveTheme(preference)}`}
+        aria-label="Color theme"
         aria-expanded={open}
         aria-haspopup="menu"
+        aria-controls="theme-menu"
         onClick={() => setOpen((v) => !v)}
       >
         <span
@@ -99,7 +101,7 @@ export function ThemeMenu() {
       </button>
 
       {open && (
-        <ul className="theme-menu__list" role="menu">
+        <ul id="theme-menu" className="theme-menu__list" role="menu">
           {(["light", "dark", "system"] as const).map((option) => (
             <li key={option} role="none">
               <button
