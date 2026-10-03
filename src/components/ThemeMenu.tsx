@@ -101,11 +101,7 @@ export function ThemeMenu() {
       </button>
 
       {open && (
-        <ul 
-          id="theme-menu"
-          className="theme-menu__list" 
-          role="menu"
-        >
+        <ul id="theme-menu" className="theme-menu__list" role="menu">
           {(["light", "dark", "system"] as const).map((option) => (
             <li key={option} role="none">
               <button
