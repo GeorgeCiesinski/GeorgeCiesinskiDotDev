@@ -1,0 +1,24 @@
+// Fixed Canvas code wallpaper for the home page (drawn in JS; color via CSS).
+
+.code-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  // Resolved by getComputedStyle in CodeBackground for canvas fillStyle.
+  // Keep very low so About / Experience / Contact stay readable.
+  color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
+
+  :root[data-theme="dark"] & {
+    color: color-mix(in srgb, var(--color-text-secondary) 5%, transparent);
+  }
+}
+
+.home {
+  position: relative;
+}
+
+.home__content {
+  position: relative;
+  z-index: 1;
+}
