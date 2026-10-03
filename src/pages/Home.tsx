@@ -6,6 +6,7 @@
  */
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { CodeBackground } from "../components/CodeBackground";
 import { Seo } from "../components/Seo";
 import { ContactForm } from "../components/ContactForm";
 import { GitHubContributions } from "../components/GitHubContributions";
@@ -37,90 +38,97 @@ export function Home() {
   }, [hash]);
 
   return (
-    <div className="container">
-      <Seo
-        title="George Ciesinski — Portfolio"
-        description="Portfolio of George Ciesinski — software developer specializing in JavaScript, Python, and full-stack web development."
-        path="/"
-      />
+    <div className="home">
+      <CodeBackground />
+      <div className="home__content container">
+        <Seo
+          title="George Ciesinski — Portfolio"
+          description="Portfolio of George Ciesinski — software developer specializing in JavaScript, Python, and full-stack web development."
+          path="/"
+        />
 
-      <section className="about" id="about" aria-labelledby="about-heading">
-        <div className="about__container">
-          <img
-            className="about__photo"
-            src="/img/front-page/me.png"
-            alt="George Ciesinski"
-          />
-          <div>
-            <h2 className="about__title" id="about-heading">
-              About
-            </h2>
-            <p>
-              Hi — I’m a software developer with experience building and
-              maintaining enterprise web apps in higher education. I use React,
-              TypeScript, and Node, but I also have experience with Python and
-              C#.
-            </p>
-            <p>Check out my resume and my personal projects below!</p>
-            <div className="resume-link">
-              <a
-                className="btn btn--primary"
-                href="/files/GeorgeCiesinskiResume.pdf"
-              >
-                Resume
-              </a>
+        <section className="about" id="about" aria-labelledby="about-heading">
+          <div className="about__container">
+            <img
+              className="about__photo"
+              src="/img/front-page/me.png"
+              alt="George Ciesinski"
+            />
+            <div>
+              <h2 className="about__title" id="about-heading">
+                About
+              </h2>
+              <p>
+                Hi — I’m a software developer with experience building and
+                maintaining enterprise web apps in higher education. I use React,
+                TypeScript, and Node, but I also have experience with Python and
+                C#.
+              </p>
+              <p>Check out my resume and my personal projects below!</p>
+              <div className="resume-link">
+                <a
+                  className="btn btn--primary"
+                  href="/files/GeorgeCiesinskiResume.pdf"
+                >
+                  Resume
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section
-        className="projects"
-        id="projects"
-        aria-labelledby="projects-heading"
-      >
-        <h2 className="projects__title" id="projects-heading">
-          Projects
-        </h2>
-        <div className="grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section
-        className="experience"
-        id="experience"
-        aria-labelledby="experience-heading"
-      >
-        <h2 className="experience__title" id="experience-heading">
-          Experience
-        </h2>
-        <ExperienceSection />
-      </section>
-
-      <section className="github" id="github" aria-labelledby="github-heading">
-        <div className="github__inner">
-          <h2 className="github__title" id="github-heading">
-            Github Contributions
+        <section
+          className="projects"
+          id="projects"
+          aria-labelledby="projects-heading"
+        >
+          <h2 className="projects__title" id="projects-heading">
+            Projects
           </h2>
-          <GitHubContributions />
-        </div>
-      </section>
+          <div className="grid">
+            {projects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </section>
 
-      <section
-        className="contact"
-        id="contact"
-        aria-labelledby="contact-heading"
-      >
-        <div className="contact__inner">
-          <h2 className="contact__title" id="contact-heading">
-            Contact Me
+        <section
+          className="experience"
+          id="experience"
+          aria-labelledby="experience-heading"
+        >
+          <h2 className="experience__title" id="experience-heading">
+            Experience
           </h2>
-          <ContactForm />
-        </div>
-      </section>
+          <ExperienceSection />
+        </section>
+
+        <section
+          className="github"
+          id="github"
+          aria-labelledby="github-heading"
+        >
+          <div className="github__inner">
+            <h2 className="github__title" id="github-heading">
+              Github Contributions
+            </h2>
+            <GitHubContributions />
+          </div>
+        </section>
+
+        <section
+          className="contact"
+          id="contact"
+          aria-labelledby="contact-heading"
+        >
+          <div className="contact__inner">
+            <h2 className="contact__title" id="contact-heading">
+              Contact Me
+            </h2>
+            <ContactForm />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
