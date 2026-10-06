@@ -51,7 +51,7 @@ export function Home() {
           <div className="about__container">
             <img
               className="about__photo"
-              src="/img/front-page/me.png"
+              src="/img/front-page/me.webp"
               alt="George Ciesinski"
             />
             <div>

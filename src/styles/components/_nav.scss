@@ -114,11 +114,19 @@
   }
 
   &:hover {
-    background: color-mix(in srgb, var(--color-chrome) 15%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--color-chrome) var(--nav-link-hover-mix),
+      transparent
+    );
   }
 
   &--active {
-    background: color-mix(in srgb, var(--color-chrome) 25%, transparent);
-    font-weight: 700; // resting links stay at default (400/inherited)
+    background: color-mix(
+      in srgb,
+      var(--color-chrome) var(--nav-link-active-mix),
+      transparent
+    );
+    font-weight: 700;
   }
 }

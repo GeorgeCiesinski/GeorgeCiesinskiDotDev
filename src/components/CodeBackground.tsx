@@ -3,6 +3,8 @@
  *
  * Uses allowlisted repository source flattened into continuous lines, scrolls
  * at a parallax rate, and never puts source text in the DOM for SEO/AT.
+ * On fine-pointer devices, glyphs near the cursor briefly brighten within a
+ * soft radius (disabled while scrolling and under prefers-reduced-motion).
  */
 
 import { useEffect, useRef } from "react";
@@ -28,7 +30,8 @@ const FONT_SIZE_PX = 11;
 const LINE_HEIGHT = 1.55;
 
 /**
- * Fixed canvas wallpaper: theme-aware muted glyphs with scroll parallax.
+ * Fixed canvas wallpaper: theme-aware muted glyphs with scroll parallax
+ * and an optional pointer proximity opacity boost.
  *
  * @returns Presentation-only canvas element.
  */
@@ -45,6 +48,9 @@ export function CodeBackground() {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reduceMotion = motionQuery.matches;
 
+    const finePointerQuery = window.matchMedia("(pointer: fine)");
+    let finePointer = finePointerQuery.matches;
+
     let width = 0;
     let height = 0;
     let dpr = 1;
@@ -53,6 +59,22 @@ export function CodeBackground() {
     let charWidth = 0;
     let rafId = 0;
     let needsLayout = true;
+
+    /** Soft spotlight radius in CSS pixels. */
+    const SPOTLIGHT_RADIUS_PX = 180;
+    /** Extra alpha multiplier for the spotlight pass over the base fill. */
+    const SPOTLIGHT_BOOST = 2.5;
+    /** Delay after the last scroll event before re-enabling the spotlight. */
+    const SCROLL_IDLE_MS = 140;
+
+    let pointerX = 0;
+    let pointerY = 0;
+    let hasPointer = false;
+    let isScrolling = false;
+    let scrollIdleTimer = 0;
+
+    const offscreen = document.createElement("canvas");
+    const offCtx = offscreen.getContext("2d");
 
     /**
      * Reads the resolved CSS color from the canvas (supports color-mix tokens).
@@ -95,7 +117,31 @@ export function CodeBackground() {
     }
 
     /**
-     * Clears and redraws all code lines at the current scroll offset.
+     * Draws the visible slice of tiled code lines into a 2D context.
+     *
+     * @param target - Canvas context to draw into (main or offscreen).
+     * @param scrollOffset - Parallax-adjusted vertical scroll in CSS pixels.
+     */
+    function drawVisibleLines(
+      target: CanvasRenderingContext2D,
+      scrollOffset: number,
+    ): void {
+      let firstLineY = -(scrollOffset % lineHeightPx);
+      if (firstLineY > 0) firstLineY -= lineHeightPx;
+
+      let lineIndex = Math.floor(scrollOffset / lineHeightPx) % lines.length;
+      if (lineIndex < 0) lineIndex += lines.length;
+
+      for (let y = firstLineY; y < height; y += lineHeightPx) {
+        const line = lines[lineIndex];
+        if (line) target.fillText(line, 0, y);
+        lineIndex = (lineIndex + 1) % lines.length;
+      }
+    }
+
+    /**
+     * Clears and redraws all code lines at the current scroll offset, then
+     * optionally composites a soft radial opacity boost around the pointer.
      */
     function paint(): void {
       if (needsLayout) layout();
@@ -109,20 +155,54 @@ export function CodeBackground() {
       ctx!.font = `${FONT_SIZE_PX}px ${FONT_FAMILY}`;
       ctx!.textBaseline = "top";
 
-      // Align to line grid so glyphs stay crisp while scrolling.
-      let firstLineY = -(scrollOffset % lineHeightPx);
-      if (firstLineY > 0) firstLineY -= lineHeightPx;
+      drawVisibleLines(ctx!, scrollOffset);
 
-      let lineIndex = Math.floor(scrollOffset / lineHeightPx) % lines.length;
-      if (lineIndex < 0) lineIndex += lines.length;
+      if (
+        !reduceMotion &&
+        finePointer &&
+        hasPointer &&
+        !isScrolling &&
+        offCtx
+      ) {
+        const bw = Math.max(1, Math.floor(width * dpr));
+        const bh = Math.max(1, Math.floor(height * dpr));
+        if (offscreen.width !== bw || offscreen.height !== bh) {
+          offscreen.width = bw;
+          offscreen.height = bh;
+        }
 
-      for (let y = firstLineY; y < height; y += lineHeightPx) {
-        const line = lines[lineIndex];
-        if (line) ctx!.fillText(line, 0, y);
-        lineIndex = (lineIndex + 1) % lines.length;
+        offCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        offCtx.clearRect(0, 0, width, height);
+        offCtx.font = `${FONT_SIZE_PX}px ${FONT_FAMILY}`;
+        offCtx.textBaseline = "top";
+        offCtx.fillStyle = fill;
+        offCtx.globalAlpha = SPOTLIGHT_BOOST;
+        drawVisibleLines(offCtx, scrollOffset);
+        offCtx.globalAlpha = 1;
+
+        const gradient = offCtx.createRadialGradient(
+          pointerX,
+          pointerY,
+          0,
+          pointerX,
+          pointerY,
+          SPOTLIGHT_RADIUS_PX,
+        );
+        gradient.addColorStop(0, "rgba(0,0,0,1)");
+        gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+        offCtx.globalCompositeOperation = "destination-in";
+        offCtx.fillStyle = gradient;
+        offCtx.fillRect(0, 0, width, height);
+        offCtx.globalCompositeOperation = "source-over";
+
+        ctx!.drawImage(offscreen, 0, 0, width, height);
       }
     }
 
+    /**
+     * Coalesces paint requests to at most one animation frame.
+     */
     function schedulePaint(): void {
       if (rafId) return;
       rafId = requestAnimationFrame(() => {
@@ -131,18 +211,63 @@ export function CodeBackground() {
       });
     }
 
-    function onScroll(): void {
-      if (reduceMotion) return;
+    /**
+     * Tracks pointer position for the spotlight; no-ops on coarse pointers.
+     *
+     * @param e - Window pointermove event.
+     */
+    function onPointerMove(e: PointerEvent): void {
+      if (!finePointer) return;
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      hasPointer = true;
+      if (!reduceMotion && !isScrolling) schedulePaint();
+    }
+
+    /**
+     * Clears spotlight state when the pointer leaves the document.
+     */
+    function onPointerLeave(): void {
+      hasPointer = false;
       schedulePaint();
     }
 
+    /**
+     * Parallax-repaints on scroll and suppresses the spotlight until idle.
+     */
+    function onScroll(): void {
+      if (reduceMotion) return;
+      isScrolling = true;
+      window.clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = window.setTimeout(() => {
+        isScrolling = false;
+        schedulePaint();
+      }, SCROLL_IDLE_MS);
+      schedulePaint();
+    }
+
+    /**
+     * Marks layout dirty and schedules a full reflow/repaint.
+     */
     function onResize(): void {
       needsLayout = true;
       schedulePaint();
     }
 
+    /**
+     * Syncs reduced-motion preference and repaints.
+     */
     function onMotionChange(): void {
       reduceMotion = motionQuery.matches;
+      schedulePaint();
+    }
+
+    /**
+     * Syncs fine-pointer capability; clears spotlight when unavailable.
+     */
+    function onPointerCapabilityChange(): void {
+      finePointer = finePointerQuery.matches;
+      if (!finePointer) hasPointer = false;
       schedulePaint();
     }
 
@@ -155,17 +280,30 @@ export function CodeBackground() {
     });
 
     motionQuery.addEventListener("change", onMotionChange);
+    finePointerQuery.addEventListener("change", onPointerCapabilityChange);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onPointerLeave);
 
     layout();
     paint();
 
+    /**
+     * Tears down observers, listeners, timers, and pending frames on unmount.
+     */
     return () => {
       themeObserver.disconnect();
       motionQuery.removeEventListener("change", onMotionChange);
+      finePointerQuery.removeEventListener("change", onPointerCapabilityChange);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("pointermove", onPointerMove);
+      document.documentElement.removeEventListener(
+        "mouseleave",
+        onPointerLeave,
+      );
+      window.clearTimeout(scrollIdleTimer);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
