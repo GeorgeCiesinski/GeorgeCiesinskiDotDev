@@ -17,6 +17,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "check": "npm run format && npm run lint && npm run typecheck",
+    "check:fix": "npm run format:fix && npm run lint:fix && npm run typecheck",
     "validate": "npm run check && npm test"
   },
   "dependencies": {
