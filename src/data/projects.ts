@@ -45,7 +45,7 @@ export const projects: Project[] = [
       "Visual Crossing API",
       "Nominatim API",
     ],
-    thumbnail: "/img/front-page/galesage-thumb.png",
+    thumbnail: "/img/front-page/galesage-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/galesage",
     demo: "https://www.galesage.app/",
     slides: [
@@ -81,7 +81,7 @@ export const projects: Project[] = [
     description:
       "A Discord bot game where players guess Pok\u00e9mon from images. Tracks scores on a leaderboard and supports multilingual reveals via PokeAPI.",
     tech: ["JavaScript", "discord.js", "pokeapi.co", "PostgreSQL", "Docker"],
-    thumbnail: "/img/front-page/pokebot-thumb.png",
+    thumbnail: "/img/front-page/pokebot-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/poke-guesser-bot",
     slides: [
       {
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     description:
       "Track books you are reading or have read. Add titles by ISBN for automatic cover lookup, toggle read status, and switch light/dark mode.",
     tech: ["HTML", "CSS", "SASS", "JavaScript"],
-    thumbnail: "/img/front-page/library-thumb.png",
+    thumbnail: "/img/front-page/library-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/library-app",
     demo: "https://georgeciesinski.github.io/library-app/",
     slides: [
@@ -154,7 +154,7 @@ export const projects: Project[] = [
     description:
       "A pixel drawing tool with color selection, grid size controls, and a background eraser that preserves drawings when the canvas color changes.",
     tech: ["HTML", "CSS", "SASS", "JavaScript"],
-    thumbnail: "/img/front-page/pixel-thumb.png",
+    thumbnail: "/img/front-page/pixel-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/pixel-sketchpad",
     demo: "https://georgeciesinski.github.io/pixel-sketchpad/",
     slides: [
@@ -179,7 +179,7 @@ export const projects: Project[] = [
     description:
       "A Flask-RESTful API for registering users, authenticating, and creating/retrieving/deleting stores and items, backed by SQLite and deployable on Heroku.",
     tech: ["Python", "Flask", "Flask-RESTful", "SQLite", "Heroku"],
-    thumbnail: "/img/front-page/flask-api-thumb.png",
+    thumbnail: "/img/front-page/flask-api-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/FlaskRESTful-for-Heroku",
     slides: [
       {
@@ -225,7 +225,7 @@ export const projects: Project[] = [
     description:
       "A desktop expansion tool that pastes textblock templates from keyboard shortcuts into any text field \u2014 built to speed up customer email responses.",
     tech: ["Python", "Pynput", "Pyperclip"],
-    thumbnail: "/img/front-page/text-script-thumb.png",
+    thumbnail: "/img/front-page/text-script-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/text-script",
     slides: [
       {

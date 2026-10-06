@@ -29,6 +29,10 @@
   // Border
   --color-border: #c5d8e6;
   --color-border-hover: #ffffff;
+
+  // Nav link overlays
+  --nav-link-hover-mix: 10%;
+  --nav-link-active-mix: 12%;
 }
 
 :root[data-theme="dark"] {
@@ -60,4 +64,8 @@
   // Border
   --color-border: #2a4150;
   --color-border-hover: #4a6f85;
+
+  // Nav link overlays
+  --nav-link-hover-mix: 15%;
+  --nav-link-active-mix: 25%;
 }
