@@ -125,9 +125,22 @@
     font-weight: 600;
   }
 
-  // Positioning shell for the Copy button; visual chrome stays on `pre`.
+  // Positioning shell for lang label + Copy; visual chrome stays on `pre`.
   .blog-prose__pre-wrap {
     position: relative;
+
+    .blog-prose__lang {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.75rem;
+      z-index: 1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.7rem;
+      line-height: 1.2;
+      color: var(--color-text-secondary);
+      pointer-events: none;
+      user-select: none;
+    }
 
     .blog-prose__copy {
       position: absolute;
@@ -142,6 +155,26 @@
       border-radius: 0.25rem;
       font-size: 0.75rem;
       cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    // Reserve top space so the first line of code clears the lang label.
+    &--has-lang pre {
+      padding-top: 2rem;
+    }
+
+    // Fade Copy in on hover/focus where hover is reliable; stay visible on touch.
+    @media (hover: hover) {
+      .blog-prose__copy {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &:hover .blog-prose__copy,
+      &:focus-within .blog-prose__copy {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
   }
 }

@@ -56,14 +56,15 @@ export function walkMarkdown(dir) {
 }
 
 /**
- * Loads published posts from {@link contentDir}, newest `date` first.
+ * Loads published posts from a blog content directory, newest `date` first.
  * Walks year subfolders; URL slug is the filename stem (year folder ignored).
  * Skips drafts and entries missing required frontmatter fields.
  *
+ * @param {string} [dir] - Directory to walk (defaults to {@link contentDir}).
  * @returns {Array<Record<string, unknown> & { slug: string }>}
  */
-export function loadPublishedPosts() {
-  return walkMarkdown(contentDir)
+export function loadPublishedPosts(dir = contentDir) {
+  return walkMarkdown(dir)
     .map((filePath) => {
       const raw = fs.readFileSync(filePath, "utf8");
       const { data } = parseFrontmatter(raw);

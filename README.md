@@ -35,6 +35,7 @@ Local contact submissions need `npm run vercel` (plain `npm run dev` does not se
 | Script               | Purpose                                              |
 | -------------------- | ---------------------------------------------------- |
 | `npm run check`      | Format, lint, and typecheck                          |
+| `npm run check:fix`  | Format, lint, and typecheck, fixes problems          |
 | `npm run validate`   | `check` plus tests                                   |
 | `npm run format:fix` | Formats files with prettier                          |
 | `npm run lint:fix`   | Fixes and flags lint errors with ESLint              |

@@ -68,11 +68,43 @@
   margin-bottom: 0.5rem;
 }
 
+.blog__tag-toolbar {
+  margin-bottom: 1.75rem;
+}
+
+.blog__tag-sort {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.blog__tag-sort-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-secondary);
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text);
+  }
+
+  &--active {
+    color: var(--color-text);
+    border-color: var(--color-border);
+    background: var(--color-surface-muted);
+  }
+}
+
 .blog__tag-filter {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.75rem;
 }
 
 .blog__tag-filter-btn {
@@ -94,6 +126,12 @@
     background: var(--color-secondary);
     border-color: var(--color-secondary);
     color: var(--color-text-inverse);
+  }
+
+  &--more {
+    border-style: dashed;
+    font-weight: 500;
+    color: var(--color-text-secondary);
   }
 }
 

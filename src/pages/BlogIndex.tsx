@@ -1,6 +1,7 @@
 /**
  * Blog index: published posts newest-first, with optional ?tag=, ?q= search,
- * and ?page= pagination (10 per page).
+ * and ?page= pagination (10 per page). Tag filter is hybrid (top N + More)
+ * and sortable by usage (default) or alphabetically.
  */
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -11,21 +12,33 @@ import {
   getPostsByTag,
   searchPosts,
   paginatePosts,
+  type TagSortMode,
 } from "../data/posts";
+import { VISIBLE_TAG_COUNT, getHybridTagLists } from "../data/tagFilter";
 
-/** Blog index with tag filter, text search, and pagination. */
+/** Blog index with hybrid tag filter (usage/alpha sort), search, and pagination. */
 export function BlogIndex() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTag = searchParams.get("tag");
   /** URL `q` — source of truth for filtering posts. */
   const activeQuery = searchParams.get("q") ?? "";
-  const allTags = getAllTags();
+  /** Tag list order: most-used first by default. */
+  const [tagSort, setTagSort] = useState<TagSortMode>("usage");
+  /** Whether the full tag list is expanded past the hybrid limit. */
+  const [tagsExpanded, setTagsExpanded] = useState(false);
   /** Input value while typing; commits to the URL after debounce. */
   const [draftQuery, setDraftQuery] = useState(activeQuery);
   /** Last URL `q` we synced from — detects back/forward and shared links. */
   const [prevQuery, setPrevQuery] = useState(activeQuery);
 
   const blogDescription = "Notes on software development and projects.";
+
+  const allTags = getAllTags(tagSort);
+  const { visible: visibleTags, hiddenCount } = getHybridTagLists(
+    allTags,
+    activeTag,
+    tagsExpanded,
+  );
 
   // Pipeline: tag → search → paginate
   const base =
@@ -55,6 +68,12 @@ export function BlogIndex() {
     if (nextPage <= 1) next.delete("page");
     else next.set("page", String(nextPage));
     setSearchParams(next, { replace: true });
+  };
+
+  /** Switches tag sort and collapses the hybrid list so the new top N show. */
+  const changeTagSort = (mode: TagSortMode) => {
+    setTagSort(mode);
+    setTagsExpanded(false);
   };
 
   // When URL `q` changes externally, reset the input to match (no useEffect).
@@ -101,29 +120,68 @@ export function BlogIndex() {
       </label>
 
       {allTags.length > 0 ? (
-        <div
-          className="blog__tag-filter"
-          role="group"
-          aria-label="Filter by tag"
-        >
-          <button
-            type="button"
-            className={`blog__tag-filter-btn${!activeTag ? " blog__tag-filter-btn--active" : ""}`}
-            onClick={() => selectTag(null)}
-          >
-            All
-          </button>
-          {allTags.map((tag) => (
+        <div className="blog__tag-toolbar">
+          <div className="blog__tag-sort" role="group" aria-label="Sort tags">
             <button
-              key={tag}
               type="button"
-              className={`blog__tag-filter-btn${activeTag === tag ? " blog__tag-filter-btn--active" : ""}`}
-              onClick={() => selectTag(tag)}
-              aria-pressed={activeTag === tag}
+              className={`blog__tag-sort-btn${tagSort === "usage" ? " blog__tag-sort-btn--active" : ""}`}
+              onClick={() => changeTagSort("usage")}
+              aria-pressed={tagSort === "usage"}
             >
-              {tag}
+              Most used
             </button>
-          ))}
+            <button
+              type="button"
+              className={`blog__tag-sort-btn${tagSort === "alpha" ? " blog__tag-sort-btn--active" : ""}`}
+              onClick={() => changeTagSort("alpha")}
+              aria-pressed={tagSort === "alpha"}
+            >
+              A–Z
+            </button>
+          </div>
+
+          <div
+            className="blog__tag-filter"
+            role="group"
+            aria-label="Filter by tag"
+          >
+            <button
+              type="button"
+              className={`blog__tag-filter-btn${!activeTag ? " blog__tag-filter-btn--active" : ""}`}
+              onClick={() => selectTag(null)}
+            >
+              All
+            </button>
+            {visibleTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                className={`blog__tag-filter-btn${activeTag === tag ? " blog__tag-filter-btn--active" : ""}`}
+                onClick={() => selectTag(tag)}
+                aria-pressed={activeTag === tag}
+              >
+                {tag}
+              </button>
+            ))}
+            {hiddenCount > 0 ? (
+              <button
+                type="button"
+                className="blog__tag-filter-btn blog__tag-filter-btn--more"
+                onClick={() => setTagsExpanded(true)}
+              >
+                More ({hiddenCount})
+              </button>
+            ) : null}
+            {tagsExpanded && allTags.length > VISIBLE_TAG_COUNT ? (
+              <button
+                type="button"
+                className="blog__tag-filter-btn blog__tag-filter-btn--more"
+                onClick={() => setTagsExpanded(false)}
+              >
+                Less
+              </button>
+            ) : null}
+          </div>
         </div>
       ) : null}
 
