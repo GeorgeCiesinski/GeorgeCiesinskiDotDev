@@ -1,7 +1,8 @@
 /**
  * Blog catalog: load Markdown from `content/blog/<YYYY>/` via Vite
  * `import.meta.glob`, parse YAML frontmatter with the `yaml` package, and
- * expose list/lookup/search/pagination helpers.
+ * expose list/lookup/search/pagination helpers plus tag counts and
+ * usage-or-alpha tag sorting for the blog index filter.
  */
 
 import { parse as parseYaml } from "yaml";
@@ -127,17 +128,43 @@ export function getPostBySlug(slug: string): Post | undefined {
   return getAllPosts().find((p) => p.slug === slug);
 }
 
+/** How {@link getAllTags} orders the filter list. */
+export type TagSortMode = "alpha" | "usage";
+
 /**
- * Collects unique tags from published posts, sorted alphabetically.
+ * Counts how many published posts include each tag.
  *
+ * @returns Map of tag → post count.
+ */
+export function getTagCounts(): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const post of getAllPosts()) {
+    for (const tag of post.tags) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return counts;
+}
+
+/**
+ * Collects unique tags from published posts.
+ * Default order is most-used first (ties broken alphabetically).
+ *
+ * @param sort - `usage` (default) or `alpha`.
  * @returns Sorted tag strings.
  */
-export function getAllTags(): string[] {
-  const tags = new Set<string>();
-  for (const post of getAllPosts()) {
-    for (const tag of post.tags) tags.add(tag);
+export function getAllTags(sort: TagSortMode = "usage"): string[] {
+  const counts = getTagCounts();
+  const tags = [...counts.keys()];
+
+  if (sort === "alpha") {
+    return tags.sort((a, b) => a.localeCompare(b));
   }
-  return [...tags].sort((a, b) => a.localeCompare(b));
+
+  return tags.sort((a, b) => {
+    const diff = (counts.get(b) ?? 0) - (counts.get(a) ?? 0);
+    return diff !== 0 ? diff : a.localeCompare(b);
+  });
 }
 
 /**

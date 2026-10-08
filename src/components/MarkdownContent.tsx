@@ -1,54 +1,22 @@
 /**
  * Renders Markdown body with GFM, syntax-highlighted fenced blocks,
  * a language label from the fence tag, and a Copy control on multiline
- * `pre` blocks (not inline code).
+ * `pre` blocks (not inline code). Copy fades in on hover via CSS.
  */
-import {
-  useRef,
-  useState,
-  isValidElement,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
+import { useRef, useState, type ComponentPropsWithoutRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import type { Components } from "react-markdown";
+import { getCodeLanguage, getLanguageLabel } from "../data/codeLanguage";
 
 type MarkdownContentProps = {
   content: string; /** Markdown body only (no frontmatter). */
 };
 
-/** Fence aliases → consistent display labels (highlighting still uses the fence tag). */
-const LANGUAGE_LABELS: Record<string, string> = {
-  ts: "TypeScript",
-  typescript: "TypeScript",
-  tsx: "TSX",
-  js: "JavaScript",
-  javascript: "JavaScript",
-  jsx: "JSX",
-  html: "HTML",
-  css: "CSS",
-  bash: "Bash",
-  sh: "Bash",
-  shell: "Bash",
-};
-
-/** Reads `language-*` from the nested `code` child (fence info string). */
-function getCodeLanguage(children: ReactNode): string | null {
-  const child = Array.isArray(children) ? children[0] : children;
-  if (!isValidElement<{ className?: string }>(child)) return null;
-  const match = /language-([\w-]+)/.exec(child.props.className ?? "");
-  return match?.[1] ?? null;
-}
-
-/** Maps a fence token to a consistent Title Case / dialect label. */
-function getLanguageLabel(lang: string): string {
-  return LANGUAGE_LABELS[lang.toLowerCase()] ?? lang;
-}
-
 /**
- * Fenced code block with language label and clipboard Copy button.
+ * Fenced code block with language label and clipboard Copy button
+ * (hover-reveal styled in blog-prose SCSS).
  * Wired via react-markdown `components.pre` only — inline `code` is untouched.
  */
 function PreWithCopy(props: ComponentPropsWithoutRef<"pre">) {

@@ -11,6 +11,7 @@ import {
   getAllTags,
   getPostBySlug,
   getPostsByTag,
+  getTagCounts,
   paginatePosts,
   postMatchesQuery,
   searchPosts,
@@ -141,14 +142,28 @@ describe("catalog helpers (live content invariants)", () => {
     expect(getPostBySlug("definitely-not-a-real-slug")).toBeUndefined();
   });
 
-  it("collects unique sorted tags and filters by tag", () => {
-    const tags = getAllTags();
-    expect(tags.length).toBeGreaterThan(0);
-    expect(tags).toEqual([...tags].sort((a, b) => a.localeCompare(b)));
-    expect(new Set(tags).size).toBe(tags.length);
+  it("collects unique tags sorted by usage by default, or alphabetically", () => {
+    const counts = getTagCounts();
+    const byUsage = getAllTags();
+    const byAlpha = getAllTags("alpha");
 
-    const tagged = getPostsByTag(tags[0]!);
+    expect(byUsage.length).toBeGreaterThan(0);
+    expect(new Set(byUsage).size).toBe(byUsage.length);
+    expect(byAlpha).toEqual([...byAlpha].sort((a, b) => a.localeCompare(b)));
+
+    for (let i = 1; i < byUsage.length; i++) {
+      const prev = counts.get(byUsage[i - 1]!) ?? 0;
+      const next = counts.get(byUsage[i]!) ?? 0;
+      expect(prev).toBeGreaterThanOrEqual(next);
+      if (prev === next) {
+        expect(byUsage[i - 1]!.localeCompare(byUsage[i]!)).toBeLessThanOrEqual(
+          0,
+        );
+      }
+    }
+
+    const tagged = getPostsByTag(byUsage[0]!);
     expect(tagged.length).toBeGreaterThan(0);
-    expect(tagged.every((p) => p.tags.includes(tags[0]!))).toBe(true);
+    expect(tagged.every((p) => p.tags.includes(byUsage[0]!))).toBe(true);
   });
 });
