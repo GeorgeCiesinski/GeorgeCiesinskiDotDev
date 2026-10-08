@@ -8,12 +8,12 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadPublishedPosts, escapeEntities } from "./blog-fs.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
-const distDir = path.join(root, "dist");
+const defaultDistDir = path.join(root, "dist");
 const SITE_URL = "https://georgeciesinski.dev";
 const SITE_NAME = "George Ciesinski";
 
@@ -21,12 +21,13 @@ const SITE_NAME = "George Ciesinski";
  * Resolves a site-relative path or absolute URL to an absolute URL.
  *
  * @param {string | undefined} maybePath - Path like `/img/...` or a full URL.
+ * @param {string} [siteUrl] - Absolute site origin.
  * @returns {string | undefined}
  */
-function absoluteUrl(maybePath) {
+export function absoluteUrl(maybePath, siteUrl = SITE_URL) {
   if (!maybePath) return undefined;
   if (maybePath.startsWith("http")) return maybePath;
-  return `${SITE_URL}${maybePath.startsWith("/") ? "" : "/"}${maybePath}`;
+  return `${siteUrl}${maybePath.startsWith("/") ? "" : "/"}${maybePath}`;
 }
 
 /**
@@ -39,14 +40,16 @@ function absoluteUrl(maybePath) {
  *   type: string,
  *   image?: string,
  * }} meta - Route SEO fields (`path` is the site path, e.g. `/blog/slug`).
+ * @param {{ siteUrl?: string, siteName?: string }} [options] - Site branding overrides.
  * @returns {string} HTML fragment to inject after `<head>`.
  */
-function buildHeadTags({ title, description, path: pagePath, type, image }) {
-  const fullTitle = title.includes(SITE_NAME)
-    ? title
-    : `${title} - ${SITE_NAME}`;
-  const url = `${SITE_URL}${pagePath}`;
-  const imageUrl = absoluteUrl(image);
+export function buildHeadTags(
+  { title, description, path: pagePath, type, image },
+  { siteUrl = SITE_URL, siteName = SITE_NAME } = {},
+) {
+  const fullTitle = title.includes(siteName) ? title : `${title} - ${siteName}`;
+  const url = `${siteUrl}${pagePath}`;
+  const imageUrl = absoluteUrl(image, siteUrl);
   const twitterCard = imageUrl ? "summary_large_image" : "summary";
 
   const lines = [
@@ -57,7 +60,7 @@ function buildHeadTags({ title, description, path: pagePath, type, image }) {
     `<meta property="og:description" content="${escapeEntities(description)}" />`,
     `<meta property="og:url" content="${escapeEntities(url)}" />`,
     `<meta property="og:type" content="${escapeEntities(type)}" />`,
-    `<meta property="og:site_name" content="${escapeEntities(SITE_NAME)}" />`,
+    `<meta property="og:site_name" content="${escapeEntities(siteName)}" />`,
     `<meta name="twitter:card" content="${twitterCard}" />`,
     `<meta name="twitter:title" content="${escapeEntities(fullTitle)}" />`,
     `<meta name="twitter:description" content="${escapeEntities(description)}" />`,
@@ -81,7 +84,7 @@ function buildHeadTags({ title, description, path: pagePath, type, image }) {
  * @param {string} headInner - Meta markup to insert after `<head>`.
  * @returns {string}
  */
-function injectMeta(html, headInner) {
+export function injectMeta(html, headInner) {
   let out = html;
   // Strip existing title; replacement is included in headInner.
   out = out.replace(/<title>[^<]*<\/title>/i, () => {
@@ -96,6 +99,7 @@ function injectMeta(html, headInner) {
 /**
  * Writes `dist/<relDir>/index.html` with injected meta for one route.
  *
+ * @param {string} distDir - Absolute path to the Vite `dist` directory.
  * @param {string} relDir - Path under `dist/` (e.g. `blog` or `blog/my-slug`).
  * @param {{
  *   title: string,
@@ -104,29 +108,37 @@ function injectMeta(html, headInner) {
  *   type: string,
  *   image?: string,
  * }} meta - SEO fields passed to {@link buildHeadTags}.
+ * @returns {string} Absolute path of the written HTML file.
  */
-function writeShell(relDir, meta) {
+export function writeShell(distDir, relDir, meta) {
   const dir = path.join(distDir, relDir);
   fs.mkdirSync(dir, { recursive: true });
   const template = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
   const html = injectMeta(template, buildHeadTags(meta));
-  fs.writeFileSync(path.join(dir, "index.html"), html);
-  console.log(`Write ${path.join(relDir, "index.html")}`);
+  const outPath = path.join(dir, "index.html");
+  fs.writeFileSync(outPath, html);
+  return outPath;
 }
 
 /**
  * Prerenders blog index + each published post shell under `dist/blog/`.
- * Requires `dist/index.html` from a prior Vite build.
+ *
+ * @param {{
+ *   distDir?: string,
+ *   posts?: Array<Record<string, unknown> & { slug: string, title: string, description: string, cover?: string }>,
+ * }} [options] - Optional overrides for tests.
+ * @returns {{ postCount: number }}
  */
-function main() {
-  if (!fs.existsSync(path.join(distDir, "index.html"))) {
-    console.error("dist/index.html missing - run vite build first");
-    process.exit(1);
+export function prerenderBlogMeta(options = {}) {
+  const distDir = options.distDir ?? defaultDistDir;
+  const indexPath = path.join(distDir, "index.html");
+  if (!fs.existsSync(indexPath)) {
+    throw new Error("dist/index.html missing - run vite build first");
   }
 
-  const posts = loadPublishedPosts();
+  const posts = options.posts ?? loadPublishedPosts();
 
-  writeShell("blog", {
+  writeShell(distDir, "blog", {
     title: "Blog",
     description: "Notes on software development and projects.",
     path: "/blog",
@@ -134,7 +146,7 @@ function main() {
   });
 
   for (const post of posts) {
-    writeShell(path.join("blog", post.slug), {
+    writeShell(distDir, path.join("blog", post.slug), {
       title: post.title,
       description: post.description,
       path: `/blog/${post.slug}`,
@@ -143,7 +155,26 @@ function main() {
     });
   }
 
-  console.log(`Prerendered meta shells for ${posts.length} posts + index.`);
+  return { postCount: posts.length };
 }
 
-main();
+/**
+ * CLI entry: prerenders production meta shells or exits when dist is missing.
+ */
+function main() {
+  try {
+    const { postCount } = prerenderBlogMeta();
+    console.log(`Prerendered meta shells for ${postCount} posts + index.`);
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : err);
+    process.exit(1);
+  }
+}
+
+const isDirectRun =
+  process.argv[1] != null &&
+  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+
+if (isDirectRun) {
+  main();
+}
