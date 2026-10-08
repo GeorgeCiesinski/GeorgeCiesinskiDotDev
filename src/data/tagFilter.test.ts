@@ -6,7 +6,10 @@ import { describe, expect, it } from "vitest";
 import { VISIBLE_TAG_COUNT, getHybridTagLists } from "./tagFilter";
 
 function makeTags(count: number): string[] {
-  return Array.from({ length: count }, (_, i) => `tag-${String(i).padStart(2, "0")}`);
+  return Array.from(
+    { length: count },
+    (_, i) => `tag-${String(i).padStart(2, "0")}`,
+  );
 }
 
 describe("getHybridTagLists", () => {

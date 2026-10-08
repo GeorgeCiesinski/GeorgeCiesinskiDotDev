@@ -14,10 +14,7 @@ import {
   paginatePosts,
   type TagSortMode,
 } from "../data/posts";
-import {
-  VISIBLE_TAG_COUNT,
-  getHybridTagLists,
-} from "../data/tagFilter";
+import { VISIBLE_TAG_COUNT, getHybridTagLists } from "../data/tagFilter";
 
 /** Blog index with hybrid tag filter (usage/alpha sort), search, and pagination. */
 export function BlogIndex() {
@@ -124,11 +121,7 @@ export function BlogIndex() {
 
       {allTags.length > 0 ? (
         <div className="blog__tag-toolbar">
-          <div
-            className="blog__tag-sort"
-            role="group"
-            aria-label="Sort tags"
-          >
+          <div className="blog__tag-sort" role="group" aria-label="Sort tags">
             <button
               type="button"
               className={`blog__tag-sort-btn${tagSort === "usage" ? " blog__tag-sort-btn--active" : ""}`}
