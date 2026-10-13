@@ -128,9 +128,6 @@ export function getPostBySlug(slug: string): Post | undefined {
   return getAllPosts().find((p) => p.slug === slug);
 }
 
-/** How {@link getAllTags} orders the filter list. */
-export type TagSortMode = "alpha" | "usage";
-
 /**
  * Counts how many published posts include each tag.
  *
@@ -145,6 +142,23 @@ export function getTagCounts(): Map<string, number> {
   }
   return counts;
 }
+
+/**
+ * Counts how many published posts fall in each calendar year (from `date`).
+ *
+ * @returns Map of year → post count.
+ */
+export function getYearCounts(): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const post of getAllPosts()) {
+    const year = post.date.slice(0, 4);
+    counts.set(year, (counts.get(year) ?? 0) + 1);
+  }
+  return counts;
+}
+
+/** How {@link getAllTags} orders the filter list. */
+export type TagSortMode = "alpha" | "usage";
 
 /**
  * Collects unique tags from published posts.
@@ -168,6 +182,19 @@ export function getAllTags(sort: TagSortMode = "usage"): string[] {
 }
 
 /**
+ * Collects unique years from published posts.
+ * Order is newest year first.
+ *
+ * @returns Sorted year strings.
+ */
+export function getAllYears(): string[] {
+  const counts = getYearCounts();
+  const years = [...counts.keys()];
+
+  return years.sort((a, b) => b.localeCompare(a));
+}
+
+/**
  * Filters published posts that include the given tag.
  *
  * @param tag - Tag string to match (exact).
@@ -175,6 +202,16 @@ export function getAllTags(sort: TagSortMode = "usage"): string[] {
  */
 export function getPostsByTag(tag: string): Post[] {
   return getAllPosts().filter((p) => p.tags.includes(tag));
+}
+
+/**
+ * Filters published posts whose `date` falls in the given year.
+ *
+ * @param year - Four-digit year string to match (exact), e.g. `"2024"`.
+ * @returns Matching posts in the same order as {@link getAllPosts}.
+ */
+export function getPostsByYear(year: string): Post[] {
+  return getAllPosts().filter((p) => p.date.slice(0, 4) === year);
 }
 
 /**
