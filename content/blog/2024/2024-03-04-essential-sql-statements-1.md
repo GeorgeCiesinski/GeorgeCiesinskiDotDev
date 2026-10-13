@@ -6,7 +6,7 @@ tags: ["database", "sql"]
 draft: false
 ---
 
-This is part 1 of my blog series on Essential SQL Statements. This blog post focuses on the statements used to manage databases and tables. Check out [Part 2 here](/blog/2024/2024-03-05-essential-sql-statements-2).
+This is part 1 of my blog series on Essential SQL Statements. This blog post focuses on the statements used to manage databases and tables. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 2](/blog/2024/2024-03-05-essential-sql-statements-2), [Part 3](/blog/2024/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024/2024-03-09-essential-sql-statements-4).
 
 SQL statements are precise commands sent to a Relational Database Management System (RDBMS) to perform a task. These can be used by admins in a database GUI client or on the command line, or by the back end of an app.
 
@@ -75,30 +75,46 @@ The `ALTER TABLE` statement is used to modify an existing table. You can carry o
 - **Add constraint:** Adds a new constraint
 - **Rename table:** Renames a table
 
-The syntax looks like:
+The syntax depends on the statement you are trying to use. The next few sections show each one:
+
+### Add column
 
 ```sql
--- Add column
 ALTER TABLE table_name
 ADD column_name datatype;
+```
 
--- Drop column
+### Drop column
+
+```sql
 ALTER TABLE table_name
 DROP COLUMN column_name;
+```
 
--- Rename column
+### Rename column
+
+```sql
 ALTER TABLE table_name
 RENAME COLUMN old_name TO new_name;
+```
 
--- Change column datatype and add constraint (MySQL/MariaDB)
+### Change column datatype and add constraint (MySQL/MariaDB)
+
+```sql
 ALTER TABLE table_name
 MODIFY column_name VARCHAR(100) NOT NULL;
+```
 
--- Add constraint
+### Add constraint
+
+```sql
 ALTER TABLE table_name
 ADD CONSTRAINT constraint_name UNIQUE (column_name);
+```
 
--- Rename table
+### Rename table
+
+```sql
 ALTER TABLE table_name
 RENAME TO new_table_name;
 ```
@@ -143,4 +159,4 @@ Thanks for reading, and see you next time!
 
 ## Sources
 
-[W3Schools SQL Tutorial](https://www.w3schools.com/sql/default.asp)
+- [W3Schools SQL Tutorial](https://www.w3schools.com/sql/default.asp)

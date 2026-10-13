@@ -6,7 +6,7 @@ tags: ["database", "sql"]
 draft: false
 ---
 
-This is part 2 of my blog series on Essential SQL Statements. This blog post focuses on SQL statements used to manage the data contained in database tables. Check out [Part 1 here](/blog/2024/2024-03-04-essential-sql-statements-1) and [Part 3 here](/blog/2024/2024-03-07-essential-sql-statements-3).
+This is part 2 of my blog series on Essential SQL Statements. This blog post focuses on SQL statements used to manage the data contained in database tables. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), [Part 3](/blog/2024/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024/2024-03-09-essential-sql-statements-4).
 
 ## Insert
 
@@ -70,6 +70,79 @@ Returns:
 `Jane` still appears, just once.
 
 When you select more than one column, uniqueness applies to the whole combination of values in that row, not to each column on its own. For example, `SELECT DISTINCT first_name, last_name FROM employees` treats `Jane Doe` and `Jane Smith` as two different results, even though both share the first name Jane.
+
+### Aliases
+
+An **alias** is a temporary name you can give to a column or table in a query. It only affects how the query is written and how the result is labelled. It doesn't rename anything in the database.
+
+The `AS` keyword is used to define an alias.
+
+#### Column Alias
+
+A column alias is useful when column names are unclear, when two tables share the same column name, or when you want the output to read like a report. 
+
+Here's an example of a column alias:
+
+```sql
+SELECT first_name AS given_name, last_name AS family_name
+FROM employees;
+```
+
+| given_name | family_name |
+|------------|-------------|
+| Jane       | Doe         |
+
+The syntax looks like:
+
+```sql
+SELECT column_name AS alias_name
+FROM table_name;
+```
+
+#### Table Alias
+
+This is useful to shorten a table name, or to refer to the same table more than once.
+
+Table aliases become especially useful with joins, which I cover in [Part 3: Joins](/blog/2024/2024-03-07-essential-sql-statements-3).
+
+Here's an example of a table alias:
+
+```sql
+SELECT e.first_name, e.last_name, e.email
+FROM employees AS e
+WHERE e.first_name = 'Jane';
+``` 
+
+The syntax looks like:
+
+```sql
+SELECT alias_name.column_name
+FROM table_name AS alias_name;
+```
+
+**Note:** `AS` is optional in many databases, but it is clearer to write explicitly. For example, you could also write:
+
+```sql
+SELECT e.first_name, e.last_name
+FROM employees e
+WHERE e.first_name = 'Jane';
+```
+
+### Union
+
+The `UNION` operator is used to combine the result-set of two or more `SELECT` statements. It automatically removes duplicate rows from the result set.
+
+```sql
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+```
+
+The `UNION` operator has some caveats worth knowing: 
+
+- Every `SELECT` statement within `UNION` must have the same number of columns
+- The columns must have similar datatypes
+- The columns must also be in the same order
 
 ### Where
 
@@ -197,11 +270,11 @@ DELETE FROM table_name WHERE condition;
 
 ## Conclusion
 
-That covers the essential statements for managing data in your tables: `INSERT` to add rows, `SELECT` to read them (with `DISTINCT`, `WHERE`, `ORDER BY`, and `LIMIT`), `UPDATE` to change them, and `DELETE` to remove them. Together with the database and table statements from [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), you now have the core CRUD toolkit in SQL. In [Part 3: Joins and Aggregates](/blog/2024/2024-03-07-essential-sql-statements-3), I will cover combining tables with joins and summarizing data with aggregate functions.
+That covers the essential statements for managing data in your tables: `INSERT` to add rows, `SELECT` to read them (with `DISTINCT`, `WHERE`, `ORDER BY`, and `LIMIT`), `UPDATE` to change them, and `DELETE` to remove them. Together with the database and table statements from [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), you now have the core CRUD toolkit in SQL. In [Part 3: Joins](/blog/2024/2024-03-07-essential-sql-statements-3), I will cover combining tables with joins, and in [Part 4: Aggregates](/blog/2024/2024-03-09-essential-sql-statements-4), I will cover summarizing data with aggregate functions.
 
 Thanks for reading, and see you next time!
 
 ## Sources
 
-[W3Schools SQL Tutorial](https://www.w3schools.com/sql/default.asp)
+- [W3Schools SQL Tutorial](https://www.w3schools.com/sql/default.asp)
 
