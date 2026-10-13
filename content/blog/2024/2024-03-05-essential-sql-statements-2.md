@@ -6,7 +6,7 @@ tags: ["database", "sql"]
 draft: false
 ---
 
-This is part 2 of my blog series on Essential SQL Statements. This blog post focuses on SQL statements used to manage the data contained in database tables. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), [Part 3](/blog/2024/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024/2024-03-09-essential-sql-statements-4).
+This is part 2 of my blog series on Essential SQL Statements. This blog post focuses on SQL statements used to manage the data contained in database tables. Check out [Basic SQL](/blog/2024-03-03-basic-sql), [Part 1](/blog/2024-03-04-essential-sql-statements-1), [Part 3](/blog/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024-03-09-essential-sql-statements-4).
 
 ## Insert
 
@@ -103,7 +103,7 @@ FROM table_name;
 
 This is useful to shorten a table name, or to refer to the same table more than once.
 
-Table aliases become especially useful with joins, which I cover in [Part 3: Joins](/blog/2024/2024-03-07-essential-sql-statements-3).
+Table aliases become especially useful with joins, which I cover in [Part 3: Joins](/blog/2024-03-07-essential-sql-statements-3).
 
 Here's an example of a table alias:
 
@@ -270,7 +270,7 @@ DELETE FROM table_name WHERE condition;
 
 ## Conclusion
 
-That covers the essential statements for managing data in your tables: `INSERT` to add rows, `SELECT` to read them (with `DISTINCT`, `WHERE`, `ORDER BY`, and `LIMIT`), `UPDATE` to change them, and `DELETE` to remove them. Together with the database and table statements from [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), you now have the core CRUD toolkit in SQL. In [Part 3: Joins](/blog/2024/2024-03-07-essential-sql-statements-3), I will cover combining tables with joins, and in [Part 4: Aggregates](/blog/2024/2024-03-09-essential-sql-statements-4), I will cover summarizing data with aggregate functions.
+That covers the essential statements for managing data in your tables: `INSERT` to add rows, `SELECT` to read them (with `DISTINCT`, `WHERE`, `ORDER BY`, and `LIMIT`), `UPDATE` to change them, and `DELETE` to remove them. Together with the database and table statements from [Part 1](/blog/2024-03-04-essential-sql-statements-1), you now have the core CRUD toolkit in SQL. In [Part 3: Joins](/blog/2024-03-07-essential-sql-statements-3), I will cover combining tables with joins, and in [Part 4: Aggregates](/blog/2024-03-09-essential-sql-statements-4), I will cover summarizing data with aggregate functions.
 
 Thanks for reading, and see you next time!
 

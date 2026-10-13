@@ -3,10 +3,10 @@ title: "Essential SQL Statements 4: Aggregates"
 description: "Blog post about SQL aggregate functions, GROUP BY, HAVING, and Where vs Having."
 date: "2024-03-09"
 tags: ["database", "sql"]
-draft: false
+draft: true
 ---
 
-This is part 4 of my blog series on Essential SQL Statements. This blog post focuses on summarizing data with aggregate functions. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), [Part 2](/blog/2024/2024-03-05-essential-sql-statements-2), and [Part 3](/blog/2024/2024-03-07-essential-sql-statements-3).
+This is part 4 of my blog series on Essential SQL Statements. This blog post focuses on summarizing data with aggregate functions. Check out [Basic SQL](/blog/2024-03-03-basic-sql), [Part 1](/blog/2024-03-04-essential-sql-statements-1), [Part 2](/blog/2024-03-05-essential-sql-statements-2), and [Part 3](/blog/2024-03-07-essential-sql-statements-3).
 
 ## Aggregates
 

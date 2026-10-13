@@ -6,7 +6,7 @@ tags: ["database", "sql"]
 draft: false
 ---
 
-This is part 3 of my blog series on Essential SQL Statements. This blog post focuses on combining tables with joins. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 1](/blog/2024/2024-03-04-essential-sql-statements-1), [Part 2](/blog/2024/2024-03-05-essential-sql-statements-2), and [Part 4](/blog/2024/2024-03-09-essential-sql-statements-4).
+This is part 3 of my blog series on Essential SQL Statements. This blog post focuses on combining tables with joins. Check out [Basic SQL](/blog/2024-03-03-basic-sql), [Part 1](/blog/2024-03-04-essential-sql-statements-1), [Part 2](/blog/2024-03-05-essential-sql-statements-2), and [Part 4](/blog/2024-03-09-essential-sql-statements-4).
 
 ## Join
 
@@ -29,7 +29,7 @@ ON table_a.related_column = table_b.related_column;
 
 `ON` tells the database how the tables are related. You can also write `JOIN` without the word `INNER`; in most databases they mean the same thing.
 
-For example, let's reuse the `courses` and `assignments` idea from the [Basic SQL](/blog/2024/2024-03-03-basic-sql) post. Each assignment belongs to a course through `course_id`:
+For example, let's reuse the `courses` and `assignments` idea from the [Basic SQL](/blog/2024-03-03-basic-sql) post. Each assignment belongs to a course through `course_id`:
 
 **courses**
 
@@ -196,7 +196,7 @@ Ben's manager is Ava. That relationship is stored as `manager_id = 1` on Ben's r
 SELECT name, manager_id FROM employees;
 ```
 
-Table aliases were covered in [Part 2](/blog/2024/2024-03-05-essential-sql-statements-2). To get both names, treat the table as two roles with aliases — one for the employee, one for the manager:
+Table aliases were covered in [Part 2](/blog/2024-03-05-essential-sql-statements-2). To get both names, treat the table as two roles with aliases — one for the employee, one for the manager:
 
 ```sql
 SELECT
@@ -231,7 +231,7 @@ Aliases (`a` and `b`, or clearer names like `employee` and `manager`) are requir
 
 ## Conclusion
 
-That covers the essential join types for combining related tables: `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, and self joins. In [Part 4: Aggregates](/blog/2024/2024-03-09-essential-sql-statements-4), I will cover summarizing data with aggregate functions, `GROUP BY`, `HAVING`, and how `WHERE` and `HAVING` differ.
+That covers the essential join types for combining related tables: `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, and self joins. In [Part 4: Aggregates](/blog/2024-03-09-essential-sql-statements-4), I will cover summarizing data with aggregate functions, `GROUP BY`, `HAVING`, and how `WHERE` and `HAVING` differ.
 
 Thanks for reading, and see you next time!
 

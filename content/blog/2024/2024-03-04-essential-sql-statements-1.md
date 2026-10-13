@@ -6,7 +6,7 @@ tags: ["database", "sql"]
 draft: false
 ---
 
-This is part 1 of my blog series on Essential SQL Statements. This blog post focuses on the statements used to manage databases and tables. Check out [Basic SQL](/blog/2024/2024-03-03-basic-sql), [Part 2](/blog/2024/2024-03-05-essential-sql-statements-2), [Part 3](/blog/2024/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024/2024-03-09-essential-sql-statements-4).
+This is part 1 of my blog series on Essential SQL Statements. This blog post focuses on the statements used to manage databases and tables. Check out [Basic SQL](/blog/2024-03-03-basic-sql), [Part 2](/blog/2024-03-05-essential-sql-statements-2), [Part 3](/blog/2024-03-07-essential-sql-statements-3), and [Part 4](/blog/2024-03-09-essential-sql-statements-4).
 
 SQL statements are precise commands sent to a Relational Database Management System (RDBMS) to perform a task. These can be used by admins in a database GUI client or on the command line, or by the back end of an app.
 
@@ -153,7 +153,7 @@ TRUNCATE TABLE table_name;
 
 ## Conclusion
 
-That covers the essential statements for creating and managing databases and tables: `CREATE DATABASE`, `CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`, and `TRUNCATE TABLE`. These shape the structure your data lives in. In [Part 2: Managing Data](/blog/2024/2024-03-05-essential-sql-statements-2), I will cover the statements used to work with the rows inside those tables, including `INSERT`, `SELECT`, `UPDATE`, and `DELETE`.
+That covers the essential statements for creating and managing databases and tables: `CREATE DATABASE`, `CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`, and `TRUNCATE TABLE`. These shape the structure your data lives in. In [Part 2: Managing Data](/blog/2024-03-05-essential-sql-statements-2), I will cover the statements used to work with the rows inside those tables, including `INSERT`, `SELECT`, `UPDATE`, and `DELETE`.
 
 Thanks for reading, and see you next time!
 
