@@ -41,12 +41,12 @@
 
   // Underline so in-text links are not color-only (WCAG link-in-text-block).
   a {
-    color: var(--color-secondary);
+    color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 0.15em;
 
     &:hover {
-      color: var(--color-primary);
+      color: var(--color-secondary);
     }
   }
 
@@ -129,7 +129,7 @@
 
   .hljs-string,
   .hljs-attr {
-    color: var(--color-secondary);
+    color: var(--color-syntax-string);
   }
 
   .hljs-number,

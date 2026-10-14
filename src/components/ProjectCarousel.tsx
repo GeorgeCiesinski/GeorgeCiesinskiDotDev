@@ -36,6 +36,7 @@ export function ProjectCarousel({ slides, title }: ProjectCarouselProps) {
   return (
     <div
       className="carousel"
+      role="region"
       aria-roledescription="carousel"
       aria-label={title}
     >
@@ -61,14 +62,14 @@ export function ProjectCarousel({ slides, title }: ProjectCarouselProps) {
             >
               ‹
             </button>
-            <div className="carousel__dots" role="tablist" aria-label="Slides">
+            <div className="carousel__dots" role="group" aria-label="Slides">
               {slides.map((_, i) => (
                 <button
                   key={slides[i].src}
                   type="button"
                   className={`carousel__dot${i === index ? " carousel__dot--active" : ""}`}
                   aria-label={`Go to slide ${i + 1}`}
-                  aria-selected={i === index}
+                  aria-current={i === index ? "true" : undefined}
                   onClick={() => setIndex(i)}
                 />
               ))}
