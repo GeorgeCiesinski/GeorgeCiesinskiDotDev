@@ -180,14 +180,12 @@ describe("catalog helpers (live content invariants)", () => {
     const counts = getYearCounts();
     const years = getAllYears();
 
-    expect(years.length).toBeGreaterThan(0);  // Years should be non-empty
-    expect(new Set(years).size).toBe(years.length);  // Should be unique
-    
+    expect(years.length).toBeGreaterThan(0); // Years should be non-empty
+    expect(new Set(years).size).toBe(years.length); // Should be unique
+
     // Checks if each year is ≥ the next string (newer year first)
     for (let i = 1; i < years.length; i++) {
-      expect(
-        years[i - 1]!.localeCompare(years[i]!),
-      ).toBeGreaterThan(0);
+      expect(years[i - 1]!.localeCompare(years[i]!)).toBeGreaterThan(0);
     }
 
     // Checks if counts match the filter

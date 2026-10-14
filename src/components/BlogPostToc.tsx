@@ -37,7 +37,11 @@ function TocList({
             <a
               className={`blog-post__toc-link${isActive ? " blog-post__toc-link--active" : ""}`}
               href={`#${heading.id}`}
-              style={indent > 0 ? { paddingLeft: `${0.55 + indent * 0.75}rem` } : undefined}
+              style={
+                indent > 0
+                  ? { paddingLeft: `${0.55 + indent * 0.75}rem` }
+                  : undefined
+              }
               {...(isActive ? { "aria-current": "location" as const } : {})}
             >
               {heading.text}

@@ -49,7 +49,7 @@ SELECT * FROM table_name;
 For example, imagine an `employees` table with these first names:
 
 | first_name |
-|------------|
+| ---------- |
 | Jane       |
 | John       |
 | Jane       |
@@ -62,7 +62,7 @@ SELECT DISTINCT first_name FROM employees;
 Returns:
 
 | first_name |
-|------------|
+| ---------- |
 | Jane       |
 | John       |
 | Cara       |
@@ -79,7 +79,7 @@ The `AS` keyword is used to define an alias.
 
 #### Column Alias
 
-A column alias is useful when column names are unclear, when two tables share the same column name, or when you want the output to read like a report. 
+A column alias is useful when column names are unclear, when two tables share the same column name, or when you want the output to read like a report.
 
 Here's an example of a column alias:
 
@@ -89,7 +89,7 @@ FROM employees;
 ```
 
 | given_name | family_name |
-|------------|-------------|
+| ---------- | ----------- |
 | Jane       | Doe         |
 
 The syntax looks like:
@@ -111,7 +111,7 @@ Here's an example of a table alias:
 SELECT e.first_name, e.last_name, e.email
 FROM employees AS e
 WHERE e.first_name = 'Jane';
-``` 
+```
 
 The syntax looks like:
 
@@ -138,7 +138,7 @@ UNION
 SELECT column_name(s) FROM table2;
 ```
 
-The `UNION` operator has some caveats worth knowing: 
+The `UNION` operator has some caveats worth knowing:
 
 - Every `SELECT` statement within `UNION` must have the same number of columns
 - The columns must have similar datatypes
@@ -163,7 +163,7 @@ WHERE condition;
 
 ### AND, OR, NOT
 
-The `WHERE` clause can also contain one or more `AND`, `OR`, or `NOT` operators. 
+The `WHERE` clause can also contain one or more `AND`, `OR`, or `NOT` operators.
 
 ```sql
 SELECT first_name, last_name, email FROM employees
@@ -277,4 +277,3 @@ Thanks for reading, and see you next time!
 ## Sources
 
 - [W3Schools SQL Tutorial](https://www.w3schools.com/sql/default.asp)
-

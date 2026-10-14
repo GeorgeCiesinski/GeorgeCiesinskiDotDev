@@ -78,7 +78,7 @@ ON courses.id = assignments.course_id;
 In this query, `courses` is the left table, so unlike `INNER JOIN` you keep every course — including **Database Design**, which has no matching assignments. The missing assignment columns show as `NULL`. Course `101` still produces two rows because it has two assignments:
 
 | assignment       | course          |
-|------------------|-----------------|
+| ---------------- | --------------- |
 | Select Basics    | Intro to SQL    |
 | Joins Practice   | Intro to SQL    |
 | ER Diagram Draft | Data Modeling   |
@@ -117,7 +117,7 @@ ON assignments.course_id = courses.id;
 The above query returns the below results. As you can see, this is the same output as the `LEFT JOIN` example in the previous section.
 
 | assignment       | course          |
-|------------------|-----------------|
+| ---------------- | --------------- |
 | Select Basics    | Intro to SQL    |
 | Joins Practice   | Intro to SQL    |
 | ER Diagram Draft | Data Modeling   |
@@ -148,7 +148,7 @@ ON courses.id = assignments.course_id;
 With this sample data, every assignment already has a matching course, so the result looks like the `LEFT JOIN` example: all courses are kept, and **Database Design** appears with a `NULL` assignment.
 
 | assignment       | course          |
-|------------------|-----------------|
+| ---------------- | --------------- |
 | Select Basics    | Intro to SQL    |
 | Joins Practice   | Intro to SQL    |
 | ER Diagram Draft | Data Modeling   |
@@ -157,7 +157,7 @@ With this sample data, every assignment already has a matching course, so the re
 The difference from `LEFT JOIN` or `RIGHT JOIN` shows up when **both** sides have unmatched rows. For example, if `assignments` also had a row with `course_id` `999` (which has no matching course), a `FULL JOIN` would keep that row too, with `course` shown as `NULL`. A `LEFT JOIN` from `courses` would drop it; a `RIGHT JOIN` to `courses` would drop unmatched courses instead.
 
 | assignment       | course          |
-|------------------|-----------------|
+| ---------------- | --------------- |
 | Select Basics    | Intro to SQL    |
 | Joins Practice   | Intro to SQL    |
 | ER Diagram Draft | Data Modeling   |
@@ -184,7 +184,7 @@ This is useful when two different rows in the same table are related to each oth
 For example, imagine an `employees` table where each person may report to another person in the same table:
 
 | employee_id | name | manager_id |
-|-------------|------|------------|
+| ----------- | ---- | ---------- |
 | 1           | Ava  | NULL       |
 | 2           | Ben  | 1          |
 | 3           | Cara | 1          |
@@ -208,7 +208,7 @@ LEFT JOIN employees AS manager
 ```
 
 | employee | manager |
-|----------|---------|
+| -------- | ------- |
 | Ava      | NULL    |
 | Ben      | Ava     |
 | Cara     | Ava     |

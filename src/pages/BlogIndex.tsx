@@ -162,7 +162,11 @@ export function BlogIndex() {
         <div className="blog__filters">
           {allTags.length > 0 ? (
             <div className="blog__tag-toolbar">
-              <div className="blog__tag-sort" role="group" aria-label="Sort tags">
+              <div
+                className="blog__tag-sort"
+                role="group"
+                aria-label="Sort tags"
+              >
                 <button
                   type="button"
                   className={`blog__tag-sort-btn${tagSort === "usage" ? " blog__tag-sort-btn--active" : ""}`}

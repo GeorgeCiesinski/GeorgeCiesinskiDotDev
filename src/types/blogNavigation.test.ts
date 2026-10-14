@@ -7,7 +7,9 @@ import { getBlogListLocationState } from "./blogNavigation";
 
 describe("getBlogListLocationState", () => {
   it("returns typed state when blogSearch is a string", () => {
-    expect(getBlogListLocationState({ blogSearch: "year=2024&tag=sql" })).toEqual({
+    expect(
+      getBlogListLocationState({ blogSearch: "year=2024&tag=sql" }),
+    ).toEqual({
       blogSearch: "year=2024&tag=sql",
     });
     expect(getBlogListLocationState({ blogSearch: "" })).toEqual({

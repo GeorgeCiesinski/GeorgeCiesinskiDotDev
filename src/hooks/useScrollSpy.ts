@@ -79,7 +79,9 @@ export function useScrollSpy(ids: readonly string[]): string | null {
 
       // Match `.blog-prose h1–h6 { scroll-margin-top: calc(5rem + 0.5rem) }` plus
       // a little slack so a heading parked by a #fragment counts as active.
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const rem = parseFloat(
+        getComputedStyle(document.documentElement).fontSize,
+      );
       const offset = rem * 5.5 + 16;
       const tops = new Map<string, number>();
 
