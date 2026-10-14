@@ -1,5 +1,6 @@
 // Long-form Markdown body for blog posts.
 
+@use "../variables" as *;
 @use "../mixins/breakpoints" as *;
 
 .blog-prose {
@@ -17,6 +18,16 @@
     margin-top: 1.75rem;
     margin-bottom: 0.75rem;
     color: var(--color-text);
+  }
+
+  // Clear sticky nav when jumping to #fragments from the TOC.
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    scroll-margin-top: calc(#{$nav-height} + 0.5rem);
   }
 
   p,

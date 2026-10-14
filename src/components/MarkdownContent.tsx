@@ -2,6 +2,7 @@
  * Renders Markdown body with GFM, syntax-highlighted fenced blocks,
  * a language label from the fence tag, and a Copy control on multiline
  * `pre` blocks (not inline code). Copy fades in on hover via CSS.
+ * Headings get stable fragment ids via {@link rehypeUniqueHeadingIds}.
  */
 import { useRef, useState, type ComponentPropsWithoutRef } from "react";
 import ReactMarkdown from "react-markdown";
@@ -9,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import type { Components } from "react-markdown";
 import { getCodeLanguage, getLanguageLabel } from "../data/codeLanguage";
+import { rehypeUniqueHeadingIds } from "../data/headingId";
 
 type MarkdownContentProps = {
   content: string; /** Markdown body only (no frontmatter). */
@@ -81,7 +83,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
     <div className="blog-prose">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[rehypeHighlight, rehypeUniqueHeadingIds]}
         components={components}
       >
         {content}

@@ -1,5 +1,8 @@
 // Blog index and post chrome (prose body is in _blog-prose.scss).
 
+@use "../variables" as *;
+@use "../mixins/breakpoints" as *;
+
 .blog {
   padding-block: 2rem 3rem;
 }
@@ -66,6 +69,141 @@
 
 .blog-post__title {
   margin-bottom: 0.5rem;
+}
+
+// Prose + TOC: stacked below lg; side rail at lg+.
+.blog-post__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  @include breakpoint(lg) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(11rem, 14rem);
+    column-gap: 2rem;
+    align-items: start;
+  }
+}
+
+.blog-post__body {
+  min-width: 0;
+
+  @include breakpoint(lg) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.blog-post__toc {
+  font-size: 0.9rem;
+}
+
+.blog-post__toc--collapsible {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.35rem;
+  background: var(--color-surface-muted);
+
+  @include breakpoint(lg) {
+    display: none;
+  }
+}
+
+.blog-post__toc--rail {
+  display: none;
+
+  @include breakpoint(lg) {
+    display: block;
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: calc(#{$nav-height} + 1rem);
+    max-height: calc(100vh - #{$nav-height} - 2rem);
+    overflow: auto;
+  }
+}
+
+.blog-post__toc-summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+}
+
+.blog-post__toc-title {
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.blog-post__toc-list {
+  list-style: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  .blog-post__toc--rail & {
+    margin-top: 0;
+  }
+}
+
+.blog-post__toc-link {
+  display: block;
+  padding: 0.2rem 0.35rem 0.2rem 0.55rem;
+  border-left: 2px solid transparent;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    color: var(--color-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    color: var(--color-text);
+    font-weight: 700;
+    border-left-color: var(--color-secondary);
+  }
+}
+
+// Floating back-to-top (clears hash; no top fragment).
+.scroll-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 50;
+  appearance: none;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 12%);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-secondary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
 }
 
 .blog__filters {

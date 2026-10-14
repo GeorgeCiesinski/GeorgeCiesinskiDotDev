@@ -17,6 +17,7 @@ import {
   type TagSortMode,
 } from "../data/posts";
 import { VISIBLE_TAG_COUNT, getHybridTagLists } from "../data/tagFilter";
+import type { BlogListLocationState } from "../types/blogNavigation";
 
 /** Blog index with year filter, hybrid tag filter, search, and pagination. */
 export function BlogIndex() {
@@ -290,7 +291,15 @@ export function BlogIndex() {
         <ul className="blog__list">
           {items.map((item) => (
             <li key={item.slug} className="blog__item">
-              <Link className="blog__item-link" to={`/blog/${item.slug}`}>
+              <Link
+                className="blog__item-link"
+                to={`/blog/${item.slug}`}
+                state={
+                  {
+                    blogSearch: searchParams.toString(),
+                  } satisfies BlogListLocationState
+                }
+              >
                 <h2 className="blog__item-title">{item.title}</h2>
               </Link>
               <time className="blog__item-date" dateTime={item.date}>
