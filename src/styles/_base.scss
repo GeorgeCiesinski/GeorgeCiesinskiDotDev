@@ -1,6 +1,31 @@
 @use "fonts" as *;
 @use "variables" as *;
 
+// Themed scrollbars site-wide (page + overflow regions).
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) var(--color-surface-muted);
+}
+
+*::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-surface-muted);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 999px;
+
+  &:hover {
+    background: var(--color-primary);
+  }
+}
+
 body {
   margin: 0;
   font-family: $font-sans;

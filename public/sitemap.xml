@@ -7,15 +7,23 @@
     <loc>https://georgeciesinski.dev/blog</loc>
   </url>
   <url>
+    <loc>https://georgeciesinski.dev/blog/2026-10-08-useState</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2026-10-07-React-Hooks</loc>
+    <lastmod>2026-10-07</lastmod>
+  </url>
+  <url>
     <loc>https://georgeciesinski.dev/blog/2026-10-02-BEM-Naming-Convention</loc>
     <lastmod>2026-10-02</lastmod>
   </url>
   <url>
-    <loc>https://georgeciesinski.dev/blog/2024-10-01-typography-line-length</loc>
+    <loc>https://georgeciesinski.dev/blog/2026-10-01-leetcode-1-two-sum</loc>
     <lastmod>2026-10-01</lastmod>
   </url>
   <url>
-    <loc>https://georgeciesinski.dev/blog/2026-10-01-leetcode-1-two-sum</loc>
+    <loc>https://georgeciesinski.dev/blog/2026-10-01-typography-line-length</loc>
     <lastmod>2026-10-01</lastmod>
   </url>
   <url>
@@ -37,6 +45,22 @@
   <url>
     <loc>https://georgeciesinski.dev/blog/2024-05-26-add-path</loc>
     <lastmod>2024-05-26</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2024-03-07-essential-sql-statements-3</loc>
+    <lastmod>2024-03-07</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2024-03-05-essential-sql-statements-2</loc>
+    <lastmod>2024-03-05</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2024-03-04-essential-sql-statements-1</loc>
+    <lastmod>2024-03-04</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2024-03-03-basic-sql</loc>
+    <lastmod>2024-03-03</lastmod>
   </url>
   <url>
     <loc>https://georgeciesinski.dev/projects/galesage</loc>
