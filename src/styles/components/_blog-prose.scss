@@ -39,8 +39,15 @@
     margin: 0 0 1rem;
   }
 
+  // Underline so in-text links are not color-only (WCAG link-in-text-block).
   a {
     color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+
+    &:hover {
+      color: var(--color-primary);
+    }
   }
 
   ul,
