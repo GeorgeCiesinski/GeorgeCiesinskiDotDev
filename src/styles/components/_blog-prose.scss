@@ -1,5 +1,6 @@
 // Long-form Markdown body for blog posts.
 
+@use "../variables" as *;
 @use "../mixins/breakpoints" as *;
 
 .blog-prose {
@@ -19,6 +20,16 @@
     color: var(--color-text);
   }
 
+  // Clear sticky nav when jumping to #fragments from the TOC.
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    scroll-margin-top: calc(#{$nav-height} + 0.5rem);
+  }
+
   p,
   ul,
   ol,
@@ -28,8 +39,15 @@
     margin: 0 0 1rem;
   }
 
+  // Underline so in-text links are not color-only (WCAG link-in-text-block).
   a {
     color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+
+    &:hover {
+      color: var(--color-primary);
+    }
   }
 
   ul,
