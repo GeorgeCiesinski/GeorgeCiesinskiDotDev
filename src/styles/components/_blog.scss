@@ -68,9 +68,22 @@
   margin-bottom: 0.5rem;
 }
 
+.blog__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.75rem;
+}
+
 .blog__year-toolbar,
 .blog__tag-toolbar {
-  margin-bottom: 1.75rem;
+  margin-bottom: 0;
+}
+
+.blog__results-count {
+  margin: 0 0 0.85rem;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
 }
 
 .blog__tag-sort {

@@ -58,6 +58,12 @@ export function BlogIndex() {
       : byYear;
 
   const filtered = searchPosts(byTag, activeQuery);
+  const totalPosts = getAllPosts().length;
+  const matchCount = filtered.length;
+  const hasFilter = Boolean(activeQuery || activeTag || activeYear);
+  const resultsLabel = hasFilter
+    ? `${matchCount} of ${totalPosts} posts`
+    : `${matchCount} ${matchCount === 1 ? "post" : "posts"}`;
 
   const { page, totalPages, items } = paginatePosts(
     filtered,
@@ -144,98 +150,102 @@ export function BlogIndex() {
         />
       </label>
 
-      {allTags.length > 0 ? (
-        <div className="blog__tag-toolbar">
-          <div className="blog__tag-sort" role="group" aria-label="Sort tags">
-            <button
-              type="button"
-              className={`blog__tag-sort-btn${tagSort === "usage" ? " blog__tag-sort-btn--active" : ""}`}
-              onClick={() => changeTagSort("usage")}
-              aria-pressed={tagSort === "usage"}
-            >
-              Most used
-            </button>
-            <button
-              type="button"
-              className={`blog__tag-sort-btn${tagSort === "alpha" ? " blog__tag-sort-btn--active" : ""}`}
-              onClick={() => changeTagSort("alpha")}
-              aria-pressed={tagSort === "alpha"}
-            >
-              A–Z
-            </button>
-          </div>
+      {allTags.length > 0 || allYears.length > 0 ? (
+        <div className="blog__filters">
+          {allTags.length > 0 ? (
+            <div className="blog__tag-toolbar">
+              <div className="blog__tag-sort" role="group" aria-label="Sort tags">
+                <button
+                  type="button"
+                  className={`blog__tag-sort-btn${tagSort === "usage" ? " blog__tag-sort-btn--active" : ""}`}
+                  onClick={() => changeTagSort("usage")}
+                  aria-pressed={tagSort === "usage"}
+                >
+                  Most used
+                </button>
+                <button
+                  type="button"
+                  className={`blog__tag-sort-btn${tagSort === "alpha" ? " blog__tag-sort-btn--active" : ""}`}
+                  onClick={() => changeTagSort("alpha")}
+                  aria-pressed={tagSort === "alpha"}
+                >
+                  A–Z
+                </button>
+              </div>
 
-          <div
-            className="blog__pill-filter"
-            role="group"
-            aria-label="Filter by tag"
-          >
-            <button
-              type="button"
-              className={`blog__pill${!activeTag ? " blog__pill--active" : ""}`}
-              onClick={() => selectTag(null)}
-            >
-              All
-            </button>
-            {visibleTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                className={`blog__pill${activeTag === tag ? " blog__pill--active" : ""}`}
-                onClick={() => selectTag(tag)}
-                aria-pressed={activeTag === tag}
+              <div
+                className="blog__pill-filter"
+                role="group"
+                aria-label="Filter by tag"
               >
-                {tag}
-              </button>
-            ))}
-            {hiddenCount > 0 ? (
-              <button
-                type="button"
-                className="blog__pill blog__pill--more"
-                onClick={() => setTagsExpanded(true)}
-              >
-                More ({hiddenCount})
-              </button>
-            ) : null}
-            {tagsExpanded && allTags.length > VISIBLE_TAG_COUNT ? (
-              <button
-                type="button"
-                className="blog__pill blog__pill--more"
-                onClick={() => setTagsExpanded(false)}
-              >
-                Less
-              </button>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
+                <button
+                  type="button"
+                  className={`blog__pill${!activeTag ? " blog__pill--active" : ""}`}
+                  onClick={() => selectTag(null)}
+                >
+                  All
+                </button>
+                {visibleTags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className={`blog__pill${activeTag === tag ? " blog__pill--active" : ""}`}
+                    onClick={() => selectTag(tag)}
+                    aria-pressed={activeTag === tag}
+                  >
+                    {tag}
+                  </button>
+                ))}
+                {hiddenCount > 0 ? (
+                  <button
+                    type="button"
+                    className="blog__pill blog__pill--more"
+                    onClick={() => setTagsExpanded(true)}
+                  >
+                    More ({hiddenCount})
+                  </button>
+                ) : null}
+                {tagsExpanded && allTags.length > VISIBLE_TAG_COUNT ? (
+                  <button
+                    type="button"
+                    className="blog__pill blog__pill--more"
+                    onClick={() => setTagsExpanded(false)}
+                  >
+                    Less
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
 
-      {allYears.length > 0 ? (
-        <div className="blog__year-toolbar">
-          <div
-            className="blog__pill-filter"
-            role="group"
-            aria-label="Filter by year"
-          >
-            <button
-              type="button"
-              className={`blog__pill${!activeYear ? " blog__pill--active" : ""}`}
-              onClick={() => selectYear(null)}
-            >
-              All
-            </button>
-            {allYears.map((year) => (
-              <button
-                key={year}
-                type="button"
-                className={`blog__pill${activeYear === year ? " blog__pill--active" : ""}`}
-                onClick={() => selectYear(year)}
-                aria-pressed={activeYear === year}
+          {allYears.length > 0 ? (
+            <div className="blog__year-toolbar">
+              <div
+                className="blog__pill-filter"
+                role="group"
+                aria-label="Filter by year"
               >
-                {year} ({yearCounts.get(year) ?? 0})
-              </button>
-            ))}
-          </div>
+                <button
+                  type="button"
+                  className={`blog__pill${!activeYear ? " blog__pill--active" : ""}`}
+                  onClick={() => selectYear(null)}
+                >
+                  All
+                </button>
+                {allYears.map((year) => (
+                  <button
+                    key={year}
+                    type="button"
+                    className={`blog__pill${activeYear === year ? " blog__pill--active" : ""}`}
+                    onClick={() => selectYear(year)}
+                    aria-pressed={activeYear === year}
+                  >
+                    {year} ({yearCounts.get(year) ?? 0})
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
@@ -264,6 +274,10 @@ export function BlogIndex() {
           </button>
         </p>
       ) : null}
+
+      <p className="blog__results-count" aria-live="polite">
+        {resultsLabel}
+      </p>
 
       {filtered.length === 0 ? (
         <p>
