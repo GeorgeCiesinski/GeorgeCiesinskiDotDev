@@ -102,17 +102,22 @@ export function BlogIndex() {
     setDraftQuery(activeQuery);
   }
 
-  // Debounce draft → URL so typing doesn't spam history; resets page to 1.
+  // Debounce draft → URL so typing doesn't spam history.
+  // Only touch params when `q` actually changes (then reset page to 1).
+  // Skipping no-ops avoids clearing `?page=` when this effect re-runs after
+  // pagination (e.g. `setSearchParams` identity changes).
   useEffect(() => {
     const id = window.setTimeout(() => {
       setSearchParams(
         (prev) => {
-          const next = new URLSearchParams(prev);
           const trimmed = draftQuery.trim();
+          const currentQ = prev.get("q") ?? "";
+          if (trimmed === currentQ) return prev;
+
+          const next = new URLSearchParams(prev);
           if (trimmed) next.set("q", trimmed);
           else next.delete("q");
           next.delete("page");
-          if (next.toString() === prev.toString()) return prev;
           return next;
         },
         { replace: true },
@@ -138,35 +143,6 @@ export function BlogIndex() {
           aria-label="Search posts"
         />
       </label>
-
-      {allYears.length > 0 ? (
-        <div className="blog__year-toolbar">
-          <div
-            className="blog__pill-filter"
-            role="group"
-            aria-label="Filter by year"
-          >
-            <button
-              type="button"
-              className={`blog__pill${!activeYear ? " blog__pill--active" : ""}`}
-              onClick={() => selectYear(null)}
-            >
-              All
-            </button>
-            {allYears.map((year) => (
-              <button
-                key={year}
-                type="button"
-                className={`blog__pill${activeYear === year ? " blog__pill--active" : ""}`}
-                onClick={() => selectYear(year)}
-                aria-pressed={activeYear === year}
-              >
-                {year} ({yearCounts.get(year) ?? 0})
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
 
       {allTags.length > 0 ? (
         <div className="blog__tag-toolbar">
@@ -230,6 +206,35 @@ export function BlogIndex() {
                 Less
               </button>
             ) : null}
+          </div>
+        </div>
+      ) : null}
+
+      {allYears.length > 0 ? (
+        <div className="blog__year-toolbar">
+          <div
+            className="blog__pill-filter"
+            role="group"
+            aria-label="Filter by year"
+          >
+            <button
+              type="button"
+              className={`blog__pill${!activeYear ? " blog__pill--active" : ""}`}
+              onClick={() => selectYear(null)}
+            >
+              All
+            </button>
+            {allYears.map((year) => (
+              <button
+                key={year}
+                type="button"
+                className={`blog__pill${activeYear === year ? " blog__pill--active" : ""}`}
+                onClick={() => selectYear(year)}
+                aria-pressed={activeYear === year}
+              >
+                {year} ({yearCounts.get(year) ?? 0})
+              </button>
+            ))}
           </div>
         </div>
       ) : null}
