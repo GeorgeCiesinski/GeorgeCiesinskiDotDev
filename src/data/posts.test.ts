@@ -9,9 +9,12 @@ import {
   POSTS_PER_PAGE,
   getAllPosts,
   getAllTags,
+  getAllYears,
   getPostBySlug,
   getPostsByTag,
+  getPostsByYear,
   getTagCounts,
+  getYearCounts,
   paginatePosts,
   postMatchesQuery,
   searchPosts,
@@ -165,5 +168,49 @@ describe("catalog helpers (live content invariants)", () => {
     const tagged = getPostsByTag(byUsage[0]!);
     expect(tagged.length).toBeGreaterThan(0);
     expect(tagged.every((p) => p.tags.includes(byUsage[0]!))).toBe(true);
+  });
+
+  it("collects unique years newest-first with accurate counts", () => {
+    const counts = getYearCounts();
+    const years = getAllYears();
+
+    expect(years.length).toBeGreaterThan(0);  // Years should be non-empty
+    expect(new Set(years).size).toBe(years.length);  // Should be unique
+    
+    // Checks if each year is ≥ the next string (newer year first)
+    for (let i = 1; i < years.length; i++) {
+      expect(
+        years[i - 1]!.localeCompare(years[i]!),
+      ).toBeGreaterThan(0);
+    }
+
+    // Checks if counts match the filter
+    for (const year of years) {
+      expect(counts.get(year)).toBe(getPostsByYear(year).length);
+    }
+
+    // Checks that keys in map are exactly those years
+    expect([...counts.keys()].sort().reverse()).toEqual(years);
+  });
+
+  it("filters posts by year", () => {
+    const years = getAllYears();
+    const year = years[0]!;
+
+    // Year has some posts
+    const filtered = getPostsByYear(year);
+    expect(filtered.length).toBeGreaterThan(0);
+
+    // Every post is in this year
+    expect(filtered.every((p) => p.date.slice(0, 4) === year)).toBe(true);
+
+    expect(getPostsByYear("1999")).toEqual([]);
+
+    // Order matches catalog order (newest-first in that year)
+    for (let i = 1; i < filtered.length; i++) {
+      expect(
+        filtered[i - 1]!.date.localeCompare(filtered[i]!.date),
+      ).toBeGreaterThanOrEqual(0);
+    }
   });
 });
