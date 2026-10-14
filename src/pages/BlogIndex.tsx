@@ -1,27 +1,30 @@
 /**
- * Blog index: published posts newest-first, with optional ?tag=, ?q= search,
- * and ?page= pagination (10 per page). Tag filter is hybrid (top N + More)
- * and sortable by usage (default) or alphabetically.
+ * Blog index: published posts newest-first, with optional ?year=, ?tag=,
+ * ?q= search, and ?page= pagination (10 per page). Tag filter is hybrid
+ * (top N + More) and sortable by usage (default) or alphabetically.
  */
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import {
   getAllPosts,
+  getYearCounts,
   getAllTags,
-  getPostsByTag,
+  getAllYears,
+  getPostsByYear,
   searchPosts,
   paginatePosts,
   type TagSortMode,
 } from "../data/posts";
 import { VISIBLE_TAG_COUNT, getHybridTagLists } from "../data/tagFilter";
 
-/** Blog index with hybrid tag filter (usage/alpha sort), search, and pagination. */
+/** Blog index with year filter, hybrid tag filter, search, and pagination. */
 export function BlogIndex() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTag = searchParams.get("tag");
   /** URL `q` — source of truth for filtering posts. */
   const activeQuery = searchParams.get("q") ?? "";
+  const activeYear = searchParams.get("year");
   /** Tag list order: most-used first by default. */
   const [tagSort, setTagSort] = useState<TagSortMode>("usage");
   /** Whether the full tag list is expanded past the hybrid limit. */
@@ -40,20 +43,37 @@ export function BlogIndex() {
     tagsExpanded,
   );
 
-  // Pipeline: tag → search → paginate
-  const base =
-    activeTag && allTags.includes(activeTag)
-      ? getPostsByTag(activeTag)
+  const allYears = getAllYears();
+  const yearCounts = getYearCounts();
+
+  // Pipeline: year → tag → search → paginate
+  const byYear =
+    activeYear && allYears.includes(activeYear)
+      ? getPostsByYear(activeYear)
       : getAllPosts();
 
-  const filtered = searchPosts(base, activeQuery);
+  const byTag =
+    activeTag && allTags.includes(activeTag)
+      ? byYear.filter((p) => p.tags.includes(activeTag))
+      : byYear;
+
+  const filtered = searchPosts(byTag, activeQuery);
 
   const { page, totalPages, items } = paginatePosts(
     filtered,
     Number(searchParams.get("page")) || 1,
   );
 
-  /** Sets or clears `tag` and resets `page` to 1 (preserves `q`). */
+  /** Sets or clears `year` and resets `page` to 1 (preserves `tag` and `q`). */
+  const selectYear = (year: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (year === null) next.delete("year");
+    else next.set("year", year);
+    next.delete("page");
+    setSearchParams(next, { replace: true });
+  };
+
+  /** Sets or clears `tag` and resets `page` to 1 (preserves `year` and `q`). */
   const selectTag = (tag: string | null) => {
     const next = new URLSearchParams(searchParams);
     if (tag === null) next.delete("tag");
@@ -62,7 +82,7 @@ export function BlogIndex() {
     setSearchParams(next, { replace: true });
   };
 
-  /** Updates `page` in the URL (preserves `tag` and `q`). */
+  /** Updates `page` in the URL (preserves `year`, `tag` and `q`). */
   const goToPage = (nextPage: number) => {
     const next = new URLSearchParams(searchParams);
     if (nextPage <= 1) next.delete("page");
@@ -119,6 +139,35 @@ export function BlogIndex() {
         />
       </label>
 
+      {allYears.length > 0 ? (
+        <div className="blog__year-toolbar">
+          <div
+            className="blog__pill-filter"
+            role="group"
+            aria-label="Filter by year"
+          >
+            <button
+              type="button"
+              className={`blog__pill${!activeYear ? " blog__pill--active" : ""}`}
+              onClick={() => selectYear(null)}
+            >
+              All
+            </button>
+            {allYears.map((year) => (
+              <button
+                key={year}
+                type="button"
+                className={`blog__pill${activeYear === year ? " blog__pill--active" : ""}`}
+                onClick={() => selectYear(year)}
+                aria-pressed={activeYear === year}
+              >
+                {year} ({yearCounts.get(year) ?? 0})
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {allTags.length > 0 ? (
         <div className="blog__tag-toolbar">
           <div className="blog__tag-sort" role="group" aria-label="Sort tags">
@@ -141,13 +190,13 @@ export function BlogIndex() {
           </div>
 
           <div
-            className="blog__tag-filter"
+            className="blog__pill-filter"
             role="group"
             aria-label="Filter by tag"
           >
             <button
               type="button"
-              className={`blog__tag-filter-btn${!activeTag ? " blog__tag-filter-btn--active" : ""}`}
+              className={`blog__pill${!activeTag ? " blog__pill--active" : ""}`}
               onClick={() => selectTag(null)}
             >
               All
@@ -156,7 +205,7 @@ export function BlogIndex() {
               <button
                 key={tag}
                 type="button"
-                className={`blog__tag-filter-btn${activeTag === tag ? " blog__tag-filter-btn--active" : ""}`}
+                className={`blog__pill${activeTag === tag ? " blog__pill--active" : ""}`}
                 onClick={() => selectTag(tag)}
                 aria-pressed={activeTag === tag}
               >
@@ -166,7 +215,7 @@ export function BlogIndex() {
             {hiddenCount > 0 ? (
               <button
                 type="button"
-                className="blog__tag-filter-btn blog__tag-filter-btn--more"
+                className="blog__pill blog__pill--more"
                 onClick={() => setTagsExpanded(true)}
               >
                 More ({hiddenCount})
@@ -175,7 +224,7 @@ export function BlogIndex() {
             {tagsExpanded && allTags.length > VISIBLE_TAG_COUNT ? (
               <button
                 type="button"
-                className="blog__tag-filter-btn blog__tag-filter-btn--more"
+                className="blog__pill blog__pill--more"
                 onClick={() => setTagsExpanded(false)}
               >
                 Less
@@ -198,9 +247,22 @@ export function BlogIndex() {
         </p>
       ) : null}
 
+      {activeYear && !allYears.includes(activeYear) ? (
+        <p className="blog__filter-empty">
+          Unknown year "{activeYear}".{" "}
+          <button
+            type="button"
+            className="blog__clear-link"
+            onClick={() => selectYear(null)}
+          >
+            Show all posts
+          </button>
+        </p>
+      ) : null}
+
       {filtered.length === 0 ? (
         <p>
-          {activeQuery || activeTag
+          {activeQuery || activeTag || activeYear
             ? "No posts match this search"
             : "No posts yet"}
           .
@@ -220,6 +282,7 @@ export function BlogIndex() {
                 {item.tags.map((tag) => {
                   const tagParams = new URLSearchParams();
                   tagParams.set("tag", tag);
+                  if (activeYear) tagParams.set("year", activeYear);
                   if (activeQuery) tagParams.set("q", activeQuery);
                   return (
                     <Link
