@@ -58,15 +58,26 @@ export function BlogPost() {
           {post.date}
         </time>
         <div className="blog__tags">
-          {post.tags.map((tag) => (
-            <Link
-              key={tag}
-              className="badge badge--secondary blog__tag-badge"
-              to={`/blog?tag=${encodeURIComponent(tag)}`}
-            >
-              {tag}
-            </Link>
-          ))}
+          {post.tags.map((tag) => {
+            const tagParams = new URLSearchParams();
+            tagParams.set("tag", tag);
+            if (listState?.blogSearch) {
+              const prev = new URLSearchParams(listState.blogSearch);
+              const year = prev.get("year");
+              const q = prev.get("q");
+              if (year) tagParams.set("year", year);
+              if (q) tagParams.set("q", q);
+            }
+            return (
+              <Link
+                key={tag}
+                className="badge badge--secondary blog__tag-badge"
+                to={`/blog?${tagParams.toString()}`}
+              >
+                {tag}
+              </Link>
+            );
+          })}
         </div>
       </header>
 

@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /** Show the button after scrolling past this many pixels. */
 const SHOW_AFTER_PX = 400;
@@ -14,6 +15,8 @@ const SHOW_AFTER_PX = 400;
  */
 export function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const update = () => {
@@ -33,10 +36,16 @@ export function ScrollToTopButton() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    // Drop section hash without adding a history entry or a top fragment.
-    if (window.location.hash) {
-      const path = `${window.location.pathname}${window.location.search}`;
-      window.history.replaceState(null, "", path);
+    // Clear hash via the router so location.state (e.g. blog back-filters) is kept.
+    if (location.hash) {
+      navigate(
+        {
+          pathname: location.pathname,
+          search: location.search,
+          hash: "",
+        },
+        { replace: true, state: location.state },
+      );
     }
 
     window.scrollTo({

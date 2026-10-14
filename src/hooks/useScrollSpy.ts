@@ -2,20 +2,64 @@
  * Generic scroll-spy: tracks which element id is “current” under the sticky nav.
  * Same algorithm idea as the home Navbar spy, but accepts any ordered id list.
  *
- * Offset matches blog `h2` scroll-margin (`5rem` nav + `0.5rem`) plus slack so
- * hash jumps land past the threshold. Near the page bottom, the last id wins
- * so short trailing sections (e.g. Sources) can still become active.
+ * Offset matches blog heading scroll-margin (`5rem` nav + `0.5rem`) plus slack so
+ * hash jumps land past the threshold. Near the page bottom (after the user has
+ * scrolled), the last id wins so short trailing sections can still become active.
  */
 
 import { useEffect, useState } from "react";
 
 /** Pixels from document end that count as “near bottom”. */
-const NEAR_BOTTOM_PX = 100;
+export const SCROLL_SPY_NEAR_BOTTOM_PX = 100;
+
+/**
+ * Pure scroll-spy picker (exported for unit tests).
+ *
+ * @param idList - Element ids in document order.
+ * @param tops - Map of id → `getBoundingClientRect().top`.
+ * @param offset - Y threshold under the sticky nav (plus slack).
+ * @param scrollY - `window.scrollY`.
+ * @param distanceFromBottom - `scrollHeight - (scrollY + innerHeight)`.
+ * @param nearBottomPx - Near-bottom threshold (default {@link SCROLL_SPY_NEAR_BOTTOM_PX}).
+ * @returns Active id, or `null` when `idList` is empty.
+ */
+export function pickScrollSpyId(
+  idList: readonly string[],
+  tops: ReadonlyMap<string, number>,
+  offset: number,
+  scrollY: number,
+  distanceFromBottom: number,
+  nearBottomPx: number = SCROLL_SPY_NEAR_BOTTOM_PX,
+): string | null {
+  if (idList.length === 0) return null;
+
+  let current: string | null = null;
+
+  for (const id of idList) {
+    const top = tops.get(id);
+    if (top === undefined) continue;
+    if (top <= offset) {
+      current = id;
+    }
+  }
+
+  if (current === null) {
+    current = idList[0] ?? null;
+  }
+
+  // Require scrollY > 0 so short pages that fit in the viewport do not
+  // always force the last heading while still at the top.
+  if (scrollY > 0 && distanceFromBottom <= nearBottomPx) {
+    current = idList[idList.length - 1] ?? current;
+  }
+
+  return current;
+}
 
 /**
  * Returns the id of the last listed element whose top has crossed under the
  * sticky nav offset. Defaults to the first id when none have crossed yet.
- * Forces the last id when scrolled near the document bottom.
+ * Forces the last id when scrolled near the document bottom (and not at y=0).
  *
  * @param ids - Element ids in document order (e.g. heading fragment ids).
  * @returns Active id, or `null` when `ids` is empty.
@@ -33,33 +77,30 @@ export function useScrollSpy(ids: readonly string[]): string | null {
         return;
       }
 
-      // Match `.blog-prose h2 { scroll-margin-top: calc(5rem + 0.5rem) }` plus
+      // Match `.blog-prose h1–h6 { scroll-margin-top: calc(5rem + 0.5rem) }` plus
       // a little slack so a heading parked by a #fragment counts as active.
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
       const offset = rem * 5.5 + 16;
-      let current: string | null = null;
+      const tops = new Map<string, number>();
 
       for (const id of idList) {
         const el = document.getElementById(id);
-        if (!el) continue;
-        if (el.getBoundingClientRect().top <= offset) {
-          current = id;
-        }
+        if (el) tops.set(id, el.getBoundingClientRect().top);
       }
 
-      if (current === null) {
-        current = idList[0] ?? null;
-      }
+      const distanceFromBottom =
+        document.documentElement.scrollHeight -
+        (window.scrollY + window.innerHeight);
 
-      // Short final sections often cannot scroll their heading up to `offset`.
-      const nearBottom =
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - NEAR_BOTTOM_PX;
-      if (nearBottom) {
-        current = idList[idList.length - 1] ?? current;
-      }
-
-      setActiveId(current);
+      setActiveId(
+        pickScrollSpyId(
+          idList,
+          tops,
+          offset,
+          window.scrollY,
+          distanceFromBottom,
+        ),
+      );
     };
 
     // Defer initial read so setState is not synchronous in the effect body.

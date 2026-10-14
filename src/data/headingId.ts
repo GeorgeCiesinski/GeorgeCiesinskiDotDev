@@ -80,7 +80,12 @@ export function extractTocHeadings(markdown: string): TocHeading[] {
   }));
 }
 
-/** Plain text from a hast element (enough for heading labels). */
+/**
+ * Collects plain text from a hast element tree (enough for heading labels).
+ *
+ * @param node - Hast element (e.g. an `h2`).
+ * @returns Concatenated text node values.
+ */
 function hastText(node: HastElement): string {
   let out = "";
   for (const child of node.children) {

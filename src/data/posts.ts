@@ -1,8 +1,8 @@
 /**
  * Blog catalog: load Markdown from `content/blog/<YYYY>/` via Vite
  * `import.meta.glob`, parse YAML frontmatter with the `yaml` package, and
- * expose list/lookup/search/pagination helpers plus tag counts and
- * usage-or-alpha tag sorting for the blog index filter.
+ * expose list/lookup/search/pagination helpers plus tag/year counts,
+ * year filters, and usage-or-alpha tag sorting for the blog index.
  */
 
 import { parse as parseYaml } from "yaml";
@@ -258,14 +258,14 @@ export const POSTS_PER_PAGE = 10;
 /**
  * Slices a post list into a page window.
  *
- * @param posts - Filtered posts (tag + search already applied).
- * @param page - 1-based page from the URL (invalid values are clamped).
+ * @param posts - Filtered posts (year + tag + search already applied).
+ * @param page - 1-based page from the URL (non-finite / fractional values are floored and clamped).
  * @returns Safe page index, total page count, and the slice for that page.
  */
 export function paginatePosts(posts: Post[], page: number) {
   const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
-  // Clamp page to ensure it is a valid page number
-  const safePage = Math.min(Math.max(1, page), totalPages);
+  const requested = Number.isFinite(page) ? Math.floor(page) : 1;
+  const safePage = Math.min(Math.max(1, requested), totalPages);
   const start = (safePage - 1) * POSTS_PER_PAGE;
 
   return {

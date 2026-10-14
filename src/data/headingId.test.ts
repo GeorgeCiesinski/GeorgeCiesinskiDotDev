@@ -23,6 +23,10 @@ describe("slugifyHeading", () => {
     expect(slugifyHeading("***")).toBe("section");
     expect(slugifyHeading("   ")).toBe("section");
   });
+
+  it("strips combining accents via NFKD", () => {
+    expect(slugifyHeading("Café Résumé")).toBe("cafe-resume");
+  });
 });
 
 describe("uniqueHeadingIds", () => {

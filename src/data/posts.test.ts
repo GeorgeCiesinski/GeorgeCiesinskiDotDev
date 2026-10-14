@@ -110,6 +110,12 @@ describe("paginatePosts", () => {
     expect(paginatePosts(posts, 99).page).toBe(3);
   });
 
+  it("floors fractional pages and treats non-finite as page 1", () => {
+    expect(paginatePosts(posts, 2.7).page).toBe(2);
+    expect(paginatePosts(posts, Number.NaN).page).toBe(1);
+    expect(paginatePosts(posts, Number.POSITIVE_INFINITY).page).toBe(1);
+  });
+
   it("keeps a single empty page when there are no posts", () => {
     const result = paginatePosts([], 1);
     expect(result.page).toBe(1);

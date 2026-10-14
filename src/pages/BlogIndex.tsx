@@ -47,14 +47,19 @@ export function BlogIndex() {
   const allYears = getAllYears();
   const yearCounts = getYearCounts();
 
-  // Pipeline: year → tag → search → paginate
-  const byYear =
-    activeYear && allYears.includes(activeYear)
+  const unknownYear = Boolean(activeYear && !allYears.includes(activeYear));
+  const unknownTag = Boolean(activeTag && !allTags.includes(activeTag));
+
+  // Pipeline: year → tag → search → paginate (unknown year/tag → no matches)
+  const byYear = unknownYear
+    ? []
+    : activeYear
       ? getPostsByYear(activeYear)
       : getAllPosts();
 
-  const byTag =
-    activeTag && allTags.includes(activeTag)
+  const byTag = unknownTag
+    ? []
+    : activeTag
       ? byYear.filter((p) => p.tags.includes(activeTag))
       : byYear;
 
@@ -62,13 +67,15 @@ export function BlogIndex() {
   const totalPosts = getAllPosts().length;
   const matchCount = filtered.length;
   const hasFilter = Boolean(activeQuery || activeTag || activeYear);
+  const postWord = matchCount === 1 ? "post" : "posts";
   const resultsLabel = hasFilter
-    ? `${matchCount} of ${totalPosts} posts`
-    : `${matchCount} ${matchCount === 1 ? "post" : "posts"}`;
+    ? `${matchCount} of ${totalPosts} ${postWord}`
+    : `${matchCount} ${postWord}`;
 
+  const rawPage = Number(searchParams.get("page"));
   const { page, totalPages, items } = paginatePosts(
     filtered,
-    Number(searchParams.get("page")) || 1,
+    Number.isFinite(rawPage) ? rawPage : 1,
   );
 
   /** Sets or clears `year` and resets `page` to 1 (preserves `tag` and `q`). */
