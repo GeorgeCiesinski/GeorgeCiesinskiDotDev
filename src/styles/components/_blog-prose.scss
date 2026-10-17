@@ -167,7 +167,9 @@
       z-index: 1;
       appearance: none;
       border: 1px solid var(--color-border);
-      background: var(--color-surface);
+      // Not --color-surface: in light mode that token is brand blue, and
+      // --color-text on it fails WCAG AA (~2.7:1).
+      background: var(--color-surface-secondary);
       color: var(--color-text);
       padding: 0.25rem 0.55rem;
       border-radius: 0.25rem;

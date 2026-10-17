@@ -16,10 +16,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
  * @returns Site-root thumbnail path, or `undefined` if none found.
  */
 function firstProjectThumbnail(): string | undefined {
-  const src = fs.readFileSync(
-    path.join(root, "src/data/projects.ts"),
-    "utf8",
-  );
+  const src = fs.readFileSync(path.join(root, "src/data/projects.ts"), "utf8");
   return src.match(/thumbnail:\s*"([^"]+)"/)?.[1];
 }
 

@@ -2,7 +2,14 @@
 title: "Google Lighthouse Audits with AI"
 description: "How I audited this portfolio with Google Lighthouse across pages, themes, and devices—then used Cursor to plan and fix accessibility, SEO, and mobile performance issues."
 date: "2026-10-14"
-tags: ["google lighthouse", "accessibility", "seo", "performance", "artificial intelligence"]
+tags:
+  [
+    "google lighthouse",
+    "accessibility",
+    "seo",
+    "performance",
+    "artificial intelligence",
+  ]
 draft: false
 ---
 
@@ -14,13 +21,13 @@ This post covers how I audited this portfolio with Google Lighthouse, how I orga
 
 [Google Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) is an open-source audit tool for performance, accessibility, SEO, and best practices. You run it against a single page load; it returns category scores and a list of failing elements with selectors you can act on.
 
-As someone who developed enterprise sites in the education sector, the accessibility section is especially useful to me: contrast failures, missing accessible names, incorrect ARIA roles, and small touch targets show up with the exact nodes involved. 
+As someone who developed enterprise sites in the education sector, the accessibility section is especially useful to me: contrast failures, missing accessible names, incorrect ARIA roles, and small touch targets show up with the exact nodes involved.
 
-SEO catches things like a missing or invalid `robots.txt`, or other things that hurt your search engine optimization. 
+SEO catches things like a missing or invalid `robots.txt`, or other things that hurt your search engine optimization.
 
 Performance flags heavy images and LCP problems, which is especially useful to optimize the site for mobile users.
 
-The tool also highlights Best Practices and how closely your site follows them. 
+The tool also highlights Best Practices and how closely your site follows them.
 
 Lighthouse cannot replace manual testing—especially for keyboard flows and complex interactions—but it is a strong first pass.
 
@@ -28,7 +35,7 @@ Lighthouse cannot replace manual testing—especially for keyboard flows and com
 
 I feel like a warning is worth mentioning here. When I initially ran **Google Lighthouse**, it was throwing a bunch of unrelated warnings about apps like **Wappalyzer** which loads its own scripts to see what tech was used to build webpages. This tool is useful for trying to see how a page you like was built, but it increases loading times, and makes your site perform worse when tested locally.
 
-To get an accurate report from **Lighthouse**, it is recommended to either disable extensions, or to test the page in an Incognito window. 
+To get an accurate report from **Lighthouse**, it is recommended to either disable extensions, or to test the page in an Incognito window.
 
 ## Running an audit
 
@@ -52,13 +59,13 @@ Lighthouse only tests the current page. For a thorough pass I treat each of thes
 - Each theme (light and dark)
 - Desktop and mobile
 
-Dark mode can score 100 while light mode fails contrast on the same component. Home can look fine while project carousels and blog tags fail. I especially recommend testing each page template across different themes, desktop, and mobile mode, as problems can be highly specific (for example, light mode may have accessibility bugs with components that appear on a specific page). 
+Dark mode can score 100 while light mode fails contrast on the same component. Home can look fine while project carousels and blog tags fail. I especially recommend testing each page template across different themes, desktop, and mobile mode, as problems can be highly specific (for example, light mode may have accessibility bugs with components that appear on a specific page).
 
 There's a bit of manual work involved. I track items from the report in a GitHub issue where I organize failing sections into related pools. The benefit here is that the AI agent can form a plan to tackle related issues surgically instead of trying to solve Accessibility and SEO in the same pass.
 
 ## Working with Cursor on the findings
 
-I use Cursor both as an IDE and as an agent for planning and edits. While accessibility should always be designed in from the start, accessibility bugs can crop up throughout development. This is where AI can speed things up. AI is good at reading audit text, mapping selectors to components, and formulating a plan to fix the issues. 
+I use Cursor both as an IDE and as an agent for planning and edits. While accessibility should always be designed in from the start, accessibility bugs can crop up throughout development. This is where AI can speed things up. AI is good at reading audit text, mapping selectors to components, and formulating a plan to fix the issues.
 
 What worked for me:
 
@@ -76,8 +83,6 @@ In my case, most accessibility fixes were small: a few lines of JSX for names an
 The fixes below are grouped the same way Lighthouse reports them.
 
 ### Accessibility
-
-
 
 #### Icon-only controls need an accessible name
 
@@ -155,7 +160,7 @@ Project detail pages dropped into the low 80s on accessibility because of the sc
 
 Blog tag chips, active filter pills, and a few other “filled” controls used light text on `--color-secondary`. In light mode that secondary blue (`#4aa3d4`) is a mid tone: it looks lively as a brand accent, but white text on it only reaches about **2.8:1**. The same pairing showed up on carousel previous/next buttons.
 
-I already had `--color-on-primary` for text that sits *on* primary fills. Secondary needed the same idea. Reusing `--color-text-inverse` was tempting, but in light mode inverse is white—exactly the color that fails on secondary. A dedicated token keeps those concerns separate:
+I already had `--color-on-primary` for text that sits _on_ primary fills. Secondary needed the same idea. Reusing `--color-text-inverse` was tempting, but in light mode inverse is white—exactly the color that fails on secondary. A dedicated token keeps those concerns separate:
 
 ```scss
 --color-on-secondary: #1a1a1a;
@@ -183,7 +188,7 @@ The project button now uses distinct visible text and a project-specific label t
 </a>
 ```
 
-A similar collision showed up on the blog index. Tag chips display short words like `css` or `react`, and those strings can also appear in post titles. Visually that is fine; for accessibility it helps if the tag’s accessible name describes the *action* (filter the list) rather than only repeating the word. Visible text stays the tag; `aria-label` clarifies intent:
+A similar collision showed up on the blog index. Tag chips display short words like `css` or `react`, and those strings can also appear in post titles. Visually that is fine; for accessibility it helps if the tag’s accessible name describes the _action_ (filter the list) rather than only repeating the word. Visible text stays the tag; `aria-label` clarifies intent:
 
 ```tsx
 <Link
@@ -195,13 +200,11 @@ A similar collision showed up on the blog index. Tag chips display short words l
 </Link>
 ```
 
-
-
 #### Blog prose links and syntax highlighting
 
 Contrast failures are not limited to buttons and nav. In light mode, in-article links and highlighted string tokens in code blocks both used `--color-secondary` against muted page or `pre` backgrounds. That pairing sat around **2.4:1**—readable if you squint, not AA. Links in the rest of the app already used primary and passed, so the blog prose stylesheet was simply out of sync with the safer token.
 
-Prose links now use `--color-primary` and keep an underline so they are not color-only. For syntax highlighting, strings and attributes needed a color that stays on-brand *and* readable on the code background, so they point at a dedicated theme token instead of raw secondary:
+Prose links now use `--color-primary` and keep an underline so they are not color-only. For syntax highlighting, strings and attributes needed a color that stays on-brand _and_ readable on the code background, so they point at a dedicated theme token instead of raw secondary:
 
 ```scss
 --color-syntax-string: #1c658c; // light — darker teal on muted code panels
@@ -229,15 +232,15 @@ After that, `/robots.txt` is plain text in both local dev and production. The `S
 
 This is a classic SPA footgun: anything that must be a static document (`robots.txt`, `sitemap.xml`, well-known files) has to live in `public/` (or equivalent), or the HTML fallback will silently “succeed” with the wrong content type.
 
-So thankfully, the SEO issues were far more limited than accessibility and easier to fix. Just to be clear, this isn't a full SEO program as I already added SEO to the site in the past. This is just issues I missed when I originally optimized the site. 
+So thankfully, the SEO issues were far more limited than accessibility and easier to fix. Just to be clear, this isn't a full SEO program as I already added SEO to the site in the past. This is just issues I missed when I originally optimized the site.
 
 ### Performance
 
-Mobile Lighthouse on the home page surfaced a second cluster of issues after the accessibility work: LCP timing, layout shift, a third-party request on the critical path, and a large amount of unused JavaScript. On desktop, these issues weren't noticeable, but most users access websites from their mobile devices where bandwith and speed are more noticeable. 
+Mobile Lighthouse on the home page surfaced a second cluster of issues after the accessibility work: LCP timing, layout shift, a third-party request on the critical path, and a large amount of unused JavaScript. On desktop, these issues weren't noticeable, but most users access websites from their mobile devices where bandwith and speed are more noticeable.
 
 I treated those as their own plan—same Cursor loop (paste findings → plan → review → implement → re-audit), separate from the a11y token PRs.
 
-**Note:** Keep in mind, chasing a perfect performance score of 100 can have diminishing returns depending on the project. It's not super important to try to get this score maxed out, as long as you optimize for mobile and test the performance to see if it is acceptable. 
+**Note:** Keep in mind, chasing a perfect performance score of 100 can have diminishing returns depending on the project. It's not super important to try to get this score maxed out, as long as you optimize for mobile and test the performance to see if it is acceptable.
 
 #### Heavy homepage images
 
@@ -266,23 +269,17 @@ The first card is now prioritized; the rest stay lazy:
 ```
 
 ```tsx
-{projects.map((project, index) => (
-  <ProjectCard
-    key={project.slug}
-    project={project}
-    priority={index === 0}
-  />
-))}
+{
+  projects.map((project, index) => (
+    <ProjectCard key={project.slug} project={project} priority={index === 0} />
+  ));
+}
 ```
 
 There is a SPA-specific catch: Lighthouse also wants the LCP URL **discoverable in the initial HTML**. This portfolio boots from an empty `#root` and only renders images after React runs, so the chain is `HTML → JS → render <img> → discover URL → download`. A preload hint in `index.html` starts that fetch before the bundle executes:
 
 ```html
-<link
-  rel="preload"
-  as="image"
-  href="/img/front-page/galesage-thumb.webp"
-/>
+<link rel="preload" as="image" href="/img/front-page/galesage-thumb.webp" />
 ```
 
 If the first project (and thus the LCP candidate) changes, that `href` needs to change with it.
@@ -338,7 +335,7 @@ const GitHubContributions = lazy(() =>
   }
 >
   <GitHubContributions />
-</Suspense>
+</Suspense>;
 ```
 
 Until then, only the placeholder mounts—no calendar library, no API call on the critical path.
@@ -383,11 +380,11 @@ While the chunk is downloading, React needs a boundary for the wait. That is `<S
 - **Child still loading** → show `fallback` (`null` here is a brief blank).
 - **No** `Suspense` → rendering an unloaded lazy component errors.
 
-Flow for `/blog/some-post`: navigate → React tries `<BlogPost />` → `lazy` starts `import("./pages/BlogPost")` → `Suspense` shows the fallback → chunk arrives → the post mounts. 
+Flow for `/blog/some-post`: navigate → React tries `<BlogPost />` → `lazy` starts `import("./pages/BlogPost")` → `Suspense` shows the fallback → chunk arrives → the post mounts.
 
 On `/`, those routes never mount, so the heavy blog chunks don't bog down loading times.
 
-**Note:** Setting fallback to `null` is fine for a portfolio project like this site, but it can flash blank on slow network and is not ideal for every project. 
+**Note:** Setting fallback to `null` is fine for a portfolio project like this site, but it can flash blank on slow network and is not ideal for every project.
 
 ## What I took away
 
@@ -395,7 +392,7 @@ On `/`, those routes never mount, so the heavy blog chunks don't bog down loadin
 - Contrast failures can affect one theme without affecting another.
 - Icon-only UI and shared labels (“GitHub”) need explicit accessible names.
 - SEO failures can be caused by a missing static file and an SPA fallback.
-- Performance often starts with image weight and LCP, then CLS, critical-path third parties, and unused JS. 
+- Performance often starts with image weight and LCP, then CLS, critical-path third parties, and unused JS.
 - Do not `loading="lazy"` the LCP image; use eager + `fetchPriority="high"`, and preload the URL in the initial HTML on SPAs.
 - Static `imports` load with the app; `lazy` + dynamic `import()` loads on first render; `Suspense` shows a fallback during the wait.
 - AI is fast and accurate when you feed clustered findings, plan the change, and review the result.
