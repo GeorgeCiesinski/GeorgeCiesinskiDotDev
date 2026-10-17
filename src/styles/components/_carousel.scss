@@ -30,7 +30,7 @@
   margin: 0;
   padding: 0.85rem 1rem;
   background: var(--color-primary);
-  color: var(--color-text-white);
+  color: var(--color-on-primary);
   font-size: 0.95rem;
 }
 
@@ -48,7 +48,7 @@
   border: 0;
   border-radius: 0.75rem;
   background: var(--color-secondary);
-  color: var(--color-text-inverse);
+  color: var(--color-on-secondary);
   font-size: 1.25rem;
   cursor: pointer;
   transition: opacity $transition;
@@ -66,20 +66,35 @@
 .carousel__dots {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 0;
 }
 
 .carousel__dot {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 0;
-  background: var(--color-border);
+  border-radius: 50%;
+  background: transparent;
   cursor: pointer;
   padding: 0;
 
-  &--active {
+  // Visible marker stays small; hit target is the full button.
+  &::after {
+    content: "";
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--color-border);
+  }
+
+  &--active::after {
     background: var(--color-primary);
   }
 }

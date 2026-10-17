@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import { CodeBackground } from "../components/CodeBackground";
 import { Seo } from "../components/Seo";
 import { ContactForm } from "../components/ContactForm";
-import { GitHubContributions } from "../components/GitHubContributions";
+import { DeferredGitHubContributions } from "../components/DeferredGitHubContributions";
 import { ProjectCard } from "../components/ProjectCard";
 import { ExperienceSection } from "../components/ExperienceSection";
 import { projects } from "../data/projects";
@@ -53,6 +53,8 @@ export function Home() {
               className="about__photo"
               src="/img/front-page/me.webp"
               alt="George Ciesinski"
+              width={690}
+              height={400}
             />
             <div>
               <h2 className="about__title" id="about-heading">
@@ -86,8 +88,12 @@ export function Home() {
             Projects
           </h2>
           <div className="grid">
-            {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                priority={index === 0}
+              />
             ))}
           </div>
         </section>
@@ -112,7 +118,7 @@ export function Home() {
             <h2 className="github__title" id="github-heading">
               Github Contributions
             </h2>
-            <GitHubContributions />
+            <DeferredGitHubContributions />
           </div>
         </section>
 
