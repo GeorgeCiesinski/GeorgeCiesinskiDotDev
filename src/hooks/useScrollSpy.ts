@@ -4,10 +4,11 @@
  * Uses IntersectionObserver so scroll updates do not call getBoundingClientRect
  * (avoids forced-reflow diagnostics from layout reads on every scroll).
  *
- * A thin observation band sits just under the sticky nav (matching blog heading
+ * A top-of-viewport band sits under the sticky nav (matching blog heading
  * scroll-margin). The last intersecting id in document order is active; when
- * none intersect, the first id is used. Near the page bottom (after the user
- * has scrolled), the last id wins so short trailing sections can still activate.
+ * none intersect, the previous active id is kept. Near the page bottom (after
+ * the user has scrolled), the last id wins so short trailing sections can still
+ * activate.
  */
 
 import { useEffect, useState } from "react";
@@ -22,25 +23,33 @@ export const SCROLL_SPY_NAV_OFFSET_REM = 5.5;
 export const SCROLL_SPY_NAV_OFFSET_SLACK_PX = 16;
 
 /**
+ * Bottom rootMargin for the spy band: shrinks the viewport from below so the
+ * active zone is roughly the top 30% under the nav.
+ */
+export const SCROLL_SPY_BAND_BOTTOM_MARGIN = "-70%";
+
+/**
  * Picks the active id from headings currently intersecting the spy band.
- * Last intersecting id in document order wins; falls back to the first id.
+ * Last intersecting id in document order wins; `null` when none intersect
+ * (caller should keep the previous active id).
  *
  * @param idList - Element ids in document order.
  * @param intersectingIds - Ids currently intersecting the observation band.
- * @returns Active id, or `null` when `idList` is empty.
+ * @returns Active id, or `null` when `idList` is empty or nothing intersects.
  */
 export function pickScrollSpyIdFromIntersecting(
   idList: readonly string[],
   intersectingIds: ReadonlySet<string>,
 ): string | null {
   if (idList.length === 0) return null;
+  if (intersectingIds.size === 0) return null;
 
   let current: string | null = null;
   for (const id of idList) {
     if (intersectingIds.has(id)) current = id;
   }
 
-  return current ?? idList[0] ?? null;
+  return current;
 }
 
 /**
@@ -72,9 +81,32 @@ export function applyScrollSpyNearBottom(
 }
 
 /**
+ * Merges IO pick with sticky previous id, then near-bottom override.
+ *
+ * @param idList - Element ids in document order.
+ * @param fromIo - Pick from intersecting set (`null` if empty).
+ * @param previous - Last committed active id.
+ * @param scrollY - `window.scrollY`.
+ * @param distanceFromBottom - Distance from document end.
+ * @returns Resolved active id.
+ */
+export function resolveScrollSpyActiveId(
+  idList: readonly string[],
+  fromIo: string | null,
+  previous: string | null,
+  scrollY: number,
+  distanceFromBottom: number,
+): string | null {
+  if (idList.length === 0) return null;
+
+  const kept = fromIo ?? previous ?? idList[0] ?? null;
+  return applyScrollSpyNearBottom(idList, kept, scrollY, distanceFromBottom);
+}
+
+/**
  * Returns the id of the heading in the sticky-nav observation band.
- * Defaults to the first id when none intersect yet. Forces the last id when
- * scrolled near the document bottom (and not at y=0).
+ * Keeps the previous id when none intersect. Forces the last id when scrolled
+ * near the document bottom (and not at y=0).
  *
  * @param ids - Element ids in document order (e.g. heading fragment ids).
  * @returns Active id, or `null` when `ids` is empty.
@@ -97,10 +129,11 @@ export function useScrollSpy(ids: readonly string[]): string | null {
         document.documentElement.scrollHeight -
         (window.scrollY + window.innerHeight);
 
-      setActiveId(
-        applyScrollSpyNearBottom(
+      setActiveId((previous) =>
+        resolveScrollSpyActiveId(
           idList,
           fromIo,
+          previous,
           window.scrollY,
           distanceFromBottom,
         ),
@@ -115,9 +148,7 @@ export function useScrollSpy(ids: readonly string[]): string | null {
         parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
       const offset =
         rem * SCROLL_SPY_NAV_OFFSET_REM + SCROLL_SPY_NAV_OFFSET_SLACK_PX;
-      // 1px-tall band under the nav: heading becomes active as it crosses.
-      const bottomMargin = -Math.max(window.innerHeight - offset - 1, 0);
-
+      // Top ~30% under the nav (not a 1px line — that missed headings while scrolling).
       observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
@@ -130,7 +161,7 @@ export function useScrollSpy(ids: readonly string[]): string | null {
         },
         {
           root: null,
-          rootMargin: `-${offset}px 0px ${bottomMargin}px 0px`,
+          rootMargin: `-${offset}px 0px ${SCROLL_SPY_BAND_BOTTOM_MARGIN} 0px`,
           threshold: 0,
         },
       );

@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import {
   applyScrollSpyNearBottom,
   pickScrollSpyIdFromIntersecting,
+  resolveScrollSpyActiveId,
 } from "./useScrollSpy";
 
 describe("pickScrollSpyIdFromIntersecting", () => {
@@ -15,8 +16,8 @@ describe("pickScrollSpyIdFromIntersecting", () => {
     expect(pickScrollSpyIdFromIntersecting([], new Set())).toBeNull();
   });
 
-  it("defaults to the first id when none are intersecting", () => {
-    expect(pickScrollSpyIdFromIntersecting(ids, new Set())).toBe("a");
+  it("returns null when none are intersecting (keep previous in the hook)", () => {
+    expect(pickScrollSpyIdFromIntersecting(ids, new Set())).toBeNull();
   });
 
   it("picks the last intersecting id in document order", () => {
@@ -42,5 +43,29 @@ describe("applyScrollSpyNearBottom", () => {
 
   it("keeps the intersection pick when not near the bottom", () => {
     expect(applyScrollSpyNearBottom(ids, "b", 100, 400)).toBe("b");
+  });
+});
+
+describe("resolveScrollSpyActiveId", () => {
+  const ids = ["a", "b", "c"];
+
+  it("returns null for an empty id list", () => {
+    expect(resolveScrollSpyActiveId([], null, "a", 0, 500)).toBeNull();
+  });
+
+  it("keeps previous when IO reports nothing intersecting", () => {
+    expect(resolveScrollSpyActiveId(ids, null, "b", 100, 400)).toBe("b");
+  });
+
+  it("uses IO pick when present", () => {
+    expect(resolveScrollSpyActiveId(ids, "c", "b", 100, 400)).toBe("c");
+  });
+
+  it("falls back to the first id when IO and previous are empty", () => {
+    expect(resolveScrollSpyActiveId(ids, null, null, 0, 500)).toBe("a");
+  });
+
+  it("forces the last id near the bottom even if IO is empty", () => {
+    expect(resolveScrollSpyActiveId(ids, null, "b", 400, 40)).toBe("c");
   });
 });
