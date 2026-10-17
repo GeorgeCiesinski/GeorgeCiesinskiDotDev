@@ -6,6 +6,11 @@
   color: var(--color-text);
 }
 
+// Reserve space before the calendar chunk/API load to avoid CLS.
+.github-contributions--placeholder {
+  min-height: 9rem;
+}
+
 .github-contributions__scroll {
   display: flex;
   justify-content: center;
