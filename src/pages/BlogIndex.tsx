@@ -328,6 +328,7 @@ export function BlogIndex() {
                       key={tag}
                       className="badge badge--secondary blog__tag-badge"
                       to={`/blog?${tagParams.toString()}`}
+                      aria-label={`Filter by tag ${tag}`}
                     >
                       {tag}
                     </Link>

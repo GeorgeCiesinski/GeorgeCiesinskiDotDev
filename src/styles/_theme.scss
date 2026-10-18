@@ -25,6 +25,9 @@
   --color-text-inverse: #ffffff;
   --color-text-white: #ffffff;
   --color-on-primary: #ffffff;
+  --color-on-secondary: #1a1a1a;
+  // Syntax / in-prose accents that must meet AA on muted surfaces
+  --color-syntax-string: #1c658c;
 
   // Border
   --color-border: #c5d8e6;
@@ -60,6 +63,8 @@
   --color-text-inverse: #1a1a1a;
   --color-text-white: #ffffff;
   --color-on-primary: #1a1a1a;
+  --color-on-secondary: #1a1a1a;
+  --color-syntax-string: #6bb8de;
 
   // Border
   --color-border: #2a4150;

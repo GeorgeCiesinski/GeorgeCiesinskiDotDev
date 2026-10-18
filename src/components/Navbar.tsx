@@ -108,7 +108,7 @@ export function Navbar() {
             window.scrollTo(0, 0);
           }}
         >
-          <img src="/img/logo.svg" alt="" />
+          <img src="/img/logo.svg" alt="" width={144} height={144} />
           <div className="navbar__brand-text">
             <span className="navbar__title"> George Ciesinski</span>
             <span className="navbar__subtitle">Software Developer</span>

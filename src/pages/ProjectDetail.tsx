@@ -55,8 +55,9 @@ export function ProjectDetail() {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={`View ${project.title} on GitHub`}
               >
-                GitHub
+                View on GitHub
               </a>
             ) : null}
             {project.demo ? (
