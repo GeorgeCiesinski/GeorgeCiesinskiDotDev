@@ -2,8 +2,8 @@
 title: "SOLID Design Principles"
 description: "A practical walkthrough of SOLID with Python examples — SRP, OCP, LSP, ISP, and DIP — explained through a job-application domain."
 date: "2026-10-17"
-tags: ["object-oriented programming", "object-oriented design"]
-draft: true
+tags: ["object-oriented programming", "object-oriented design", "python"]
+draft: false
 ---
 
 I wanted to write this blog post by expanding my knowledge about SOLID design principles. In my search for work, I noticed that a lot of job postings emphasize SOLID design principles. While this is not a new concept to me, I wanted to better understand it.
