@@ -34,7 +34,7 @@ This principle states:
 
 > A class should have one and only one reason to change, meaning that a class should have only one job.
 
-To go into a bit more detail, this means a class should have a single responsibility, job, or purpose within a software system. Teaching materials often treat “one reason to change” and “one job” as the same idea. In stricter readings, “reason to change” is about *who* or *what force* would cause the class to change (for example, a change in validation rules vs. a change in email delivery). For this post, the practical takeaway is still: don’t pile unrelated jobs into one class.
+To go into a bit more detail, this means a class should have a single responsibility, job, or purpose within a software system. Teaching materials often treat “one reason to change” and “one job” as the same idea. In stricter readings, “reason to change” is about _who_ or _what force_ would cause the class to change (for example, a change in validation rules vs. a change in email delivery). For this post, the practical takeaway is still: don’t pile unrelated jobs into one class.
 
 I like the example used in the GeeksforGeeks article. The author used an analogy of a baker baking bread. The baker's job is strictly to bake bread that meets the quality and standards required by the bakery. If the baker also provides customer service or finance, this violates the SRP.
 
@@ -489,11 +489,11 @@ A few terms used throughout this post:
 - **Interface:** A contract that describes what something can do, without saying how it does it. In Python, this often looks like an abstract base class (for example, `StatusChannel` with a required `send()` method). Callers depend on the contract; implementations fill in the details.
 - **Abstraction:** A general idea that hides messy details behind a simpler shape. `StatusChannel` is an abstraction: “something that can send a message.” You don’t need to know whether that means email, SMS, or Slack to use it.
 - **Concretion:** A specific, working implementation of an abstraction. `EmailChannel` and `SlackChannel` are concretions — real classes with real behavior, not just a blueprint.
-- **High-level module:** The “big idea” or policy part of the program — the code that decides *what* should happen. In the notifier example, `ApplicationStatusNotifier` is high-level: its job is “notify about an application status,” not “talk to Gmail’s servers.”
+- **High-level module:** The “big idea” or policy part of the program — the code that decides _what_ should happen. In the notifier example, `ApplicationStatusNotifier` is high-level: its job is “notify about an application status,” not “talk to Gmail’s servers.”
 - **Low-level module:** The detailed “how” — concrete tools and infrastructure like sending email over SMTP, posting to Slack, or writing to a database. These plug into high-level code through abstractions instead of being hard-wired into it.
 - **Inheritance / subclass:** Creating a new class from an existing one so it can reuse or specialize that behavior. `EmailChannel` is a subclass of `StatusChannel` — it inherits the “is a status channel” relationship and implements `send()` in its own way.
 - **Abstract base class (ABC):** Python’s common way to write an interface/blueprint. You inherit from `ABC` and mark required methods with `@abstractmethod`. You typically don’t instantiate the ABC itself; subclasses provide the real implementations.
-- **Composition:** Building behavior by *having* other objects rather than *being* a subtype of them. `ApplicationStatusNotifier` doesn’t inherit from `EmailChannel` — it holds a list of `StatusChannel`s and calls `send()` on each.
+- **Composition:** Building behavior by _having_ other objects rather than _being_ a subtype of them. `ApplicationStatusNotifier` doesn’t inherit from `EmailChannel` — it holds a list of `StatusChannel`s and calls `send()` on each.
 
 ## Sources
 

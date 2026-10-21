@@ -7,6 +7,7 @@
 
 import { parse as parseYaml } from "yaml";
 import type { Post, PostFrontmatter } from "../types/post";
+import { readingMinutes } from "./readingTime";
 
 const rawPosts = import.meta.glob("../../content/blog/**/*.md", {
   query: "?raw",
@@ -99,6 +100,7 @@ function parsePost(path: string, raw: string): Post | null {
     draft: data.draft ?? false,
     slug: slugFromPath(path),
     content: content.trim(),
+    readingMinutes: readingMinutes(content),
   };
 }
 

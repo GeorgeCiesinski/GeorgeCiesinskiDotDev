@@ -313,9 +313,14 @@ export function BlogIndex() {
               >
                 <h2 className="blog__item-title">{item.title}</h2>
               </Link>
-              <time className="blog__item-date" dateTime={item.date}>
-                {item.date}
-              </time>
+              <div className="blog__post-information">
+                <time className="blog__post-date" dateTime={item.date}>
+                  {item.date}
+                </time>
+                <span className="blog__post-minutes">
+                  ({item.readingMinutes} min read)
+                </span>
+              </div>
               <p className="blog__item-description">{item.description}</p>
               <div className="blog__tags">
                 {item.tags.map((tag) => {

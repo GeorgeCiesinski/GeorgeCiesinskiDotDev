@@ -6,31 +6,31 @@ tags: ["object-oriented programming", "object-oriented design", "python"]
 draft: true
 ---
 
-After writing my previous blog about [SOLID design principles](/blog/2026-10-17-solid-design-principles), I wanted to continue exploring Object-oriented Design (OOD) in a new post. 
+After writing my previous blog about [SOLID design principles](/blog/2026-10-17-solid-design-principles), I wanted to continue exploring Object-oriented Design (OOD) in a new post.
 
 Today, I want to explore the core OOD concepts, design patterns, and more.
 
 ## What is Object-Oriented Design (OOD)?
 
-Object-oriented design is the thinking & design used to solve software problems and to design system architecture that is modular, adaptable, clear, and easy to maintain. 
+Object-oriented design is the thinking & design used to solve software problems and to design system architecture that is modular, adaptable, clear, and easy to maintain.
 
-It makes use of concepts such as classes and objects, inheritance, encapsulation, polymorphism, and more. I'll go into more detail about these concepts. 
+It makes use of concepts such as classes and objects, inheritance, encapsulation, polymorphism, and more. I'll go into more detail about these concepts.
 
 ## Object-oriented Design vs Object-oriented Programming
 
-Object-oriented Design (OOD) is the thinking behind the code. It mainly involves thinking about the problem or app, and deciding what concepts should be objects, what each object is responsible for, how they talk to each other, whether to use inheritance or composition. Another thing to plan is what should stay hidden (encapsulation) vs what should be exposed as a contract (abstraction). OOD models the problem as collaborating objects (state + behavior + responsibilities), not as a list of steps. You can think of it as the blueprint. 
+Object-oriented Design (OOD) is the thinking behind the code. It mainly involves thinking about the problem or app, and deciding what concepts should be objects, what each object is responsible for, how they talk to each other, whether to use inheritance or composition. Another thing to plan is what should stay hidden (encapsulation) vs what should be exposed as a contract (abstraction). OOD models the problem as collaborating objects (state + behavior + responsibilities), not as a list of steps. You can think of it as the blueprint.
 
 Object-oriented Programming (OOP) is a paradigm: a way of writing code using classes, objects, methods, inheritance, and so on. Think of it as the toolbox used to build the design. Without OOD, you can write lots of classes and still have weak design.
 
-Both OOD and OOP share the idea of classes, inheritance, and polymorphism. The main difference is OOD decides whether/how to use those ideas, while OOP is using them in code. 
+Both OOD and OOP share the idea of classes, inheritance, and polymorphism. The main difference is OOD decides whether/how to use those ideas, while OOP is using them in code.
 
 ## Classes and Objects
 
-A class is a blueprint for a kind of thing in the design: what data it holds, and what it does. 
+A class is a blueprint for a kind of thing in the design: what data it holds, and what it does.
 
-**Note:** I know I used blueprint to describe OOD previously, but think of **OOD** as a conceptual blueprint for the app or code, while a **class** is code that serves as a blueprint for creating new objects. 
+**Note:** I know I used blueprint to describe OOD previously, but think of **OOD** as a conceptual blueprint for the app or code, while a **class** is code that serves as a blueprint for creating new objects.
 
-In code, that's attributes (data), methods (behaviour), and a constructor (`__init__` used to set up a new instance). 
+In code, that's attributes (data), methods (behaviour), and a constructor (`__init__` used to set up a new instance).
 
 ```python
 class JobApplication:  # class — the recipe
@@ -43,12 +43,12 @@ An object is an instance of a class. You can have more than one instance of a cl
 
 ```python
 app1 = JobApplication("Acme", "Backend Engineer")    # object
-app2 = JobApplication("Globex", "QA Engineer") 
+app2 = JobApplication("Globex", "QA Engineer")
 ```
 
 ### Identity vs Equality
 
-Identity asks: is this the same object (`is` in python). 
+Identity asks: is this the same object (`is` in python).
 
 ```python
 app1 = JobApplication("Acme", "Backend Engineer")
@@ -87,7 +87,7 @@ employee.name = "New Name"
 An immutable object can't be edited in place. A string, number or tuple are replaced, not modified:
 
 ```python
-"Acme".upper()      # Returns a new string. "Acme" stays in memory as "Acme". 
+"Acme".upper()      # Returns a new string. "Acme" stays in memory as "Acme".
 
 company = "Acme 2"  # Rebinds a new string to the company attribute
 ```
@@ -130,7 +130,7 @@ Enough to read UML and talk clearly in interviews; don’t over-philosophize the
 
 ## Coupling and Cohesion
 
-**Beyond the source:** Two metrics that explain *why* OOD advice exists:
+**Beyond the source:** Two metrics that explain _why_ OOD advice exists:
 
 - **High cohesion** — a class’s parts belong together (one clear purpose)
 - **Low coupling** — classes don’t need deep knowledge of each other’s internals
@@ -150,7 +150,7 @@ A short synthesis: encapsulation protects state, abstraction defines contracts, 
 
 ## GRASP (Responsibility Assignment)
 
-**Beyond the source:** GRASP is a useful companion to SOLID for *who should own which method*. Skim, don’t master all of them. Highest value ones:
+**Beyond the source:** GRASP is a useful companion to SOLID for _who should own which method_. Skim, don’t master all of them. Highest value ones:
 
 - Information Expert
 - Creator
@@ -162,7 +162,7 @@ Frame as “questions to ask when placing behavior,” not another acronym check
 
 ## Design Patterns (Overview)
 
-You don’t need deep implementations of every pattern. Focus on *what problem each category solves* and 1–2 examples per category:
+You don’t need deep implementations of every pattern. Focus on _what problem each category solves_ and 1–2 examples per category:
 
 - **Creational** (how objects are created) — e.g. Singleton, Factory Method
 - **Structural** (how objects are composed) — e.g. Adapter, Composite
@@ -205,7 +205,7 @@ For each, know the symptom and a practical mitigation (often ties back to SOLID)
 
 ### The God object (or God class) anti-pattern
 
-The God object anti-pattern is when you build one class that knows and does too much. Instead of many objects with clear jobs, you get one mega-class that holds lots of unrelated data, implements most of the behavior, and has to talk to other code constantly. 
+The God object anti-pattern is when you build one class that knows and does too much. Instead of many objects with clear jobs, you get one mega-class that holds lots of unrelated data, implements most of the behavior, and has to talk to other code constantly.
 
 This is an extreme version of violating SRP (which I discussed in my SOLID design principles blog post).
 
@@ -223,7 +223,7 @@ class JobSystem:
     def render_dashboard(self): ...
 ```
 
-So this class handles validation, saving data, sending emails, scoring resumes, and more. 
+So this class handles validation, saving data, sending emails, scoring resumes, and more.
 
 This class is hard to change, hard to test, and is coupled tightly to everything that uses it. It also causes problems like merge conflicts during collaboration because the whole team has to edit one class.
 
@@ -237,7 +237,7 @@ Bridge to your SOLID post: OOD concepts are the building blocks; SOLID principle
 
 A few terms used throughout this post:
 
-- **Class:** 
+- **Class:**
 - **Object:**
 
 ## Conclusion
