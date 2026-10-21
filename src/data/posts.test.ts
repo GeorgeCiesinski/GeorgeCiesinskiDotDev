@@ -35,6 +35,7 @@ function makePost(overrides: Partial<Post> = {}): Post {
     draft: false,
     slug: "hello-world",
     content: "Body with **markdown** and a `code` token.",
+    readingMinutes: 1,
     ...overrides,
   };
 }
@@ -136,6 +137,7 @@ describe("catalog helpers (live content invariants)", () => {
       expect(Array.isArray(post.tags)).toBe(true);
       expect(post.slug).toBeTruthy();
       expect(typeof post.content).toBe("string");
+      expect(post.readingMinutes).toBeGreaterThanOrEqual(1);
     }
     for (let i = 1; i < posts.length; i++) {
       expect(
