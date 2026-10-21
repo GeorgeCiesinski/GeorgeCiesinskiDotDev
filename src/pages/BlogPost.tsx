@@ -54,9 +54,14 @@ export function BlogPost() {
 
       <header className="blog-post__header">
         <h1 className="blog-post__title">{post.title}</h1>
-        <time className="blog-post__date" dateTime={post.date}>
-          {post.date}
-        </time>
+        <div className="blog__post-information">
+          <time className="blog__post-date" dateTime={post.date}>
+            {post.date}
+          </time>
+          <span className="blog__post-minutes">
+            ({post.readingMinutes} min read)
+          </span>
+        </div>
         <div className="blog__tags">
           {post.tags.map((tag) => {
             const tagParams = new URLSearchParams();

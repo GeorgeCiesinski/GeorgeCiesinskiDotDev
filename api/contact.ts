@@ -4,7 +4,7 @@
  * Secrets (RESEND_API_KEY, EMAIL_ADDRESS) stay server-side — never expose them as VITE_*.
  */
 
-import { type ContactRequest } from "../src/types/contact";
+import { type ContactRequest } from "../src/types/contact.js";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);

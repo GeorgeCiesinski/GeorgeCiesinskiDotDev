@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "vercel": "vercel dev --local-config ./vercel-dev.json",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit && tsc -p api/tsconfig.json --noEmit",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender-blog-meta.mjs",
     "preview": "vite preview",

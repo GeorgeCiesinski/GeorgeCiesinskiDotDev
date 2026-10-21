@@ -15,7 +15,7 @@ vi.mock("resend", () => ({
   },
 }));
 
-import handler from "./contact";
+import handler from "./contact.js";
 
 type MockRes = {
   statusCode?: number;

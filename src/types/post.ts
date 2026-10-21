@@ -23,4 +23,6 @@ export interface Post extends PostFrontmatter {
   slug: string;
   /** Markdown body without frontmatter. */
   content: string;
+  /** Estimated whole minutes to read the body (minimum 1). */
+  readingMinutes: number;
 }
