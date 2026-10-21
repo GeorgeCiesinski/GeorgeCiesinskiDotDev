@@ -29,9 +29,39 @@ section {
   flex-direction: column;
 }
 
+.skip-link {
+  position: fixed;
+  // Align with `.container` left edge (1rem gutter, centered max-width).
+  top: calc(#{$nav-height} + 1rem);
+  left: max(1rem, calc((100% - #{$container-max}) / 2));
+  z-index: 200;
+  padding: 0.55rem 1.1rem;
+  background: var(--color-surface);
+  color: var(--color-chrome);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: $radius;
+  // Park fully above the viewport (resting top is already below the sticky nav).
+  transform: translateY(calc(-100% - #{$nav-height} - 1rem));
+
+  &:focus,
+  &:focus-visible {
+    transform: none;
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+    // Fill the offset gap with header color so the photo does not show through
+    // (nav links already sit on this surface).
+    box-shadow: 0 0 0 2px var(--color-surface);
+  }
+}
+
 .page__main {
   flex: 1;
   padding-block: 2.5rem 4rem;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .grid {
