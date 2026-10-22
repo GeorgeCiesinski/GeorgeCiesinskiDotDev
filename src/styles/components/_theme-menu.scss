@@ -31,14 +31,15 @@
     transform 0.2s ease,
     border-color 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: scale(1.1);
-    border-color: var(--color-border-hov);
+    border-color: var(--color-border-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-primary-hover);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--color-secondary);
   }
 
   &__icon {
@@ -142,11 +143,13 @@
     font-weight $transition;
 
   &:hover,
+  &:focus-visible,
   &--active {
     color: var(--color-chrome);
   }
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: color-mix(in srgb, var(--color-chrome) 12%, transparent);
   }
 

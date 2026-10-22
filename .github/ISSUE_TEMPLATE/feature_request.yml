@@ -29,14 +29,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives considered
-      description: Optional. Other ways to solve this, or reasons you rejected them.
-      placeholder: |
-        Relying on the browser back button works, but an in-page link would be clearer for visitors.
-
   - type: checkboxes
     id: scope
     attributes:
@@ -45,21 +37,14 @@ body:
       options:
         - label: Home page
         - label: Project detail / carousel
+        - label: Blog
+        - label: New Page(s)
         - label: Contact form
         - label: Routing
         - label: Layout / styling / accessibility
+        - label: Unit Tests
         - label: CI / tooling
         - label: README or documentation
-
-  - type: textarea
-    id: example
-    attributes:
-      label: Example interaction
-      description: Optional. Show what a visitor would do and what they should see.
-      placeholder: |
-        **Visitor:** Opens a project detail page from the carousel.
-
-        **Site:** Shows a "Back to projects" link that returns to the home page projects section.
 
   - type: textarea
     id: links
