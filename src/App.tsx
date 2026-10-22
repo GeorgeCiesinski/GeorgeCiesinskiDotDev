@@ -4,6 +4,7 @@
 
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "./theme/ThemeProvider";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
@@ -57,6 +58,7 @@ export default function App() {
             </Route>
           </Routes>
         </Suspense>
+        <Analytics />
       </BrowserRouter>
     </ThemeProvider>
   );

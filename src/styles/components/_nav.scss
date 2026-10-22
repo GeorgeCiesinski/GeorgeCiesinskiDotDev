@@ -32,6 +32,11 @@
     color: var(--color-chrome);
     transform: scale(1.02);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
 }
 
 .navbar__brand-text {
@@ -61,6 +66,11 @@
   background: transparent;
   color: var(--color-chrome);
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
 
   @include breakpoint(md) {
     display: none;
@@ -128,5 +138,10 @@
       transparent
     );
     font-weight: 700;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
   }
 }

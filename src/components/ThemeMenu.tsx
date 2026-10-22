@@ -2,7 +2,7 @@
  * Nav dropdown to choose light, dark, or system theme.
  */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../theme/theme-context";
 import { resolveTheme } from "../theme/theme";
 
@@ -14,10 +14,26 @@ import { resolveTheme } from "../theme/theme";
 export function ThemeMenu() {
   const [open, setOpen] = useState(false);
   const { preference, setPreference } = useTheme();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <div className="theme-menu">
       <button
+        ref={toggleRef}
         type="button"
         className={`theme-menu-toggle theme-menu-toggle--${resolveTheme(preference)}`}
         aria-label="Color theme"
