@@ -11,17 +11,8 @@
 - [ ] New feature
 - [ ] Refactor
 - [ ] Documentation
+- [ ] Unit Tests
 - [ ] CI / chore
-
-## Test plan
-
-- [ ] Home page
-- [ ] Project detail / carousel
-- [ ] Contact form
-- [ ] Routing
-- [ ] Layout / styling
-- [ ] CI / tooling
-- [ ] Docs only — no app behavior change
 
 ## Checks
 

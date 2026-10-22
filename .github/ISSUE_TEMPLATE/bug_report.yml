@@ -56,21 +56,6 @@ body:
       required: true
 
   - type: dropdown
-    id: area
-    attributes:
-      label: Affected area
-      description: Pick the closest match, or choose **Other** and name it in your summary.
-      options:
-        - Not sure / multiple
-        - Home page
-        - Project detail / carousel
-        - Contact form
-        - Routing
-        - Layout / styling
-        - CI / tooling
-        - Other (describe in summary)
-
-  - type: dropdown
     id: environment
     attributes:
       label: Where did you see this?
@@ -79,26 +64,6 @@ body:
         - Local (`npm run vercel` or `npm run dev`)
         - Vercel Preview deployment
         - Other (describe below)
-
-  - type: dropdown
-    id: browser
-    attributes:
-      label: Browser
-      options:
-        - Chrome / Chromium
-        - Firefox
-        - Safari
-        - Edge
-        - Mobile Safari (iOS)
-        - Chrome for Android
-        - Other (describe below)
-
-  - type: input
-    id: version
-    attributes:
-      label: Version or commit
-      description: Branch, tag, or commit SHA if you know it.
-      placeholder: e.g. main @ a1b2c3d
 
   - type: textarea
     id: details
