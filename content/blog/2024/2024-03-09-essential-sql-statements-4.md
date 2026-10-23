@@ -16,7 +16,7 @@ These are often used with the `GROUP BY` clause of the `SELECT` statement.
 
 ### GROUP BY
 
-The `GROUP BY` clause is used to group rows that have the same values into summary rows. For example, "find the number of international students from each country". 
+The `GROUP BY` clause is used to group rows that have the same values into summary rows. For example, "find the number of international students from each country".
 
 This clause is almost always used in conjunction with aggregate functions like `AVG()`, `COUNT()`, `SUM()` and others to perform calculations on each group.
 
@@ -37,7 +37,7 @@ FROM Students;
 
 ### COUNT
 
-The `COUNT()` function returns the number of rows that match a specified criterion. 
+The `COUNT()` function returns the number of rows that match a specified criterion.
 
 ```sql
 SELECT COUNT(*)
@@ -53,7 +53,7 @@ The behaviour of the function depends on the argument used within the parenthesi
 
 ### SUM
 
-The `SUM()` function is used to calculate the total sum of values within a numeric column, and ignores `NULL` values in the column. 
+The `SUM()` function is used to calculate the total sum of values within a numeric column, and ignores `NULL` values in the column.
 
 ```sql
 SELECT SUM(Quantity)
@@ -62,14 +62,14 @@ FROM OrderDetails;
 
 ### MIN & MAX
 
-The `MIN()` function returns the smallest value of the selected column, and works with numeric, string, and date data types. 
+The `MIN()` function returns the smallest value of the selected column, and works with numeric, string, and date data types.
 
 ```sql
 SELECT MIN(Price)
 FROM Products;
 ```
 
-The `MAX()` function returns the largest value of the selected column, and similarly to `MIN()`, it works with numeric, string, and date data types. 
+The `MAX()` function returns the largest value of the selected column, and similarly to `MIN()`, it works with numeric, string, and date data types.
 
 ```sql
 SELECT MAX(Price)
@@ -117,7 +117,7 @@ You cannot put `COUNT(*) > 5` in `WHERE`, because the count does not exist until
 
 ## Conclusion
 
-That covers the essential aggregate functions for summarizing data: `AVG()`, `COUNT()`, `SUM()`, `MIN()`, and `MAX()`, along with `GROUP BY` and `HAVING`. `WHERE` is used to filter rows before grouping, and `HAVING` is used to to filter groups after aggregation. 
+That covers the essential aggregate functions for summarizing data: `AVG()`, `COUNT()`, `SUM()`, `MIN()`, and `MAX()`, along with `GROUP BY` and `HAVING`. `WHERE` is used to filter rows before grouping, and `HAVING` is used to to filter groups after aggregation.
 
 Together with the statements from [Part 1](/blog/2024-03-04-essential-sql-statements-1), [Part 2](/blog/2024-03-05-essential-sql-statements-2), and [Part 3](/blog/2024-03-07-essential-sql-statements-3), you now have a solid foundation for working with SQL.
 
