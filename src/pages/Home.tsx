@@ -58,15 +58,18 @@ export function Home() {
             />
             <div>
               <h2 className="about__title" id="about-heading">
-                About
+                Hi, I’m George.
               </h2>
               <p>
-                Hi — I’m a software developer with experience building and
-                maintaining enterprise web apps in higher education. I use
-                React, TypeScript, and Node, but I also have experience with
-                Python and C#.
+                I’m a front-end developer in Toronto, and I do full-stack work
+                too. For the last few years I worked on campus web apps that
+                tens of thousands of students and staff used.
               </p>
-              <p>Check out my resume and my personal projects below!</p>
+              <p>
+                A lot of that work was accessibility, and writing documentation
+                so the next developer could pick things up. If you’re hiring for
+                a front-end or full-stack role, I’d like to hear from you.
+              </p>
               <div className="resume-link">
                 <a
                   className="btn btn--primary"

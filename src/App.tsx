@@ -58,7 +58,7 @@ export default function App() {
             </Route>
           </Routes>
         </Suspense>
-        <Analytics />
+        <Analytics mode={import.meta.env.PROD ? "production" : "development"} />
       </BrowserRouter>
     </ThemeProvider>
   );
