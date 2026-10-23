@@ -58,19 +58,13 @@ export function Home() {
             />
             <div>
               <h2 className="about__title" id="about-heading">
-                Hi — I’m George. 
+                `Hi — I’m George. 
               </h2>
               <p>
-                I'm a software developer based in Toronto, Canada.
+                I’m a front-end developer in Toronto, and I do full-stack work too. For the last few years I worked on campus web apps that tens of thousands of students and staff used.
               </p>
               <p>  
-                I'm experienced building and maintaining enterprise web apps in higher education. 
-              </p>
-              <p>
-                My usual stack is React, TypeScript, and Node, but I also have some experience with Python, Flask and C#. 
-              </p>
-              <p>
-                Check out my resume and my personal projects below!
+                A lot of that work was accessibility, and writing documentation so the next developer could pick things up. If you’re hiring for a front-end or full-stack role, I’d like to hear from you.
               </p>
               <div className="resume-link">
                 <a
