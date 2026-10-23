@@ -58,7 +58,7 @@ export function Home() {
             />
             <div>
               <h2 className="about__title" id="about-heading">
-                `Hi — I’m George.
+                Hi, I’m George.
               </h2>
               <p>
                 I’m a front-end developer in Toronto, and I do full-stack work
