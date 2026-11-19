@@ -61,14 +61,10 @@ export function Home() {
                 Hi, I’m George.
               </h2>
               <p>
-                I’m a front-end developer in Toronto, and I do full-stack work
-                too. For the last few years I worked on campus web apps that
-                tens of thousands of students and staff used.
+                I’m a Toronto-based web developer with 5+ years of professional experience building and maintaining enterprise web applications. My work has focused on front-end development, Drupal, accessibility, and production support, with additional full-stack experience through personal projects.
               </p>
               <p>
-                A lot of that work was accessibility, and writing documentation
-                so the next developer could pick things up. If you’re hiring for
-                a front-end or full-stack role, I’d like to hear from you.
+                I’ve built applications used across a large post-secondary institution, and I value maintainable code, clear documentation, and accessible user experiences. I’m interested in front-end and web-focused full-stack opportunities.
               </p>
               <div className="resume-link">
                 <a

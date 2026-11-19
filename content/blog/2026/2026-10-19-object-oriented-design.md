@@ -94,15 +94,89 @@ company = "Acme 2"  # Rebinds a new string to the company attribute
 
 ## Encapsulation
 
-Explain bundling data with the methods that use it, and controlling access (public vs private / getters). Goal: prevent outside code from reaching into an object’s internals and breaking its invariants. Know a clear before/after example of “exposed fields” vs “behavior behind a controlled API.”
+Encapsulation describes bundling data and methods operating on the data into one unit, while hiding internal state & representation so other code can't break the object's invariants. Invariants are rules that must always stay true. The public surface is a small set of meaningful operations, not the object's fields.
 
-**Beyond the source:** Invariants (rules that must always stay true), and why getters/setters alone aren’t “real” encapsulation if they still leak internals.
+Getters and setters are not enough on their own. If callers can still write attributes, the internals have leaked and the rules live outside the object. 
+
+```python
+def get_status(self):
+    return self._status
+def set_status(self, status):
+    self._status = status
+```
+
+Outside code can still do something like `app.set_status("hired")`, so the object does not own the rules, callers do. This only adds extra methods around the same data.
+
+Real encapsulation looks like this: 
+
+```python
+class JobApplication:
+    _ALLOWED = {
+        "draft": {"submitted", "rejected"},
+        "submitted": {"rejected"},
+        "rejected": set(),
+    }
+
+    def __init__(self, company: str, role: str):
+        self._company = company
+        self._role = role
+        self._status = "draft"
+
+    def submit(self):
+        if self._status != "draft":
+            raise ValueError("Already submitted")
+        self._move_to("submitted")
+
+    def reject(self) -> None:
+        self._move_to("rejected")
+
+    def _move_to(self, new_status: str) -> None:
+        if new_status not in self._ALLOWED[self._status]:
+            raise ValueError(f"Cannot go from {self._status} to {new_status}")
+        self._status = new_status
+```
+
+So callers write `app.submit()` and the object decides if it is legal and sets the private variable. Notice how the caller doesn't need to know the `_status` field exists. 
+
+```python
+app = JobApplication("Acme", "Backend Engineer")
+app.submit()  # ok
+app.submit()  # raises — already submitted
+```
+
+**Note:** Java and C# have access modifiers. Python relies on convention instead: names starting with `_` are treated as private, though it's up to developers to recognize and practice this. 
 
 ## Abstraction
 
-Explain showing essential behavior while hiding implementation details. Connect to interfaces / abstract base classes in Python. Goal: callers depend on “what it does,” not “how it’s wired inside.”
+Abstraction means showing the essential behaviour while hiding the implementation details. Callers depend on what something does, not how. 
 
-**Beyond the source:** Duck typing and `Protocol` in Python vs formal interfaces in Java/C# — same design idea, different language mechanisms. “Program to an interface, not an implementation.”
+This is related to encapsulation, but they're not the same thing. Encapsulation keeps one object's data and rules private, while Abstraction is the public contract other code programs against. For example, "something that can send a status update" without caring whether this means email, SMS, etc. 
+
+In Python, this often looks like an abstract base class. 
+
+```python
+from abc import ABC, abstractmethod
+
+class StatusChannel(ABC):
+  @abstractmethod
+  def send(self, message: str) -> None:
+    ...
+
+class EmailChannel(StatusChannel):
+    def send(self, message: str) -> None:
+        print(f"[email] {message}")
+
+class SlackChannel(StatusChannel):
+    def send(self, message: str) -> None:
+        print(f"[slack] {message}")
+
+def notify(channel: StatusChannel, message: str) -> None:
+    channel.send(message)  # depends on the contract, not Email vs Slack
+```
+
+In this example, `notify()` only needs a channel that can `send()`. It doesn't need to know about SMTP, webhooks, or which class you passed in. This design rule is often phrased as: program to an interface, not an implementation. 
+
+**Note:** Java and C# have formal interface types. Python usually uses ABC + @abstractmethod for the same idea. Python also supports duck typing and typing.Protocol: if it has a send method, it can act as a channel, even without inheriting from StatusChannel. 
 
 ## Inheritance
 
@@ -249,3 +323,5 @@ Summarize the mental model you want readers to leave with: find the right object
 - [GeeksforGeeks - Object-Oriented Design](https://www.geeksforgeeks.org/system-design/oops-object-oriented-design/)
 - [OOP vs OOD](https://dev.to/naweli_verma/oop-vs-ood-gnp)
 - [The God Object](https://dilankam.medium.com/the-god-object-anti-pattern-in-software-architecture-b2b7782d6997)
+- [Stackify - What is Encapsulation](https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/)
+- [Stackify - Abstraction in Programming](https://stackify.com/oop-concept-abstraction/)
