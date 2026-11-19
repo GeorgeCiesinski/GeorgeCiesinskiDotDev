@@ -61,10 +61,15 @@ export function Home() {
                 Hi, I’m George.
               </h2>
               <p>
-                I'm a Toronto-based web developer with 5+ years of experience building and maintaining web applications. I specialize in front-end development and Drupal, and have been expanding my full-stack experience through personal projects.
+                I'm a Toronto-based web developer with 5+ years of experience
+                building and maintaining web applications. I specialize in
+                front-end development and Drupal, and have been expanding my
+                full-stack experience through personal projects.
               </p>
               <p>
-                I've built and supported applications used across a large post-secondary institution, and enjoy working on practical solutions that are accessible, reliable, and easy to maintain.
+                I've built and supported applications used across a large
+                post-secondary institution, and enjoy working on practical
+                solutions that are accessible, reliable, and easy to maintain.
               </p>
               <div className="resume-link">
                 <a

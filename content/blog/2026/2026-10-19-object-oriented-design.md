@@ -96,7 +96,7 @@ company = "Acme 2"  # Rebinds a new string to the company attribute
 
 Encapsulation describes bundling data and methods operating on the data into one unit, while hiding internal state & representation so other code can't break the object's invariants. Invariants are rules that must always stay true. The public surface is a small set of meaningful operations, not the object's fields.
 
-Getters and setters are not enough on their own. If callers can still write attributes, the internals have leaked and the rules live outside the object. 
+Getters and setters are not enough on their own. If callers can still write attributes, the internals have leaked and the rules live outside the object.
 
 ```python
 def get_status(self):
@@ -107,7 +107,7 @@ def set_status(self, status):
 
 Outside code can still do something like `app.set_status("hired")`, so the object does not own the rules, callers do. This only adds extra methods around the same data.
 
-Real encapsulation looks like this: 
+Real encapsulation looks like this:
 
 ```python
 class JobApplication:
@@ -136,7 +136,7 @@ class JobApplication:
         self._status = new_status
 ```
 
-So callers write `app.submit()` and the object decides if it is legal and sets the private variable. Notice how the caller doesn't need to know the `_status` field exists. 
+So callers write `app.submit()` and the object decides if it is legal and sets the private variable. Notice how the caller doesn't need to know the `_status` field exists.
 
 ```python
 app = JobApplication("Acme", "Backend Engineer")
@@ -144,15 +144,15 @@ app.submit()  # ok
 app.submit()  # raises — already submitted
 ```
 
-**Note:** Java and C# have access modifiers. Python relies on convention instead: names starting with `_` are treated as private, though it's up to developers to recognize and practice this. 
+**Note:** Java and C# have access modifiers. Python relies on convention instead: names starting with `_` are treated as private, though it's up to developers to recognize and practice this.
 
 ## Abstraction
 
-Abstraction means showing the essential behaviour while hiding the implementation details. Callers depend on what something does, not how. 
+Abstraction means showing the essential behaviour while hiding the implementation details. Callers depend on what something does, not how.
 
-This is related to encapsulation, but they're not the same thing. Encapsulation keeps one object's data and rules private, while Abstraction is the public contract other code programs against. For example, "something that can send a status update" without caring whether this means email, SMS, etc. 
+This is related to encapsulation, but they're not the same thing. Encapsulation keeps one object's data and rules private, while Abstraction is the public contract other code programs against. For example, "something that can send a status update" without caring whether this means email, SMS, etc.
 
-In Python, this often looks like an abstract base class. 
+In Python, this often looks like an abstract base class.
 
 ```python
 from abc import ABC, abstractmethod
@@ -174,9 +174,9 @@ def notify(channel: StatusChannel, message: str) -> None:
     channel.send(message)  # depends on the contract, not Email vs Slack
 ```
 
-In this example, `notify()` only needs a channel that can `send()`. It doesn't need to know about SMTP, webhooks, or which class you passed in. This design rule is often phrased as: program to an interface, not an implementation. 
+In this example, `notify()` only needs a channel that can `send()`. It doesn't need to know about SMTP, webhooks, or which class you passed in. This design rule is often phrased as: program to an interface, not an implementation.
 
-**Note:** Java and C# have formal interface types. Python usually uses ABC + @abstractmethod for the same idea. Python also supports duck typing and typing.Protocol: if it has a send method, it can act as a channel, even without inheriting from StatusChannel. 
+**Note:** Java and C# have formal interface types. Python usually uses ABC + @abstractmethod for the same idea. Python also supports duck typing and typing.Protocol: if it has a send method, it can act as a channel, even without inheriting from StatusChannel.
 
 ## Inheritance
 
