@@ -30,7 +30,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "galesage",
-    title: "GaleSage",
+    title: "GaleSage Web App",
     category: "Full-Stack Web Application",
     datestart: "2026 June",
     dateend: "Present",
@@ -69,6 +69,36 @@ export const projects: Project[] = [
       {
         src: "/img/galesage/three-locations.gif",
         caption: "Compare forecast data from up to three locations.",
+      },
+    ],
+  },
+  {
+    slug: "college-university",
+    title: "College University Website",
+    category: "Full-stack",
+    datestart: "2022 April",
+    dateend: "2026 June",
+    description:
+      "A Drupal ITS website built for a post-secondary institution. This project is inspired by my work at Humber College and is hosted on a Pantheon sandbox environment.",
+    tech: ["Drupal", "SASS", "JavaScript", "Twig"],
+    thumbnail: "/img/front-page/college-university.webp",
+    github: "https://github.com/GeorgeCiesinski/CollegeUniversity",
+    demo: "https://live-collegeuniversity.pantheonsite.io/",
+    slides: [
+      {
+        src: "/img/college-university/quick-actions.png",
+        caption:
+          "Home page includes quick actions and services to quickly direct staff and students.",
+      },
+      {
+        src: "/img/college-university/event-calendar.png",
+        caption:
+          "The event calendar shows different kinds of events with multiple views.",
+      },
+      {
+        src: "/img/college-university/resources-guide.png",
+        caption:
+          "The Resources & Guides page shows a searchable and tagged list of user guides for ITS services.",
       },
     ],
   },
@@ -142,31 +172,6 @@ export const projects: Project[] = [
         src: "/img/library-app/remove-book.gif",
         caption:
           "Books can be removed if you change your mind about reading them",
-      },
-    ],
-  },
-  {
-    slug: "pixel-sketchpad",
-    title: "Pixel Sketchpad",
-    category: "Front-end",
-    datestart: "2022 September",
-    dateend: "2022 November",
-    description:
-      "A pixel drawing tool with color selection, grid size controls, and a background eraser that preserves drawings when the canvas color changes.",
-    tech: ["HTML", "CSS", "SASS", "JavaScript"],
-    thumbnail: "/img/front-page/pixel-thumb.webp",
-    github: "https://github.com/GeorgeCiesinski/pixel-sketchpad",
-    demo: "https://georgeciesinski.github.io/pixel-sketchpad/",
-    slides: [
-      {
-        src: "/img/pixel-sketchpad/pixel-sketchpad.png",
-        caption:
-          "Tool layout contains color selection, tools, and grid size controls",
-      },
-      {
-        src: "/img/pixel-sketchpad/background.gif",
-        caption:
-          "Background color can be changed without affecting drawing. Eraser turns cells into background cells.",
       },
     ],
   },
