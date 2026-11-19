@@ -26,7 +26,7 @@ tar -czvf ~/Documents/Backups/website_name/website_name.tar.gz website_directory
 
 ### Database
 
-This website uses Mariadb, so the following sql command creates a database dump.
+We will use Mariadb, so the following sql command creates a database dump.
 
 ```bash
 mysqldump -u user_name -p database_name > ~Documents/Backups/website_name/website_name.sql
