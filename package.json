@@ -30,8 +30,8 @@
     "react-router-dom": "^7.18.5",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "resend": "^6.37.0",
-    "sass": "^1.107.1",
+    "resend": "^6.38.1",
+    "sass": "^1.108.2",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
