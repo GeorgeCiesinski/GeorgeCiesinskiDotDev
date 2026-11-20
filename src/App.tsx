@@ -58,7 +58,9 @@ export default function App() {
             </Route>
           </Routes>
         </Suspense>
-        <Analytics mode={import.meta.env.PROD ? "production" : "development"} />
+        {typeof window !== "undefined" &&
+          window.location.hostname !== "localhost" &&
+          window.location.hostname !== "127.0.0.1" && <Analytics />}
       </BrowserRouter>
     </ThemeProvider>
   );

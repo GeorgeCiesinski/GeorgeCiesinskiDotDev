@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
   enforce:
@@ -15,10 +16,22 @@ jobs:
     steps:
       - name: Check source branch
         env:
-          HEAD_REF: ${{ github.head_ref }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          PR_JSON=$(gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}")
+          BASE_REF=$(echo "$PR_JSON" | jq -r .base.ref)
+          HEAD_REF=$(echo "$PR_JSON" | jq -r .head.ref)
+
+          if [ "$BASE_REF" != "main" ]; then
+            echo "PR base is '$BASE_REF' (not main); gate does not apply."
+            exit 0
+          fi
+
           if [ "$HEAD_REF" != "develop" ]; then
             echo "::error::PRs to main must come from 'develop' (got '$HEAD_REF'). Merge into develop first, then open develop → main."
             exit 1
           fi
+
           echo "OK: PR comes from develop."

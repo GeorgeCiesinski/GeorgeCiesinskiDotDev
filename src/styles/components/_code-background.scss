@@ -8,9 +8,20 @@
   // Resolved by getComputedStyle in CodeBackground for canvas fillStyle.
   // Keep very low so About / Experience / Contact stay readable.
   color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
+  // Stronger fill for the pointer spotlight pass (~2.5× base mix).
+  --code-bg-spotlight: color-mix(
+    in srgb,
+    var(--color-text-secondary) 20%,
+    transparent
+  );
 
   :root[data-theme="dark"] & {
     color: color-mix(in srgb, var(--color-text-secondary) 8%, transparent);
+    --code-bg-spotlight: color-mix(
+      in srgb,
+      var(--color-text-secondary) 20%,
+      transparent
+    );
   }
 }
 
