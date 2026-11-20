@@ -29,6 +29,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project, priority = false }: ProjectCardProps) {
   return (
     <Link className="project-card" to={`/projects/${project.slug}`}>
+      <h3 className="project-card__title">{project.title}</h3>
       <img
         className="project-card__image"
         src={project.thumbnail}
@@ -38,7 +39,13 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : undefined}
       />
-      <h3 className="project-card__title">{project.title}</h3>
+      <div className="project-detail__meta">
+        {project.tech.map((item) => (
+          <span key={item} className="badge badge--secondary">
+            {item}
+          </span>
+        ))}
+      </div>
     </Link>
   );
 }
