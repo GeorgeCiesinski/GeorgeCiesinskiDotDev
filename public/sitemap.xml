@@ -7,6 +7,18 @@
     <loc>https://georgeciesinski.dev/blog</loc>
   </url>
   <url>
+    <loc>https://georgeciesinski.dev/blog/2026-11-18-automate-deployment-pantheon</loc>
+    <lastmod>2026-11-18</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2026-10-20-adding-reading-time</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://georgeciesinski.dev/blog/2026-10-17-solid-design-principles</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
     <loc>https://georgeciesinski.dev/blog/2026-10-14-google-lighthouse-audits-with-ai</loc>
     <lastmod>2026-10-14</lastmod>
   </url>
@@ -51,6 +63,10 @@
     <lastmod>2024-05-26</lastmod>
   </url>
   <url>
+    <loc>https://georgeciesinski.dev/blog/2024-03-09-essential-sql-statements-4</loc>
+    <lastmod>2024-03-09</lastmod>
+  </url>
+  <url>
     <loc>https://georgeciesinski.dev/blog/2024-03-07-essential-sql-statements-3</loc>
     <lastmod>2024-03-07</lastmod>
   </url>
@@ -70,13 +86,13 @@
     <loc>https://georgeciesinski.dev/projects/galesage</loc>
   </url>
   <url>
+    <loc>https://georgeciesinski.dev/projects/college-university</loc>
+  </url>
+  <url>
     <loc>https://georgeciesinski.dev/projects/poke-guesser</loc>
   </url>
   <url>
     <loc>https://georgeciesinski.dev/projects/library-app</loc>
-  </url>
-  <url>
-    <loc>https://georgeciesinski.dev/projects/pixel-sketchpad</loc>
   </url>
   <url>
     <loc>https://georgeciesinski.dev/projects/flask-api</loc>

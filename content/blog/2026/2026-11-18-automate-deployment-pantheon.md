@@ -1,14 +1,14 @@
 ---
 title: "How to Automate Drupal Deployment to Pantheon"
-description: "How I configured my Drupal site to deploy automatically on Pantheon."  
-date: "2026-11-18"  
-tags: ["drupal", "ci-cd", "pantheon"]  
+description: "How I configured my Drupal site to deploy automatically on Pantheon."
+date: "2026-11-18"
+tags: ["drupal", "ci-cd", "pantheon"]
 draft: false
 ---
 
 ## Overview
 
-As a developer who is currently between jobs, I've been putting a lot of time and effort into my portfolio website. My site has a portfolio section showcasing 6 projects, but unfortunately, a couple of the older and less impressive projects were taking up valuable space that could be used by newer and better projects. I decided to take the websites I built at my last job, debrand and anonymize it, and deploy it as my latest project. 
+As a developer who is currently between jobs, I've been putting a lot of time and effort into my portfolio website. My site has a portfolio section showcasing 6 projects, but unfortunately, a couple of the older and less impressive projects were taking up valuable space that could be used by newer and better projects. I decided to take the websites I built at my last job, debrand and anonymize it, and deploy it as my latest project.
 
 The site uses DDEV locally, a Vite-built theme, and Pantheon’s Dev / Test / Live environments. Previously, I covered how to [Migrate your Drupal site to DDEV](/blog/2026-03-23-migrating-to-ddev) so I won't go into that in this blog. This post walks through hosting a Composer-managed Drupal 10 site on a Pantheon Sandbox and wiring GitHub Actions so pushes deploy automatically.
 
