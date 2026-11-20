@@ -9,15 +9,15 @@ draft: false
 
 ## Overview
 
-As a developer who is currently between jobs, I've been putting a lot of time and effort into my portfolio website. My site has a portfolio section showcasing 6 projects, but unfortunately, a couple of the older and less impressive projects were taking up valuable space that could be used by newer and better projects. I decided to take the websites I built at my last job, debrand them and anonymize them, and deploy them as my latest project. 
+As a developer who is currently between jobs, I've been putting a lot of time and effort into my portfolio website. My site has a portfolio section showcasing 6 projects, but unfortunately, a couple of the older and less impressive projects were taking up valuable space that could be used by newer and better projects. I decided to take the websites I built at my last job, debrand them and anonymize them, and deploy them as my latest project.
 
-This post walks through hosting a Composer-managed Drupal 10 site on a Pantheon Sandbox and wiring GitHub Actions so pushes deploy automatically. 
+This post walks through hosting a Composer-managed Drupal 10 site on a Pantheon Sandbox and wiring GitHub Actions so pushes deploy automatically.
 
 The site uses DDEV locally, a Vite-built theme, and Pantheon’s Dev / Test / Live environments.
 
 ## Requirements
 
-Some of these are optional, but I'm including them because it's what my project uses. 
+Some of these are optional, but I'm including them because it's what my project uses.
 
 - Existing Drupal 10 site
 - DDEV
@@ -27,14 +27,14 @@ Some of these are optional, but I'm including them because it's what my project 
 
 ## Branch Flow
 
-My projects use a `main` for production, and `develop` branch for active development. I got into the practice of opening pull requests to merge my `feature` and `bugfix` branches into `develop`, and once the project is ready for a new production release, I open a pull request to merge `develop` into `main`. 
+My projects use a `main` for production, and `develop` branch for active development. I got into the practice of opening pull requests to merge my `feature` and `bugfix` branches into `develop`, and once the project is ready for a new production release, I open a pull request to merge `develop` into `main`.
 
-For this project, I wanted merges into `develop` to deploy the Pantheon `dev` and `test` environment for testing purposes, but I only wanted merges into `main` to deploy to the `live` environment (in addition to dev and test). 
+For this project, I wanted merges into `develop` to deploy the Pantheon `dev` and `test` environment for testing purposes, but I only wanted merges into `main` to deploy to the `live` environment (in addition to dev and test).
 
-| GitHub branch | Pantheon |
-| --- | --- |
-| `develop` | Push code → **Dev**, promote → **Test** (staging / QA) |
-| `main` | Push code → **Dev**, promote → **Test**, promote → **Live** (production) |
+| GitHub branch | Pantheon                                                                 |
+| ------------- | ------------------------------------------------------------------------ |
+| `develop`     | Push code → **Dev**, promote → **Test** (staging / QA)                   |
+| `main`        | Push code → **Dev**, promote → **Test**, promote → **Live** (production) |
 
 ## Create the Pantheon site
 
@@ -49,7 +49,7 @@ For this project, I wanted merges into `develop` to deploy the Pantheon `dev` an
 ssh-keygen -t rsa -b 4096 -C "github-actions-pantheon" -f ~/.ssh/pantheon_ci_rsa -N ""
 ```
 
-4b. Add the public key to Pantheon. 
+4b. Add the public key to Pantheon.
 
 4c. Add the private key to Github a secret. You can copy it with `pbcopy < ~/.ssh/pantheon_ci_rsa`.
 
@@ -61,7 +61,7 @@ Host *.drush.in
   IdentitiesOnly yes
 ```
 
-Then load it with `ssh-add --apple-use-keychain ~/.ssh/pantheon_ci_rsa`. 
+Then load it with `ssh-add --apple-use-keychain ~/.ssh/pantheon_ci_rsa`.
 
 5. Create a **machine token** (Personal Access Token) for Terminus / Actions. Pantheon PATs expire after **90 days** so this needs to be rotated and readded to Github every 3 months..
 
@@ -91,11 +91,11 @@ Additionally, Composer requires `pantheon-systems/drupal-integrations` so Panthe
 
 Add the following secrets & variable to your GitHub repo settings:
 
-| Kind | Name | Purpose |
-| --- | --- | --- |
-| Secret | `PANTHEON_MACHINE_TOKEN` | Terminus auth (rotate every 90 days) |
-| Secret | `PANTHEON_SSH_KEY` | Private RSA key matching the public key on Pantheon |
-| Variable | `PANTHEON_SITE` | Site machine name, e.g. `collegeuniversity` |
+| Kind     | Name                     | Purpose                                             |
+| -------- | ------------------------ | --------------------------------------------------- |
+| Secret   | `PANTHEON_MACHINE_TOKEN` | Terminus auth (rotate every 90 days)                |
+| Secret   | `PANTHEON_SSH_KEY`       | Private RSA key matching the public key on Pantheon |
+| Variable | `PANTHEON_SITE`          | Site machine name, e.g. `collegeuniversity`         |
 
 Make sure you store the private key as the secret value, not the public key.
 
@@ -107,7 +107,7 @@ Make sure you store the private key as the secret value, not the public key.
 
 ```yaml
 - run: npm ci --prefix web/themes/its
-- run: npm run validate --prefix web/themes/its   # or matrix: format / lint / test
+- run: npm run validate --prefix web/themes/its # or matrix: format / lint / test
 - run: npm run build --prefix web/themes/its
 ```
 
@@ -145,7 +145,7 @@ The deploy pantheon workflow `.github/workflows/deploy-pantheon.yml` runs on pus
   run: terminus env:deploy "${{ vars.PANTHEON_SITE }}.live" --note="GitHub Actions ${{ github.sha }}" --yes
 ```
 
-I ran into a few roadblocks on this section resulting in a few failed deployments. 
+I ran into a few roadblocks on this section resulting in a few failed deployments.
 
 These are the fixes I found:
 
@@ -168,7 +168,7 @@ ddev export-db --file=/tmp/its.sql.gz
 COPYFILE_DISABLE=1 tar -C web/sites/default/files -czf /tmp/its-files.tar.gz .
 ```
 
-Go to the pantheon portal and upload those archives under `Dev` → Database / Files → Import. 
+Go to the pantheon portal and upload those archives under `Dev` → Database / Files → Import.
 
 In my case, I had to also click the `Test` and `Live` tabs and clone the database and files into those environments.
 
@@ -212,7 +212,7 @@ In my case, I had to also click the `Test` and `Live` tabs and clone the databas
 
 **Cause:** Local path passed where a public URL is required.
 
-**Fix:** In my case I ended up using the dashboard to import my database backup. 
+**Fix:** In my case I ended up using the dashboard to import my database backup.
 
 ### Nested files → images 404
 
@@ -262,6 +262,6 @@ Do **not** commit `composer.lock` out of date with `composer.json` — Pantheon 
 
 Pantheon Sandbox plus GitHub Actions is a solid free path for a Drupal portfolio site, but the setup took longer than I expected. The pieces that mattered most for me were: RSA SSH keys, installing Terminus once and forcing `target_env: dev` for non-`main` branches, keeping Integrated Composer free of `composer-merge-plugin`, declaring every needed `web/libraries/` asset in Composer, and importing files with a flat tarball via the Dashboard.
 
-Once those were in place, the pipeline was straightforward: PR checks on `develop`, automated Dev+Test deploys from `develop`, and Live only from `main` after QA on Test. The failures above were painful but reproducible. I decided to document them here so the next deploy goes smoother than this one. I still have one major Drupal project I want to debrand, anonymize and deploy, so hopefully this blog helps me with that. 
+Once those were in place, the pipeline was straightforward: PR checks on `develop`, automated Dev+Test deploys from `develop`, and Live only from `main` after QA on Test. The failures above were painful but reproducible. I decided to document them here so the next deploy goes smoother than this one. I still have one major Drupal project I want to debrand, anonymize and deploy, so hopefully this blog helps me with that.
 
 Until next time!

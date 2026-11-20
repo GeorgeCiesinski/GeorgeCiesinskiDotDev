@@ -110,7 +110,7 @@ export const projects: Project[] = [
     dateend: "Present",
     description:
       "A Discord bot game where players guess Pok\u00e9mon from images. Tracks scores on a leaderboard and supports multilingual reveals via PokeAPI.",
-    tech: ["JavaScript", "discord.js", "pokeapi.co", "PostgreSQL", "Docker"],
+    tech: ["TypeScript", "discord.js", "pokeapi.co", "PostgreSQL", "Docker"],
     thumbnail: "/img/front-page/pokebot-thumb.webp",
     github: "https://github.com/GeorgeCiesinski/poke-guesser-bot",
     slides: [
