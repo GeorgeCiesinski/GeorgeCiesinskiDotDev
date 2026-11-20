@@ -55,6 +55,7 @@ export function Home() {
               alt="George Ciesinski"
               width={690}
               height={400}
+              fetchPriority="high"
             />
             <div>
               <h2 className="about__title" id="about-heading">

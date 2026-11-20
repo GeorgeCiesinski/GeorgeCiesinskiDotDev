@@ -31,7 +31,7 @@ const LINE_HEIGHT = 1.55;
 
 /**
  * Fixed canvas wallpaper: theme-aware muted glyphs with scroll parallax
- * and an optional pointer proximity opacity boost.
+ * and an optional pointer proximity spotlight.
  *
  * @returns Presentation-only canvas element.
  */
@@ -62,8 +62,6 @@ export function CodeBackground() {
 
     /** Soft spotlight radius in CSS pixels. */
     const SPOTLIGHT_RADIUS_PX = 180;
-    /** Extra alpha multiplier for the spotlight pass over the base fill. */
-    const SPOTLIGHT_BOOST = 2.5;
     /** Delay after the last scroll event before re-enabling the spotlight. */
     const SCROLL_IDLE_MS = 140;
 
@@ -83,6 +81,18 @@ export function CodeBackground() {
      */
     function readFillColor(): string {
       return getComputedStyle(canvas!).color || "rgba(90, 106, 117, 0.06)";
+    }
+
+    /**
+     * Reads `--code-bg-spotlight` for the pointer hotspot fill.
+     *
+     * @returns CSS color string for the offscreen spotlight pass.
+     */
+    function readSpotlightColor(): string {
+      const value = getComputedStyle(canvas!)
+        .getPropertyValue("--code-bg-spotlight")
+        .trim();
+      return value || "rgba(90, 106, 117, 0.15)";
     }
 
     /**
@@ -141,7 +151,7 @@ export function CodeBackground() {
 
     /**
      * Clears and redraws all code lines at the current scroll offset, then
-     * optionally composites a soft radial opacity boost around the pointer.
+     * optionally composites a soft radial spotlight around the pointer.
      */
     function paint(): void {
       if (needsLayout) layout();
@@ -175,10 +185,8 @@ export function CodeBackground() {
         offCtx.clearRect(0, 0, width, height);
         offCtx.font = `${FONT_SIZE_PX}px ${FONT_FAMILY}`;
         offCtx.textBaseline = "top";
-        offCtx.fillStyle = fill;
-        offCtx.globalAlpha = SPOTLIGHT_BOOST;
+        offCtx.fillStyle = readSpotlightColor();
         drawVisibleLines(offCtx, scrollOffset);
-        offCtx.globalAlpha = 1;
 
         const gradient = offCtx.createRadialGradient(
           pointerX,
