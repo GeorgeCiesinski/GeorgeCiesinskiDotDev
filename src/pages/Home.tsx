@@ -1,8 +1,9 @@
 /**
- * Landing page: about section, project grid, and contact form.
+ * Landing page: about, projects, experience, GitHub contributions, and contact.
  *
- * When the URL hash is a known section (`#about`, `#projects`, '#experience`, #contact`),
- * scrolls that section into view after mount (e.g. arriving from another route).
+ * When the URL hash is a known section (`#about`, `#projects`, `#experience`,
+ * `#contact`), scrolls that section into view after mount (e.g. arriving from
+ * another route). `#github` exists in the markup but is not a hash scroll target.
  */
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -18,7 +19,8 @@ import { projects } from "../data/projects";
 const HASH_SECTIONS = ["#about", "#projects", "#experience", "#contact"];
 
 /**
- * Landing page: about, project grid, and contact form, with hash-based section scroll.
+ * Landing page with about, projects, experience, GitHub contributions, contact,
+ * and hash-based section scroll.
  *
  * @returns The home page content.
  */

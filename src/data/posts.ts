@@ -221,7 +221,8 @@ export function getPostsByYear(year: string): Post[] {
  *
  * @param post - Post to test.
  * @param rawQuery - User search string (empty = match all).
- * @returns True if query is empty or appears in title, tags, description, or body.
+ * @returns True if query is empty or appears in title, tags, description, or
+ *   body (fenced code blocks and light Markdown punctuation are ignored).
  */
 export function postMatchesQuery(post: Post, rawQuery: string): boolean {
   const query = rawQuery.trim().toLowerCase();
@@ -261,8 +262,9 @@ export const POSTS_PER_PAGE = 10;
  * Slices a post list into a page window.
  *
  * @param posts - Filtered posts (year + tag + search already applied).
- * @param page - 1-based page from the URL (non-finite / fractional values are floored and clamped).
- * @returns Safe page index, total page count, and the slice for that page.
+ * @param page - 1-based page from the URL (non-finite → 1; fractional → floored;
+ *   then clamped to `[1, totalPages]`).
+ * @returns `{ page, totalPages, items }` for the safe page window.
  */
 export function paginatePosts(posts: Post[], page: number) {
   const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));

@@ -14,9 +14,12 @@ type BlogPostTocProps = {
 /**
  * Shared link list for mobile and desktop TOC copies.
  * Visual nesting via padding from heading depth (flat list for a11y simplicity).
+ * Caller guarantees a non-empty `headings` list.
  *
- * @param headings - Heading entries in document order.
- * @param activeId - Scroll-spy current section id.
+ * @param props - Component props.
+ * @param props.headings - Heading entries in document order.
+ * @param props.activeId - Scroll-spy current section id.
+ * @returns Flat list of fragment links.
  */
 function TocList({
   headings,
@@ -54,8 +57,12 @@ function TocList({
 }
 
 /**
+ * In-page TOC: collapsible on small screens, sticky rail at lg+.
+ *
+ * @param props - Component props.
  * @param props.headings - Extracted headings (empty → renders nothing).
- * @param props.activeId - Id highlighted by {@link useScrollSpy}.
+ * @param props.activeId - Id highlighted by scroll-spy (`useScrollSpy`).
+ * @returns Collapsible mobile TOC plus desktop rail, or `null` when headings is empty.
  */
 export function BlogPostToc({ headings, activeId }: BlogPostTocProps) {
   if (headings.length === 0) return null;

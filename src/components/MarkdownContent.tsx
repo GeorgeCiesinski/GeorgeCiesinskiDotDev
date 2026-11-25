@@ -13,13 +13,17 @@ import { getCodeLanguage, getLanguageLabel } from "../data/codeLanguage";
 import { rehypeUniqueHeadingIds } from "../data/headingId";
 
 type MarkdownContentProps = {
-  content: string; /** Markdown body only (no frontmatter). */
+  /** Markdown body only (no frontmatter). */
+  content: string;
 };
 
 /**
  * Fenced code block with language label and clipboard Copy button
  * (hover-reveal styled in blog-prose SCSS).
  * Wired via react-markdown `components.pre` only — inline `code` is untouched.
+ *
+ * @param props - Native `pre` props from react-markdown.
+ * @returns Wrapped pre with an optional language label and a Copy button.
  */
 function PreWithCopy(props: ComponentPropsWithoutRef<"pre">) {
   const preRef = useRef<HTMLPreElement>(null);
@@ -76,7 +80,11 @@ const components: Components = {
 };
 
 /**
- * @param content - Post Markdown body from the loader.
+ * Renders a post Markdown body with GFM, highlighted fences, and heading ids.
+ *
+ * @param props - Component props.
+ * @param props.content - Post Markdown body from the loader.
+ * @returns Prose container with the rendered Markdown.
  */
 export function MarkdownContent({ content }: MarkdownContentProps) {
   return (

@@ -7,7 +7,9 @@ import { openSourceExperience, workExperience } from "../data/experience";
 import { ExperienceTimeline } from "./ExperienceTimeline";
 
 /**
- * Renders the Experience section for the home page.
+ * Home Experience section with Work and Open Source timelines.
+ * Highlights the row nearest the viewport midpoint (`work-${i}` /
+ * `oss-${i}` ids); initial active id is `work-0`.
  *
  * @returns Experience section with Work and Open Source timelines.
  */

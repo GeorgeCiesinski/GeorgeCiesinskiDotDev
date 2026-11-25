@@ -134,6 +134,21 @@ section {
   color: var(--color-text-secondary);
 }
 
+.project-detail__note {
+  margin: 0.75rem 0 1rem;
+  padding: 0.5rem;
+  border-left: 3px solid var(--color-secondary);
+  border-radius: 0 $radius $radius 0;
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+}
+
 .project-detail__meta {
   display: flex;
   flex-wrap: wrap;

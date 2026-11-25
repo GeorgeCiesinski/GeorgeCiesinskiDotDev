@@ -17,7 +17,9 @@ export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * Submits form fields as JSON to `/api/contact`.
+   * Submits form fields as JSON to `/api/contact` after `preventDefault`.
+   * Sets `submitting`, includes the honeypot field, and updates error state
+   * on failure.
    *
    * @param event - React submit event for the contact `<form>`.
    * @returns Resolves when the request finishes (success navigate or error state).

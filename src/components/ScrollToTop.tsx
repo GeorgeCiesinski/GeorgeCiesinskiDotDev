@@ -6,11 +6,10 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
- * Scrolls to top when pathname/hash change and there is no hash. Returns early if there is a hash.
+ * Scrolls the window to top on pathname or hash change when the hash is empty.
+ * Hash section targets are handled by Home instead.
  *
- * Section links are handled by Home.
- *
- * @returns null
+ * @returns `null` (side-effect only).
  */
 export function ScrollToTop(): null {
   const { pathname, hash } = useLocation();

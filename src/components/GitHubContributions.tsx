@@ -40,9 +40,9 @@ function blockSizeForWidth(containerWidth: number): number {
 }
 
 /**
- * Picks a font size to fit mobile and desktop width.
+ * Derives the label font size from the calculated block size.
  *
- * @param blockSize - Width of the scroll/wrapper element in pixels.
+ * @param blockSize - Contribution cell size in pixels.
  * @returns Clamped font size in pixels.
  */
 function fontSizeForWidth(blockSize: number): number {
@@ -52,7 +52,7 @@ function fontSizeForWidth(blockSize: number): number {
 /**
  * Renders the last year of GitHub contributions for the portfolio username.
  *
- * @returns Contribution calendar block for the About section.
+ * @returns Contribution calendar block for the GitHub Contributions section.
  */
 export function GitHubContributions() {
   const { preference } = useTheme();

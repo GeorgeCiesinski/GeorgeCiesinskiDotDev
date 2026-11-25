@@ -297,9 +297,7 @@ export function CodeBackground() {
     layout();
     paint();
 
-    /**
-     * Tears down observers, listeners, timers, and pending frames on unmount.
-     */
+    // Tear down observers, listeners, timers, and pending frames on unmount.
     return () => {
       themeObserver.disconnect();
       motionQuery.removeEventListener("change", onMotionChange);

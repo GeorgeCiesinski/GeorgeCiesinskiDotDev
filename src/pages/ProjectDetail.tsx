@@ -6,7 +6,12 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { ProjectCarousel } from "../components/ProjectCarousel";
 import { getProjectBySlug } from "../data/projects";
 
-/** Resolves `:slug` and redirects home when the project is missing. */
+/**
+ * Project detail: carousel, description, optional note, dates, tech badges,
+ * category, and GitHub / demo links.
+ *
+ * @returns Detail page, or a redirect to `/` when the slug is unknown.
+ */
 export function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
@@ -28,6 +33,10 @@ export function ProjectDetail() {
           <h1 className="project-detail__name">{project.title}</h1>
 
           <p>{project.description}</p>
+
+          {project.note ? (
+            <p className="project-detail__note" role="note"><strong>Note: </strong>{project.note}</p>
+          ) : null}
 
           <h2 className="project-detail__daterange">
             {project.datestart} — {project.dateend}

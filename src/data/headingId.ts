@@ -96,8 +96,10 @@ function hastText(node: HastElement): string {
 }
 
 /**
- * Rehype plugin: assigns unique `id`s on `h1`–`h6` using the same rules as
- * {@link extractTocHeadings}, so TOC links match rendered headings.
+ * Rehype plugin factory (no options): assigns unique `id`s on `h1`–`h6`
+ * using the same rules as {@link extractTocHeadings}, so TOC links match
+ * rendered headings. The returned transformer mutates each heading’s
+ * `properties.id`.
  *
  * @returns A rehype transformer.
  */

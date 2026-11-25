@@ -60,7 +60,8 @@ export function pickScrollSpyIdFromIntersecting(
  * @param scrollY - `window.scrollY`.
  * @param distanceFromBottom - `scrollHeight - (scrollY + innerHeight)`.
  * @param nearBottomPx - Near-bottom threshold (default {@link SCROLL_SPY_NEAR_BOTTOM_PX}).
- * @returns Final active id, or `null` when `idList` is empty.
+ * @returns Near-bottom forced last id, or `current` unchanged (may be `null`)
+ *   when not near the bottom; `null` when `idList` is empty.
  */
 export function applyScrollSpyNearBottom(
   idList: readonly string[],
@@ -81,14 +82,15 @@ export function applyScrollSpyNearBottom(
 }
 
 /**
- * Merges IO pick with sticky previous id, then near-bottom override.
+ * Merges IO pick with previous id (or first id) as fallback, then near-bottom
+ * override: `fromIo ?? previous ?? idList[0]`.
  *
  * @param idList - Element ids in document order.
  * @param fromIo - Pick from intersecting set (`null` if empty).
  * @param previous - Last committed active id.
  * @param scrollY - `window.scrollY`.
  * @param distanceFromBottom - Distance from document end.
- * @returns Resolved active id.
+ * @returns Resolved active id, or `null` when `idList` is empty.
  */
 export function resolveScrollSpyActiveId(
   idList: readonly string[],
@@ -105,8 +107,8 @@ export function resolveScrollSpyActiveId(
 
 /**
  * Returns the id of the heading in the sticky-nav observation band.
- * Keeps the previous id when none intersect. Forces the last id when scrolled
- * near the document bottom (and not at y=0).
+ * Initial state is `ids[0] ?? null`. Keeps the previous id when none intersect.
+ * Forces the last id when scrolled near the document bottom (and not at y=0).
  *
  * @param ids - Element ids in document order (e.g. heading fragment ids).
  * @returns Active id, or `null` when `ids` is empty.

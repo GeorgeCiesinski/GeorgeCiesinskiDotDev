@@ -46,12 +46,15 @@ function escapeHtml(value: string): string {
 }
 
 /**
- * POST /api/contact
- * Body: { name, email, message, note? } — `note` is a honeypot (silent success if filled).
+ * Handles `POST /api/contact` form submissions via Resend.
+ * Body fields (`name`, `email`, `message`, optional honeypot `note`) are all
+ * optional until validated. Returns 200 on success or filled honeypot (no email),
+ * 400 for invalid JSON/email/name/message, 405 for non-POST (after body parse),
+ * and 500 for missing `EMAIL_ADDRESS`, Resend errors, or thrown failures.
  *
  * @param req - Incoming request (`method` and JSON or string `body`).
  * @param res - Vercel-style response with fluent `status` / `json`.
- * @returns The same `res` after writing a status and JSON body.
+ * @returns Resolves to the same `res` after writing a status and JSON body.
  */
 export default async function handler(
   req: ContactApiRequest,
