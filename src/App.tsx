@@ -40,7 +40,10 @@ const Success = lazy(() =>
  * unknown paths redirect home.
  *
  * Non-home routes are code-split so markdown/highlight and detail-page code
- * stay out of the initial home bundle.
+ * stay out of the initial home bundle. `Suspense` fallback is `null`.
+ * Vercel Analytics mounts only when the host is not `localhost` or `127.0.0.1`.
+ *
+ * @returns Theme provider, router, lazy routes, and optional Analytics.
  */
 export default function App() {
   return (

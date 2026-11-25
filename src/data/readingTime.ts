@@ -3,10 +3,12 @@
  */
 
 /**
- * Calculates the reading time of a blog post and returns the estimated minutes.
+ * Estimates reading time for a Markdown body at 200 words per minute.
+ * Image markdown, link URLs, and fence markers are stripped; code fence
+ * contents still count toward the word total.
  *
  * @param markdown - Markdown text to calculate reading time for.
- * @returns estimated minutes
+ * @returns Whole minutes, at least 1.
  */
 export function readingMinutes(markdown: string): number {
   const stripped = markdown

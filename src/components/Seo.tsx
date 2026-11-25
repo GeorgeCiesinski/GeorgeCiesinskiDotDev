@@ -64,7 +64,17 @@ function removeMeta(attr: "name" | "property", key: string): void {
 }
 
 /**
- * @param props - Title, description, path, and optional OG extras.
+ * Updates document title and common meta / Open Graph / Twitter tags.
+ * Appends `- {SITE_NAME}` to the title unless it already includes the name.
+ * Removes image tags when `image` is absent.
+ *
+ * @param props - Component props.
+ * @param props.title - Page title (site name appended when missing).
+ * @param props.description - Meta / OG description.
+ * @param props.path - Path starting with `/`, used for canonical and `og:url`.
+ * @param props.type - Open Graph type (default `"website"`).
+ * @param props.image - Absolute or site-relative cover image (optional).
+ * @returns `null` (head side effects only).
  */
 export function Seo({
   title,

@@ -14,9 +14,9 @@ const SECTION_IDS = ["about", "projects", "experience", "contact"] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 /**
- * Sticky site header with mobile collapse, section hash links, and active-link scroll-spy.
- *
- * Brand link scrolls to top on click.
+ * Sticky site header with mobile collapse, section hash links, Blog link
+ * active state, ThemeMenu, and active-link scroll-spy.
+ * Brand link also scrolls to top on click.
  *
  * @returns The site header element.
  */

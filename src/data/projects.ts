@@ -18,6 +18,8 @@ export interface Project {
   datestart: string;
   dateend: string;
   description: string;
+  /** Optional visitor-facing warning or expected-behavior note (detail page). */
+  note?: string;
   tech: string[];
   /** Home-grid thumbnail; distinct from detail `slides`. */
   thumbnail: string;
@@ -80,6 +82,7 @@ export const projects: Project[] = [
     dateend: "2026 June",
     description:
       "A Drupal ITS website built for a post-secondary institution. This project is inspired by my work at Humber College and is hosted on a Pantheon sandbox environment.",
+    note: "The Pantheon sandbox environment can take up to 30 seconds to load while the container spins up.",
     tech: ["Drupal", "SASS", "JavaScript", "Twig"],
     thumbnail: "/img/front-page/college-university.webp",
     github: "https://github.com/GeorgeCiesinski/CollegeUniversity",

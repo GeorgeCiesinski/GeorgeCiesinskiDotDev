@@ -20,7 +20,11 @@ const links = [
   },
 ];
 
-/** Site footer with social links and copyright year. */
+/**
+ * Site footer with social links and copyright year.
+ *
+ * @returns Footer with profile links and the current copyright year.
+ */
 export function Footer() {
   const year = new Date().getFullYear();
 

@@ -13,7 +13,13 @@ import { getPostBySlug } from "../data/posts";
 import { useScrollSpy } from "../hooks/useScrollSpy";
 import { getBlogListLocationState } from "../types/blogNavigation";
 
-/** Resolves `:slug`; redirects to `/blog` when missing. */
+/**
+ * Single post: TOC from extracted headings, scroll-spy, Seo (optional cover),
+ * Markdown body, tag links that keep `year`/`q`, and a back link that restores
+ * list filters from location state. Includes {@link ScrollToTopButton}.
+ *
+ * @returns Post page, or a redirect to `/blog` when the slug is missing.
+ */
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();

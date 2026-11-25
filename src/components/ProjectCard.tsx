@@ -39,6 +39,8 @@ function copiesForWidth(metaWidth: number, groupWidth: number): number {
 
 /**
  * Thumbnail card linking to a project's detail page.
+ * Tech tags loop in a marquee sized via {@link copiesForWidth} and a
+ * `ResizeObserver`; duplicate tag groups are `aria-hidden`.
  *
  * @param props - Component props.
  * @param props.project - Project to display and link to.

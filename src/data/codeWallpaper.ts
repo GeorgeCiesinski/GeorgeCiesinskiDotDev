@@ -46,6 +46,7 @@ export const codeWallpaperStream: string = Object.keys(rawModules)
 
 /**
  * Wraps a continuous character stream into fixed-width lines for canvas drawing.
+ * `charsPerLine` is floored with a minimum of 1; an empty stream returns `[]`.
  *
  * @param stream - Flattened source text.
  * @param charsPerLine - Characters that fit the canvas width at the current font.
@@ -64,6 +65,8 @@ export function wrapCodeLines(stream: string, charsPerLine: number): string[] {
 
 /**
  * Tiles wrapped lines until the vertical coverage meets `minLineCount`.
+ * Returns the same array when already long enough; may overshoot by up to
+ * `lines.length - 1`.
  *
  * @param lines - Base wrapped lines from the source stream.
  * @param minLineCount - Minimum number of lines needed for parallax overshoot.
