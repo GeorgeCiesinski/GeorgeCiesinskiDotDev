@@ -84,6 +84,7 @@
   width: 4rem;
   height: 4rem;
   object-fit: contain;
+  border: 2px solid var(--color-secondary);
   border-radius: $radius;
   flex-shrink: 0;
   transition: transform ease-in-out 0.25s;
