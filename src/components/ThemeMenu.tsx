@@ -8,6 +8,7 @@ import { resolveTheme } from "../theme/theme";
 
 /**
  * Renders a Theme button and a menu of light / dark / system options.
+ * Escape closes the menu and returns focus to the toggle.
  *
  * @returns Theme toggle button and option menu.
  */

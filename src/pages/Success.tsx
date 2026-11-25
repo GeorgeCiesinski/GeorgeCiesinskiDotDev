@@ -4,7 +4,11 @@
 
 import { Link } from "react-router-dom";
 
-/** Confirmation message and link back to home. */
+/**
+ * Confirmation message and link back to home.
+ *
+ * @returns Success page content.
+ */
 export function Success() {
   return (
     <div className="container success">

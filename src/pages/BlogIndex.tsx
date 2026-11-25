@@ -1,7 +1,8 @@
 /**
- * Blog index: published posts newest-first, with optional ?year=, ?tag=,
- * ?q= search, and ?page= pagination (10 per page). Tag filter is hybrid
- * (top N + More) and sortable by usage (default) or alphabetically.
+ * Blog index: published posts newest-first, with optional `?year=`, `?tag=`,
+ * `?q=` search, and `?page=` pagination (`POSTS_PER_PAGE` from `posts`).
+ * Tag filter is hybrid (top N + More) and sortable by usage (default) or
+ * alphabetically.
  */
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -19,7 +20,12 @@ import {
 import { VISIBLE_TAG_COUNT, getHybridTagLists } from "../data/tagFilter";
 import type { BlogListLocationState } from "../types/blogNavigation";
 
-/** Blog index with year filter, hybrid tag filter, search, and pagination. */
+/**
+ * Blog list: year → tag → search → paginate pipeline, unknown year/tag notices,
+ * debounced `q` URL sync, and results count.
+ *
+ * @returns Blog list UI.
+ */
 export function BlogIndex() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTag = searchParams.get("tag");

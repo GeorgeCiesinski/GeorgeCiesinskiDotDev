@@ -17,7 +17,8 @@ const ROOT_MARGIN = "200px";
 
 /**
  * Placeholder that reserves calendar height, then mounts the real calendar
- * once the `#github` section approaches the viewport.
+ * once the `#github` section approaches the viewport. Loads once, then
+ * disconnects the intersection observer.
  *
  * @returns Deferred contributions calendar (or a sized placeholder).
  */

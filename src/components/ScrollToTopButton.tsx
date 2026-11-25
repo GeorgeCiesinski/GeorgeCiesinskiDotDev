@@ -11,7 +11,10 @@ const SHOW_AFTER_PX = 400;
 
 /**
  * Fixed “Back to top” button for long pages (e.g. blog posts).
- * Visible only after the user has scrolled down.
+ * Clears any `#section` hash via the router (keeping `location.state`), then
+ * scrolls smoothly unless `prefers-reduced-motion` is set.
+ *
+ * @returns Fixed button, or `null` until scrolled past {@link SHOW_AFTER_PX}.
  */
 export function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);

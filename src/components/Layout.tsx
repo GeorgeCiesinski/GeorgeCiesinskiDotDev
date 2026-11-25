@@ -18,7 +18,11 @@ function skipToMainContent(event: MouseEvent<HTMLAnchorElement>) {
   document.getElementById("main-content")?.focus();
 }
 
-/** Shell with Navbar, ScrollToTop, routed Main content, and Footer. */
+/**
+ * Shell with skip link, Navbar, ScrollToTop, routed main content, and Footer.
+ *
+ * @returns Page shell wrapping the current route outlet.
+ */
 export function Layout() {
   return (
     <div className="page">

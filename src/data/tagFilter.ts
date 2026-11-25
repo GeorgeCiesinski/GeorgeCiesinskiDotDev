@@ -13,7 +13,7 @@ export const VISIBLE_TAG_COUNT = 10;
  * @param sortedTags - Tags already ordered (usage or alpha).
  * @param activeTag - Currently selected `?tag=` value, or null.
  * @param expanded - Whether the full list is shown.
- * @returns Visible tags and how many remain hidden.
+ * @returns `{ visible, hiddenCount }` for the hybrid tag pill list.
  */
 export function getHybridTagLists(
   sortedTags: string[],
