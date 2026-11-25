@@ -35,7 +35,10 @@ export function ProjectDetail() {
           <p>{project.description}</p>
 
           {project.note ? (
-            <p className="project-detail__note" role="note"><strong>Note: </strong>{project.note}</p>
+            <p className="project-detail__note" role="note">
+              <strong>Note: </strong>
+              {project.note}
+            </p>
           ) : null}
 
           <h2 className="project-detail__daterange">
